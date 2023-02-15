@@ -1,0 +1,43 @@
+﻿@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+        <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
+            @if(!_drawerOpen)
+            {
+                <MudText  Typo="Typo.h6">@MyAppTitle</MudText>
+            }
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.FavoriteBorder" Color="Color.Inherit" Edge="Edge.End" />
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        </MudAppBar>
+    <MudDrawer  @bind-Open="@_drawerOpen" Variant="@DrawerVariant.Temporary" Elevation="1">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">@MyAppTitle</MudText>
+            </MudDrawerHeader>
+            <NavMenu />
+        </MudDrawer>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            
+                @Body
+            
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private const string MyAppTitle = "My App";
+    
+    bool _drawerOpen = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

@@ -1,0 +1,14 @@
+﻿
+<div class="form-field">
+    <label>@Label:</label>
+    <div>
+        <InputText @bind-Value="@Field" />
+        <ValidationMessage For="@(() => @Field)" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public String Label { get; set; }
+    [Parameter] public String Field { get; set; }
+  
+}

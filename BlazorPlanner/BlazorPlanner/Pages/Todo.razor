@@ -1,0 +1,58 @@
+﻿@page "/todo"
+
+<PageTitle>To Do</PageTitle>
+
+<h1>TODOs...</h1>
+<hr/>
+
+<MudPaper Width="100%">
+    <MudList>
+         @foreach (var item in Todos)
+        {
+            <MudListItem Avatar="@Icons.Material.Filled.Image">
+                <input type="checkbox" @bind="item.IsDone" />
+                <input @bind="item.Title" />
+                 <input placeholder="Due Date" @bind="item.DueDate" />
+            </MudListItem>
+        }
+    </MudList>
+</MudPaper>
+
+
+<MudContainer Fixed="true">
+    <input placeholder="What do you need to do?" 
+           @bind-value="newTodo" 
+           @bind-value:event="oninput"
+           autofocus />
+    <input placeholder="Due Date" @bind="dueDate" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="AddTodo">Add Todo</MudButton><MudIconButton Icon="@Icons.Material.Filled.Add" aria-label="delete"></MudIconButton>
+    <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Secondary" aria-label="add to favorite"></MudIconButton>
+
+    @if (!String.IsNullOrEmpty(newTodo))
+    {
+        <h5>@newTodo ... </h5>
+    }
+
+</MudContainer>
+
+<hr/>
+
+<MudDatePicker Label="Mud Date" Editable="true"
+               Placeholder="Date" />
+
+<hr/>
+
+@code {
+    private List<TodoItem> Todos = new();
+    private string? newTodo;
+    private DateTime? dueDate;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            Todos.Add(new TodoItem { Title = newTodo });
+            newTodo = string.Empty;
+        }
+    }
+}
