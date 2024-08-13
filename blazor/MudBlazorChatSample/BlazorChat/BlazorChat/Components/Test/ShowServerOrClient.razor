@@ -1,0 +1,24 @@
+﻿
+@if (OperatingSystem.IsBrowser())
+{
+    <MudAlert Severity="Severity.Success" Class="mt-4">Running on Client</MudAlert>
+}
+else
+{
+    <MudAlert Severity="Severity.Warning" Class="mt-4">Running on Server</MudAlert>
+}
+
+@if (HttpContext is null)
+{
+    <MudAlert Severity="Severity.Error" Class="mt-4">HttpContext is null</MudAlert>
+}
+else
+{
+    <MudAlert Severity="Severity.Info" Class="mt-4">HttpContext is valid</MudAlert>
+    <div>Path: @HttpContext.Request.Path</div>
+}
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; }=null;
+}

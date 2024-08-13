@@ -1,0 +1,85 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.Account": {
+      "version": "8.2.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.2.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.2.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.2.0",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "AbpStudio1.Application": {
+      "path": "src/AbpStudio1.Application/AbpStudio1.Application.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.Application.Tests": {
+      "path": "test/AbpStudio1.Application.Tests/AbpStudio1.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "AbpStudio1.Domain.Shared": {
+      "path": "src/AbpStudio1.Domain.Shared/AbpStudio1.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.Application.Contracts": {
+      "path": "src/AbpStudio1.Application.Contracts/AbpStudio1.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.HttpApi": {
+      "path": "src/AbpStudio1.HttpApi/AbpStudio1.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.HttpApi.Client": {
+      "path": "src/AbpStudio1.HttpApi.Client/AbpStudio1.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.EntityFrameworkCore.Tests": {
+      "path": "test/AbpStudio1.EntityFrameworkCore.Tests/AbpStudio1.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "AbpStudio1.EntityFrameworkCore": {
+      "path": "src/AbpStudio1.EntityFrameworkCore/AbpStudio1.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.TestBase": {
+      "path": "test/AbpStudio1.TestBase/AbpStudio1.TestBase.abppkg",
+      "folder": "test"
+    },
+    "AbpStudio1.Domain.Tests": {
+      "path": "test/AbpStudio1.Domain.Tests/AbpStudio1.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "AbpStudio1.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/AbpStudio1.HttpApi.Client.ConsoleTestApp/AbpStudio1.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "AbpStudio1.DbMigrator": {
+      "path": "src/AbpStudio1.DbMigrator/AbpStudio1.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.Blazor": {
+      "path": "src/AbpStudio1.Blazor/AbpStudio1.Blazor.abppkg",
+      "folder": "src"
+    },
+    "AbpStudio1.Domain": {
+      "path": "src/AbpStudio1.Domain/AbpStudio1.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

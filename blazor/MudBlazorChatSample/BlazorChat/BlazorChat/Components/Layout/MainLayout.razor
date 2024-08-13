@@ -1,0 +1,63 @@
+﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.SignalR.Client
+
+@* 
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />  *@
+
+<MudLayout>
+    <MudAppBar Elevation="1" Fixed="true">
+        <MudText Typo="Typo.h5">Blazor Chat</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+    </MudAppBar>
+    <MudDrawerContainer>
+        <MudDrawer Elevation="1" Open="true" Variant="DrawerVariant.Responsive">
+            <MudDrawerHeader></MudDrawerHeader>
+            <NavMenu />
+        </MudDrawer>
+        <MudMainContent Class="pt-8 px-8 mt-12">
+            <MudPaper MinHeight="100vh" Elevation="0" Outlined="false" >
+                <ShowServerOrClient/>
+                <CascadingValue Value="hubConnection">
+                    @Body
+                </CascadingValue>
+            </MudPaper>
+        </MudMainContent>
+    </MudDrawerContainer>
+    
+</MudLayout>
+
+@code {
+    private HubConnection hubConnection;
+    private string CurrentUserId;
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder().WithUrl(_navigationManager.ToAbsoluteUri("/ChatHub")).Build();
+        await hubConnection.StartAsync();
+        hubConnection.On<string, string, string>("ReceiveChatNotification", (message, receiverUserId, senderUserId) =>
+        {
+            if (CurrentUserId == receiverUserId)
+            {
+                _snackBar.Add(message, Severity.Info, config =>
+                {
+                    config.VisibleStateDuration = 10000;
+                    config.HideTransitionDuration = 500;
+                    config.ShowTransitionDuration = 500;
+                    config.Action = "Chat?";
+                    config.ActionColor = Color.Info;
+                    config.Onclick = snackbar =>
+                    {
+                        _navigationManager.NavigateTo($"chat/{senderUserId}");
+                        return Task.CompletedTask;
+                    };
+                });
+            }
+        });
+        var state = await _stateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+        CurrentUserId = user.Claims.Where(a => a.Type == "sub").Select(a => a.Value).FirstOrDefault();
+    }
+}

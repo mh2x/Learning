@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorConnect4Game", "BlazorConnect4Game\BlazorConnect4Game.csproj", "{3623ECF5-2661-4AA4-AE95-FE968639C91B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3623ECF5-2661-4AA4-AE95-FE968639C91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3623ECF5-2661-4AA4-AE95-FE968639C91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3623ECF5-2661-4AA4-AE95-FE968639C91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3623ECF5-2661-4AA4-AE95-FE968639C91B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

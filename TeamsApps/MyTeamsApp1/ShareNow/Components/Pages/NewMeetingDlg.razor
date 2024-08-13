@@ -1,0 +1,47 @@
+﻿@using ShareNow.Models
+@inject IDialogService DialogService
+@implements IDialogContentComponent<NewMeeting>
+
+@* Header *@
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.WindowApps())" />
+        <FluentLabel Typo="Typography.Header">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+@* Footer *@
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@SaveAsync">Start</FluentButton>
+    <FluentButton Appearance="Appearance.Neutral" OnClick="@CancelAsync">Cancel</FluentButton>
+</FluentDialogFooter>
+
+@* Body *@
+<FluentDialogBody>
+    <FluentTextField  Maxlength="24" Autofocus="true" Placeholder="enter your name" @bind-Value="@Content.Name">Name:</FluentTextField>
+</FluentDialogBody>
+
+@code {
+    [Parameter]
+    public NewMeeting Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task SaveAsync()
+    {
+        if (String.IsNullOrEmpty(Content.Name))
+        {
+            await DialogService.ShowErrorAsync("Please enter your name");
+            return;
+        }
+        await Dialog.CloseAsync(Content);
+    }
+
+    private async Task CancelAsync()
+    {
+        await Dialog.CancelAsync();
+    }
+}

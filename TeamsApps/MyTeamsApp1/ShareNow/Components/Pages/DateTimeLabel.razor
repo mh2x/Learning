@@ -1,0 +1,61 @@
+﻿@using System.Timers
+@implements IDisposable
+@* @rendermode InteractiveServer *@
+
+@* https://swimburger.net/blog/dotnet/pushing-ui-changes-from-blazor-server-to-browser-on-server-raised-events *@
+
+<FluentLabel Typo="@typo" Color="@clr">@DateTime.Now</FluentLabel>
+
+@code {
+    [Parameter]
+    public Typography? typography { get; set; }
+
+    [Parameter]
+    public Color? color { get; set; }
+
+    private Typography typo = Typography.Body;
+    private Color clr = Color.Neutral;
+
+    private System.Timers.Timer myTimer;
+    
+
+    protected override void OnParametersSet()
+    {
+        if (typography.HasValue)
+        {
+            typo = (Typography) typography;
+        }
+
+        if (color.HasValue)
+        {
+            clr = (Color)color;
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            myTimer = new();
+            myTimer.Interval = 1000;
+            myTimer.Elapsed += OnTimerInterval;
+            myTimer.AutoReset = true;
+            // Start the timer
+            myTimer.Enabled = true;
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    private void OnTimerInterval(object sender, ElapsedEventArgs e)
+    {
+        //NOTE: this is important!
+        InvokeAsync(() => StateHasChanged());
+    }
+
+    public void Dispose()
+    {
+        // During prerender, this component is rendered without calling OnAfterRender and then immediately disposed
+        // this mean timer will be null so we have to check for null or use the Null-conditional operator ?
+        myTimer?.Dispose();
+    }
+}

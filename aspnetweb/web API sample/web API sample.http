@@ -1,0 +1,56 @@
+@web_API_sample_HostAddress = http://localhost:5265
+
+GET {{web_API_sample_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{web_API_sample_HostAddress}}/pizza/
+Accept: application/json
+
+###
+
+GET {{web_API_sample_HostAddress}}/pizza/1
+Accept: application/json
+
+###
+
+GET {{web_API_sample_HostAddress}}/pizza/123456
+Accept: application/json
+
+###
+
+POST {{web_API_sample_HostAddress}}/pizza/
+Content-Type: application/json
+
+{
+    "name": "Hawaii",
+    "isGlutenFree": false
+}
+
+###
+
+PUT {{web_API_sample_HostAddress}}/pizza/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Hawaiian",
+    "isGlutenFree": false
+}
+
+###
+
+GET {{web_API_sample_HostAddress}}/pizza/3
+Accept: application/json
+
+###
+
+DELETE {{web_API_sample_HostAddress}}/pizza/3
+
+###
+
+GET {{web_API_sample_HostAddress}}/pizza/
+Accept: application/json
+
+###

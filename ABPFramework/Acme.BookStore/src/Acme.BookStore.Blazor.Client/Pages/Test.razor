@@ -1,0 +1,32 @@
+@page "/test"
+@inherits BookStoreComponentBase
+
+<Card>
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>Test</h2>
+            </Column>
+        </Row>
+    </CardHeader>
+    <CardBody>
+        <h2>Body...</h2>
+    </CardBody>
+</Card>
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SetPermissionsAsync();
+        await GetAuthorsAsync();
+    }
+
+    private async Task SetPermissionsAsync()
+    {
+    }
+
+    private async Task GetAuthorsAsync()
+    {
+    }
+}

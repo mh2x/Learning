@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<FluentDesignTheme StorageName="dark" CustomColor="#639113" />
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="ShareNow.styles.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <HeadOutlet @rendermode="InteractiveServer" />
+
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Microsoft.FluentUI.AspNetCore.Components/js/loading-theme.js" type="text/javascript"></script>
+    <script src="/js/common.js"></script>
+    <loading-theme storage-name="dark"></loading-theme>
+</body>
+
+</html>

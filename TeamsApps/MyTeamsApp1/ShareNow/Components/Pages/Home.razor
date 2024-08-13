@@ -1,0 +1,113 @@
+﻿@page "/"
+@using ShareNow.Helpers
+@using ShareNow.Models
+
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+@inject IHttpContextAccessor HttpContextAccessor
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject BrowserStorage _browserStorage
+
+<PageTitle>Home</PageTitle>
+
+<FluentLayout>
+    <p style="height:32px;"></p>
+    <FluentStack HorizontalGap="10" VerticalGap="10" Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+        <FluentLabel Typo="Typography.HeroTitle">Screen sharing and meetings for everyone</FluentLabel>
+        <FluentLabel Typo="Typography.H5" Color="Color.Info">Connect, collaborate, and share from anywhere with Share Now!</FluentLabel>
+    </FluentStack>
+    <p style="height:24px;"></p>
+    <FluentStack HorizontalGap="10" Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Center">
+        <FluentButton Appearance="Appearance.Accent" OnClick="@StartNewSession">Start new meeting</FluentButton>
+        <FluentButton Appearance="Appearance.Lightweight" OnClick="@JoinSession">Join an existing meeting</FluentButton>
+    </FluentStack>
+    
+    <p style="height:16px;"></p>
+    <FluentDivider></FluentDivider>
+    <FluentStack HorizontalGap="10" Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.Center">
+        <img src="images/share_logo.png" alt="Screen Sharing" width="640"/>
+    </FluentStack>
+
+</FluentLayout>
+
+
+
+@code{
+    [CascadingParameter]
+    private User user { get; set; }
+
+    NewMeeting DialogData { get; set; } = new() { Name=""};
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+
+        }
+    }
+
+    private async Task StartNewSession()
+    {
+        //pre-populate the name
+        DialogData.Name = user.Name;
+
+        var dialog = await DialogService.ShowDialogAsync<NewMeetingDlg>(DialogData, new DialogParameters()
+            {
+                Width  = "320px",
+                Height = "240px",
+                Title = $"New meeting",
+
+                PreventDismissOnOverlayClick = true,
+                PreventScroll = true,
+            });
+
+        var result = await dialog.Result;
+        if (!result.Cancelled && result.Data != null)
+        {
+            DialogData = (NewMeeting)result.Data;
+            //Let's save the new user name (if changed)
+            _browserStorage.SetAsync("name", DialogData.Name);
+            await InvokeAsync(() => StateHasChanged());
+
+            // var pageUrl = NavigationManager.ToAbsoluteUri("/counter").ToString();
+            // await JSRuntime.InvokeVoidAsync("open", pageUrl, "_blank");
+        }
+    }
+
+    private async Task JoinSession()
+    {
+        // var dialog = await DialogService.ShowDialogAsync<NewMeetingDlg>(DialogData, new DialogParameters()
+        //     {
+        //         Width = "320px",
+        //         Height = "240px",
+        //         Title = $"New meeting",
+        //         PreventDismissOnOverlayClick = true,
+        //         PreventScroll = true,
+        //     });
+
+        // var result = await dialog.Result;
+        // if (!result.Cancelled && result.Data != null)
+        // {
+        //     DialogData = (NewMeeting)result.Data;
+        //     var pageUrl = NavigationManager.ToAbsoluteUri("/counter").ToString();
+        //     await JSRuntime.InvokeVoidAsync("open", pageUrl, "_blank");
+        // }
+
+        //Set and get the cookie
+        await JSRuntime.InvokeVoidAsync("setCookie", "name", "Moe");
+        var name = await JSRuntime.InvokeAsync<string>("getCookie", "name");
+        await DialogService.ShowInfoAsync(name??"Not found");
+
+        // var options = new CookieOptions
+        //     {
+        //         Expires = DateTime.Now.AddMinutes(30) // Set an expiration time
+        //     };
+        // HttpContextAccessor?.HttpContext?.Response.Cookies.Append("MyCustomCookie", "Hello, World!", options);
+        // var cookieValue = HttpContextAccessor?.HttpContext?.Request.Cookies["MyCustomCookie"];
+        // await DialogService.ShowInfoAsync(cookieValue??"Not found");
+
+    }
+}

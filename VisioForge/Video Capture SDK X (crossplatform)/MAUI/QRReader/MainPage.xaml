@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QRReader.MainPage"
+             xmlns:my="clr-namespace:VisioForge.Core.UI.MAUI;assembly=VisioForge.Core.UI.MAUI">
+
+    <ScrollView>
+        <!--WidthRequest="1280" HeightRequest="720"-->
+        <Grid RowDefinitions="Auto,*">
+
+            <StackLayout Grid.Row="0" x:Name="pnMain" Orientation="Vertical" HorizontalOptions="Fill" Background="#1e1e1e">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button 
+                        x:Name="btCamera" 
+                        Text="CAMERA" 
+                        Grid.Column="0" 
+                        HorizontalOptions="Start" 
+                        Margin="10" 
+                        Clicked="btCamera_Clicked" />
+
+                    <Label  
+                        Grid.Column="1"
+                        Text="BARCODE"
+                        TextColor="White"
+                        x:Name="lbBarcode" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="CenterAndExpand"
+                        Margin="10" />
+
+                    <Button  
+                        Grid.Column="2"
+                        x:Name="btPlayStop"   
+                        Text="START" 
+                        Margin="10" 
+                        Clicked="btPlayStop_Clicked" 
+                        HorizontalOptions="EndAndExpand"/>
+                </Grid>
+            </StackLayout>
+
+            <my:VideoView Grid.Row="1"               
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                x:Name="videoView"
+                Margin="0" 
+                Background="Black"/>
+        </Grid>
+    </ScrollView>
+
+
+</ContentPage>

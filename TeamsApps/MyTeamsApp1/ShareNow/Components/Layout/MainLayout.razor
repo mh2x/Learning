@@ -1,0 +1,68 @@
+﻿@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService _localStorage
+@using ShareNow.Components.Pages
+@using ShareNow.Helpers
+@inject BrowserStorage _browserStorage
+
+<FluentLayout>
+    <CascadingValue Value="user">
+        <FluentHeader>
+            <FluentIcon Value="@(new Icons.Regular.Size48.ChannelShare())" Color="Color.Fill" />
+            <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold"> ShareNow </FluentLabel>
+            <FluentStack HorizontalGap="10" Orientation="Orientation.Horizontal">
+                <FluentSpacer />
+                <UserLabel @ref="userLabelComp" Typo="Typography.Body" Color="Color.Info">[ @user.Name ]</UserLabel>
+                <DateTimeLabel  color="Color.Success"/>
+            </FluentStack>
+        </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
+        <NavMenu />
+        <FluentBodyContent Class="body-content">
+            <div class="content">
+                <FluentCard MinimalStyle="true">
+                    @Body
+                </FluentCard>
+            </div>
+        </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter Style="background-color:#424242;">
+        <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
+        <FluentSpacer />
+        <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
+    </FluentFooter>
+        <FluentToastProvider MaxToastCount="10" />
+        <FluentDialogProvider @rendermode="InteractiveServer" />
+    </CascadingValue>
+</FluentLayout> 
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code{
+
+    private User user { get; set; } = new() { Name = "" };
+    private string userName;
+    private UserLabel userLabelComp;
+
+    protected override  async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            //_browserStorage.SetAsync("name", "Main moe");
+            user.Name = await _browserStorage.GetAsync("name")?? "Guest";
+            StateHasChanged();
+
+            //Capture changes to local storage so we can update user name
+            _localStorage.Changed += (_, e) =>
+            {
+                Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
+                user.Name = e.NewValue.ToString();
+                userLabelComp.Refresh();
+            };
+        }
+    }
+}

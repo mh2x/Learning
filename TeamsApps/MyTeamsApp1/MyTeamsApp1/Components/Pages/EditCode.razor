@@ -1,0 +1,54 @@
+﻿@inject TeamsUserCredential teamsUserCredential
+@inject IJSRuntime JSRuntime
+
+<div>
+    <h2>Change this code</h2>
+    <p>
+        The front end is a <code>Blazor Server app</code>. The entry point is 
+        <code>./Program.cs</code>.
+    </p>
+
+
+    @if (startedSharing)
+    {
+        <p>'@userName' You're sharing your screen</p>
+        <FluentButton Appearance="Appearance.Accent" @onclick="StopScreenShare">Stop Screen Sharing</FluentButton>
+    }
+    else
+    {
+        <FluentButton Appearance="Appearance.Accent" @onclick="ShareScreen">Share Screen</FluentButton>
+    }
+</div>
+
+@code {
+    static UserInfo user;
+    static string userName;
+    static bool startedSharing = false;
+
+    private void ShareScreen(MouseEventArgs e)
+    {
+        startedSharing = true;
+    }
+
+    private void StopScreenShare(MouseEventArgs e)
+    {
+        startedSharing = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        try
+        {
+            if (firstRender)
+            {
+                var user = await teamsUserCredential.GetUserInfoAsync();
+                userName = user.DisplayName;
+            }
+        }
+        finally
+        {
+            //StateHasChanged();
+        }
+    }
+}

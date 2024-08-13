@@ -1,0 +1,26 @@
+﻿@page "/counter"
+@rendermode InteractiveAuto
+
+<PageTitle>Counter</PageTitle>
+
+@if (OperatingSystem.IsBrowser())
+{
+    <MudAlert Severity="Severity.Success" Class="mt-4">Running on Client</MudAlert>
+}
+else
+{
+    <MudAlert Severity="Severity.Warning" Class="mt-4">Running on Server</MudAlert>
+}
+
+<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+<MudText Class="mb-4">Current count: @currentCount</MudText>
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

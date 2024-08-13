@@ -1,0 +1,68 @@
+﻿@page "/"
+
+@using TodoApp.Services
+@using TodoApp.Services.Dtos
+@inherits TodoAppComponentBase
+@inject TodoAppService TodoAppService
+
+<div class="container">
+    <Card>
+        <CardHeader>
+            <CardTitle>
+                TODO LIST
+            </CardTitle>
+        </CardHeader>
+        <CardBody>
+            <!-- FORM FOR NEW TODO ITEMS -->
+            <form id="NewItemForm" @onsubmit:preventDefault @onsubmit="() => Create()" class="row row-cols-lg-auto g-3 align-items-center">
+           
+                <div class="col-12">
+                    <div class="input-group">
+                        <input name="NewTodoText" type="text" @bind-value="@NewTodoText" class="form-control" placeholder="enter text..." />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            <!-- TODO ITEMS LIST -->
+            <ul id="TodoList">
+                @foreach (var todoItem in TodoItems)
+                {
+                    <li data-id="@todoItem.Id">
+                        <i class="far fa-trash-alt"
+                           @onclick="() => Delete(todoItem)"></i>
+                        @todoItem.Text
+                    </li>
+                }
+            </ul>
+        </CardBody>
+    </Card>
+</div>
+
+@code{
+    private List<TodoItemDto> TodoItems { get; set; } = new List<TodoItemDto>();
+    private string NewTodoText { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        TodoItems = await TodoAppService.GetListAsync();
+    }
+
+    private async Task Create()
+    {
+        if (!string.IsNullOrEmpty(NewTodoText))
+        {
+            var result = await TodoAppService.CreateAsync(NewTodoText);
+            TodoItems.Add(result);
+            NewTodoText = null;
+        }
+    }
+
+    private async Task Delete(TodoItemDto todoItem)
+    {
+        await TodoAppService.DeleteAsync(todoItem.Id);
+        await Notify.Info("Deleted the todo item.");
+        TodoItems.Remove(todoItem);
+    }
+}

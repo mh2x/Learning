@@ -1,0 +1,56 @@
+﻿@page "/sharing"
+
+@rendermode InteractiveAuto
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Sharing</PageTitle>
+
+<h1>Sharing</h1>
+
+<video id="screenVideo" autoplay playsinline></video>
+
+@if (IsSharing)
+{
+    <p role="status">Currently sharing your screen... </p>
+    <button class="btn btn-primary" @onclick="StopSharing">Stop Sharing</button>
+}
+else
+{
+    <p role="status">Nothing being shared</p>
+    <button class="btn btn-primary" @onclick="StartSharing">Start Sharing</button>
+}
+
+@code {
+    private bool IsSharing= false;
+
+    private async void StartSharing()
+    {
+        await JSRuntime.InvokeAsync<string>("showPrompt", "showPrompt");
+        
+
+        //Calling Javascript placed inside app.razor on server side
+        await JSRuntime.InvokeAsync<string>("SayIt2", "Yes!");
+
+        await JSRuntime.InvokeVoidAsync("startShare");
+        
+        await Task.Delay(100);
+
+        IsSharing = true;
+
+        //.net maui needs many assemblies...
+        //var image = await TakeScreenshotAsync();
+    }
+
+    private void StopSharing()
+    {
+        IsSharing = false;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+    }
+} 
+
