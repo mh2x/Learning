@@ -88,7 +88,7 @@
               <img class="h-10 w-10 rounded-full" src="https://laracasts.com/images/lary-ai-face.svg" alt="">
             </div>
             <div class="ml-3">
-              <div class="text-base font-medium leading-none text-white">Lary Robot</div>
+              <div class="text-base font-medium leading-none text-white">Larry Robot</div>
               <div class="text-sm font-medium leading-none text-gray-400">moe@example.com</div>
             </div>
             <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
