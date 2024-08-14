@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
         //Triggered after all project dependencies have successfully been loaded
         Model::preventLazyLoading();
 
-        Paginator::useBootstrapFive();
+        //Paginator::useBootstrapFive();
     }
 }

@@ -21,7 +21,7 @@ Route::get('/jobs', function () {
     //$jobs = Job::with('employer')->get();
 
     //Use pagination
-    $jobs = Job::with('employer')->paginate(10);
+    $jobs = Job::with('employer')->simplePaginate(10);
 
     return view('jobs', ['jobs' => $jobs]);
 });

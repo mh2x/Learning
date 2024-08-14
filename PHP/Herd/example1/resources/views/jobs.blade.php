@@ -14,7 +14,7 @@
             </div>
         </a>
         @endforeach
-        <div>
+        <div class="p-4">
             {{ $jobs->links() }}
         </div>
     </div>
