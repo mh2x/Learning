@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
+
+    //tag->jobs
+    public function jobs()
+    {
+        return $this->belongsToMany(job::class);
+    }
 }

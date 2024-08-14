@@ -33,4 +33,16 @@ class Job extends Model
     {
         return $this->belongsTo(Employer::class);
     }
+
+    //A job has many tags, so
+    // a job has a tag (belongs to)
+    // a job has many tags (hasMany)
+    //both = belongsToMany(...)
+    //in other words:
+    //Job->tags
+    public function tags()
+    {
+        //We are not using the standard job_id due to another table called 'jobs'
+        return $this->belongsToMany(Tag::class, foreignPivotKey:"job_listing_id");
+    }
 }

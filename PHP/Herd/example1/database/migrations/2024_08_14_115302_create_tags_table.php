@@ -23,8 +23,9 @@ return new class extends Migration
         //the naming convention is jobs + tags --> job_tag
         Schema::create('job_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Job::class, 'job_listing_id');
-            $table->foreignIdFor(Tag::class);
+            //constraint: delete from this table if the job or tag is deleted from original tables!!
+            $table->foreignIdFor(Job::class, 'job_listing_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Tag::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
