@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('job_listings', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title');        //string maxes out at 255 character, but you can also use text('title') for longer values
             $table->string('salary');
             $table->timestamps();
         });
