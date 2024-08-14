@@ -18,7 +18,11 @@ Route::get('/jobs', function () {
 
     //This is called EAGER LOADING --> i.e. [Select * from Employer]!!!
     //We will need a pagination method soon...
-    $jobs = Job::with('employer')->get();
+    //$jobs = Job::with('employer')->get();
+
+    //Use pagination
+    $jobs = Job::with('employer')->paginate(10);
+
     return view('jobs', ['jobs' => $jobs]);
 });
 
