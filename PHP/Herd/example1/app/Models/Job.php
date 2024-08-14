@@ -20,7 +20,7 @@ class Job extends Model
     protected $table = "job_listings";
     //Allow us to mass-assign these values:
     //this is to avoid  Illuminate\Database\Eloquent\MassAssignmentException
-    protected $fillable = ['title', 'salary'];
+    protected $fillable = ['title', 'salary', 'employer_id'];
 
     //use Eloquent to map the relationship between job and employer
     //you can reference it as a property and Eloquent takes care of the rest
@@ -43,6 +43,6 @@ class Job extends Model
     public function tags()
     {
         //We are not using the standard job_id due to another table called 'jobs'
-        return $this->belongsToMany(Tag::class, foreignPivotKey:"job_listing_id");
+        return $this->belongsToMany(Tag::class, foreignPivotKey: "job_listing_id");
     }
 }

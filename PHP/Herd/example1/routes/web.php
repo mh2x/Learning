@@ -37,6 +37,22 @@ Route::get('/jobs/{id}', function ($id) {
 });
 
 
+Route::post('/jobs', function () {
+    //dd(request()->all());   //dump and die!
+
+    //Validation ....
+
+    Job::create([
+        'title' => request('title'),
+        'salary' => request('salary'),
+        'employer_id' => 1,
+    ]);
+
+    //back to job list
+    return redirect('/jobs');
+});
+
+
 Route::get('/about', function () {
     return view('about');
 });
