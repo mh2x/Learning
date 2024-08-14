@@ -21,4 +21,16 @@ class Job extends Model
     //Allow us to mass-assign these values:
     //this is to avoid  Illuminate\Database\Eloquent\MassAssignmentException
     protected $fillable = ['title', 'salary'];
+
+    //use Eloquent to map the relationship between job and employer
+    //you can reference it as a property and Eloquent takes care of the rest
+    //Example in php artisan tinker:
+    // App\Models\Job::First()->employer
+    // App\Models\Job::First()->employer.name
+    //When you reference employer, it is a new SQL query
+    //This is called LAZY LOADING
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
+    }
 }
