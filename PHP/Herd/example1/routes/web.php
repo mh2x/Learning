@@ -42,6 +42,10 @@ Route::post('/jobs', function () {
     //dd(request()->all());   //dump and die!
 
     //Validation ....
+    request()->validate([
+        'title' => ['required', 'min:3'],
+        'salary' => ['required']
+    ]);
 
     Job::create([
         'title' => request('title'),
