@@ -3,40 +3,15 @@
 namespace App\Models;
 
 use \Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
 
-//you can pass it to functions (closures) with use()
-class Job
+//Eloquent is the ORM for Laravel. Extending Model makes your model Eloquent compatible
+//it uses by convention the class name to be singular form of table
+//name,like Employee for table("Employees)
+//In our case here, the table name is job_listings
+//so we can name our class JobListing
+//OR use $table attribute to set the proper table name
+class Job extends Model
 {
-    //using explicit data type for return
-    public static function all(): array
-    {
-        return
-            [
-                [
-                    'id' => '1',
-                    'title' => 'Director',
-                    'salary' => '$50,000'
-                ],
-                [
-                    'id' => '2',
-                    'title' => 'Programmer',
-                    'salary' => '$20,000'
-                ],
-                [
-                    'id' => '3',
-                    'title' => 'Teacher',
-                    'salary' => '$40,000'
-                ]
-            ];
-    }
-    public static function find(int $id): array
-    {
-        //instead of foreach here, use laravel helper Arr for arrays
-        $job = Arr::first(static::all(), fn($job) => $job['id'] == $id);
-        if (! $job) {
-            //handle null when we cannot find it
-            abort(404);
-        }
-        return $job;
-    }
+    protected $table = "job_listings";
 }
