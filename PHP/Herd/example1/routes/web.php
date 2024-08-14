@@ -14,6 +14,7 @@ Route::get('/jobs', function () {
     return view(
         'jobs',
         [
+            //n+1 problem here!
             'jobs' => Job::all()
         ]
     );
