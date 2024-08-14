@@ -3,34 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Arr;
 use Mockery\Generator\Method;
-
-//define a global array
-//you can pass it to functions (closures) with use()
-class Job
-{
-
-    public static function all()
-    {
-        return
-            [
-                [
-                    'id' => '1',
-                    'title' => 'Director',
-                    'salary' => '$50,000'
-                ],
-                [
-                    'id' => '2',
-                    'title' => 'Programmer',
-                    'salary' => '$20,000'
-                ],
-                [
-                    'id' => '3',
-                    'title' => 'Teacher',
-                    'salary' => '$40,000'
-                ]
-            ];
-    }
-}
+use App\Models\Job;
 
 Route::get('/', function () {
     return view('home', [
