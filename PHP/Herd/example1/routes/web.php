@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \Illuminate\Support\Arr;
 use Mockery\Generator\Method;
 use App\Models\Job;
 
@@ -21,9 +20,7 @@ Route::get('/jobs', function () {
 });
 
 Route::get('/jobs/{id}', function ($id) {
-    //instead of foreach here, use laravel helper Arr for arrays
-    $job = Arr::first(Job::all(), fn($job) => $job['id'] == $id);
-
+    $job = Job::find($id);
     //dd($job);   //dump and die!
     return view('job', ['job' => $job]);
 });

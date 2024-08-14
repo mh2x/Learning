@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use \Illuminate\Support\Arr;
+
 //you can pass it to functions (closures) with use()
 class Job
 {
@@ -26,5 +28,15 @@ class Job
                     'salary' => '$40,000'
                 ]
             ];
+    }
+    public static function find(int $id): array
+    {
+        //instead of foreach here, use laravel helper Arr for arrays
+        $job = Arr::first(static::all(), fn($job) => $job['id'] == $id);
+        if (! $job) {
+            //handle null when we cannot find it
+            abort(404);
+        }
+        return $job;
     }
 }
