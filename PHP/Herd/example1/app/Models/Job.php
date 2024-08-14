@@ -20,7 +20,15 @@ class Job extends Model
     protected $table = "job_listings";
     //Allow us to mass-assign these values:
     //this is to avoid  Illuminate\Database\Eloquent\MassAssignmentException
-    protected $fillable = ['title', 'salary', 'employer_id'];
+
+
+    //$fillable vs guarded
+    //This area is debatable among devs, however, you can disable fillable
+    //since it is used mainly to guard against malicious updates of fields
+    // and use guarded instead. If you make guarded an empty array, then
+    // Nothing is being protected
+    //protected $fillable = ['title', 'salary', 'employer_id'];
+    protected $guarded = [];
 
     //use Eloquent to map the relationship between job and employer
     //you can reference it as a property and Eloquent takes care of the rest

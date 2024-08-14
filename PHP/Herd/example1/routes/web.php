@@ -21,6 +21,7 @@ Route::get('/jobs', function () {
     //$jobs = Job::with('employer')->get();
 
     //Use CURSOR pagination ==> BEST PERFORMANCE!!
+    //latest --> order by created desc
     $jobs = Job::with('employer')->latest()->simplePaginate(10);
 
     return view('jobs.index', ['jobs' => $jobs]);
