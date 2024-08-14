@@ -20,8 +20,8 @@ Route::get('/jobs', function () {
     //We will need a pagination method soon...
     //$jobs = Job::with('employer')->get();
 
-    //Use pagination
-    $jobs = Job::with('employer')->simplePaginate(10);
+    //Use CURSOR pagination ==> BEST PERFORMANCE!!
+    $jobs = Job::with('employer')->cursorPaginate(10);
 
     return view('jobs', ['jobs' => $jobs]);
 });
