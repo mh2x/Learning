@@ -2,27 +2,35 @@
 
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Support\Arr;
+use Mockery\Generator\Method;
 
 //define a global array
 //you can pass it to functions (closures) with use()
-$jobs = [
-    [
-        'id' => '1',
-        'title' => 'Director',
-        'salary' => '$50,000'
-    ],
-    [
-        'id' => '2',
-        'title' => 'Programmer',
-        'salary' => '$20,000'
-    ],
-    [
-        'id' => '3',
-        'title' => 'Teacher',
-        'salary' => '$40,000'
-    ]
-];
+class Job
+{
 
+    public static function all()
+    {
+        return
+            [
+                [
+                    'id' => '1',
+                    'title' => 'Director',
+                    'salary' => '$50,000'
+                ],
+                [
+                    'id' => '2',
+                    'title' => 'Programmer',
+                    'salary' => '$20,000'
+                ],
+                [
+                    'id' => '3',
+                    'title' => 'Teacher',
+                    'salary' => '$40,000'
+                ]
+            ];
+    }
+}
 
 Route::get('/', function () {
     return view('home', [
@@ -30,18 +38,18 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/jobs', function () use ($jobs) {
+Route::get('/jobs', function () {
     return view(
         'jobs',
         [
-            'jobs' => $jobs
+            'jobs' => Job::all()
         ]
     );
 });
 
-Route::get('/jobs/{id}', function ($id) use ($jobs) {
+Route::get('/jobs/{id}', function ($id) {
     //instead of foreach here, use laravel helper Arr for arrays
-    $job = Arr::first($jobs, fn($job) => $job['id'] == $id);
+    $job = Arr::first(Job::all(), fn($job) => $job['id'] == $id);
 
     //dd($job);   //dump and die!
     return view('job', ['job' => $job]);
