@@ -14,4 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     protected $table = "job_listings";
+    //Allow us to mass-assign these values:
+    //this is to avoid  Illuminate\Database\Eloquent\MassAssignmentException
+    protected $fillable = ['title', 'salary'];
 }
