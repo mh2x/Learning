@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Employer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class JobFactory extends Factory
         return [
             //map the columns/fields here
             "title" => fake()->jobTitle(),
+            'employer_id' => Employer::factory(),
             'salary' => "$" . fake()->numberBetween(5000, 1000000)
         ];
     }
