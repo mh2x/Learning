@@ -15,6 +15,9 @@ Route::get('/jobs', function () {
     //This fixes N+1 Problem for Select * from Employer where id=?
     //However, this doesn't scale if you have millions of records!
     //We will need pagination
+
+    //This is called EAGER LOADING --> i.e. [Select * from Employer]!!!
+    //We will need a pagination method soon...
     $jobs = Job::with('employer')->get();
     return view('jobs', ['jobs' => $jobs]);
 });
