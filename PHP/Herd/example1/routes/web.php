@@ -11,13 +11,12 @@ Route::get('/', function () {
 });
 
 Route::get('/jobs', function () {
-    return view(
-        'jobs',
-        [
-            //n+1 problem here!
-            'jobs' => Job::all()
-        ]
-    );
+    //NOTE: employer is the relation found inside the Job class
+    //This fixes N+1 Problem for Select * from Employer where id=?
+    //However, this doesn't scale if you have millions of records!
+    //We will need pagination
+    $jobs = Job::with('employer')->get();
+    return view('jobs', ['jobs' => $jobs]);
 });
 
 Route::get('/jobs/{id}', function ($id) {
