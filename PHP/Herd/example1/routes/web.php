@@ -42,6 +42,9 @@ Route::post('/jobs', function () {
     //dd(request()->all());   //dump and die!
 
     //Validation ....
+    //For more details on Laravel provided validations:
+    //see: https://laravel.com/docs/11.x/validation
+
     request()->validate([
         'title' => ['required', 'min:3'],
         'salary' => ['required']

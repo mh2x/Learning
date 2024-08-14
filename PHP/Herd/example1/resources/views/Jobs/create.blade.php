@@ -31,12 +31,14 @@
                                 <input type="text" name="title" id="title" class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Manager" required>
                             </div>
                         </div>
+                        <x-error for="title" />
+                        {{--
                         @error('title')
                         <p class="text-xs text-red-500 font-semibold mt-1">
                             {{ $message }}
                         </p>
                         @enderror
-
+                        --}}
                     </div>
                 </div>
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -47,11 +49,14 @@
                                 <input type="text" name="salary" id="salary" class="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="$10000" required>
                             </div>
                         </div>
+                        <x-error for="salary" />
+                        {{--
                         @error('salary')
                         <p class="text-xs text-red-500 font-semibold mt-1">
                             {{ $message }}
                         </p>
                         @enderror
+                        --}}
                         {{--
                         <div class="mt-10">
                             @if($errors->any())
