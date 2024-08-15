@@ -63,11 +63,11 @@ Route::get('/jobs/{job}', [JobController::class, 'show'])
 
 Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
     ->middleware('auth')
-    ->can('edit-job', 'job');
+    ->can('edit', 'job'); //we're now using JobPolicy
 
 Route::post('/jobs', [JobController::class, 'store'])
     ->middleware('auth')
-    ->can('edit-job', 'job');
+    ->can('edit-job', 'job');  //gate edit-job
 
 Route::patch('/jobs/{job}', [JobController::class, 'update'])
     ->middleware('auth')
