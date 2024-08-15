@@ -42,3 +42,17 @@ Route::controller(JobController::class)->group(function () {
 */
 //This is equivalent to the above!
 Route::resource("jobs", JobController::class);
+
+//1 - In case you need only a few to map, do:
+/*
+Route::resource("jobs", JobController::class,[
+    'only'=>['index', 'show', 'create', 'store']
+]);
+*/
+
+//2- In case you need to ignore some, do:
+/*
+Route::resource("jobs", JobController::class,[
+    'except'=>['edit', 'destroy']
+]);
+*/
