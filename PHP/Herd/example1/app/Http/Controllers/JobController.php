@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
@@ -68,13 +70,32 @@ class JobController extends Controller
             return redirect('/login');
         }
 
-        //does the job belong to the user?
-        if ($job->employer->user->isNot(Auth::user())) {
+        if (false /*not using GATES*/) {
+            //does the job belong to the user?
+            if ($job->employer->user->isNot(Auth::user())) {
 
-            //$model->is() compares two models
-            //if they have same id and belong to same table --> returns true
-            abort(403); //not authorized
-        }
+                //$model->is() compares two models
+                //if they have same id and belong to same table --> returns true
+                abort(403); //not authorized
+            }
+        } else { //GATE
+            //USING GATES
+            Gate::define('edit-job', function (User $user, Job $job) {
+                return $job->employer->user->is($user);
+            });
+
+            //This will run the logic 'edit-job' and if it fails, Laravel aborts with 403
+            Gate::authorize('edit-job', ['job' => $job]); //403 automatic by Laravel :)
+
+            //Conditional
+            if (Gate::denies('edit-job', $job)) {
+                //do some of your own logic for denied access
+            }
+            //Another option
+            if (Gate::allows('edit-job', $job)) {
+                //do some of your own logic for allowed access
+            }
+        } //GATE
 
         //dd($job);   //dump and die!
         return view('jobs.edit', ['job' => $job]);
