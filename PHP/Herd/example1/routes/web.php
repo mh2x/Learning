@@ -43,7 +43,7 @@ Route::controller(JobController::class)->group(function () {
 });
 */
 //This is equivalent to the above!
-Route::resource("jobs", JobController::class);
+Route::resource("jobs", JobController::class)->middleware('auth');
 
 //1 - In case you need only a few to map, do:
 /*
@@ -65,6 +65,6 @@ Route::post("/register", [RegisteredUserController::class, 'store']);
 
 
 //============Session Management our way for learning!====================
-Route::get("/login", [SessionController::class, 'create']);
+Route::get("/login", [SessionController::class, 'create'])->name('login');  //laravel needs to know a route by the name 'login' to redirect to it.
 Route::post("/login", [SessionController::class, 'store']);
 Route::post("/logout", [SessionController::class, 'destroy']);
