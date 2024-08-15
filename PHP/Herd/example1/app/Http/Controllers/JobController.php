@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -59,6 +60,22 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+        //inline Authorization
+        //We need to make sure the user is authenticated and authorized to do this
+
+        //is user logged in?
+        if (Auth::guest()) {
+            return redirect('/login');
+        }
+
+        //does the job belong to the user?
+        if ($job->employer->user->isNot(Auth::user())) {
+
+            //$model->is() compares two models
+            //if they have same id and belong to same table --> returns true
+            abort(403); //not authorized
+        }
+
         //dd($job);   //dump and die!
         return view('jobs.edit', ['job' => $job]);
     }
