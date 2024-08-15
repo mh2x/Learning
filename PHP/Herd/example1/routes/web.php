@@ -11,6 +11,8 @@ Route::get('/', function () {
     ]);
 });
 
+//Use this or use Route::view below
+/*
 Route::get('/about', function () {
     return view('about');
 });
@@ -18,6 +20,9 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
+*/
+Route::view("/about", "about");
+Route::view("/contact", "contact");
 
 //Route Model Binding
 //Route::get('/posts/{post:slug}', function (Post $post) {...}
