@@ -65,10 +65,15 @@ class JobController extends Controller
         //inline Authorization
         //We need to make sure the user is authenticated and authorized to do this
 
-        //is user logged in?
-        if (Auth::guest()) {
-            return redirect('/login');
-        }
+        /*: Look at AppServiceProvider.php to see the Gate definitions.
+            since we are using gates, no need to check for guest as this will not be invoked
+            unless user is logged-in
+
+                //is user logged in?
+                if (Auth::guest()) {
+                    return redirect('/login');
+                }
+        */
 
         if (false /*not using GATES*/) {
             //does the job belong to the user?
@@ -79,10 +84,6 @@ class JobController extends Controller
                 abort(403); //not authorized
             }
         } else { //GATE
-            //USING GATES
-            Gate::define('edit-job', function (User $user, Job $job) {
-                return $job->employer->user->is($user);
-            });
 
             //This will run the logic 'edit-job' and if it fails, Laravel aborts with 403
             Gate::authorize('edit-job', ['job' => $job]); //403 automatic by Laravel :)
@@ -94,6 +95,16 @@ class JobController extends Controller
             //Another option
             if (Gate::allows('edit-job', $job)) {
                 //do some of your own logic for allowed access
+            }
+
+            //We also can use can and cannot for our User model:
+            if (Auth::user()->can('edit-job', $job)) {
+                //User can edit job
+            }
+
+            //We also can use can and cannot for our User model:
+            if (Auth::user()->cannot('edit-job', $job)) {
+                //User cannot edit job
             }
         } //GATE
 
