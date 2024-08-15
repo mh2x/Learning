@@ -51,15 +51,31 @@ if (false /*authorization not required*/) {
 
     //->middleware('auth'); this means you need to be signed in
 }
-Route::get('/jobs', 'index');
-Route::get('/jobs/create', 'create');
-Route::get('/jobs/{job}', 'show')->middleware('auth'); //this means you need to be signed in;
-//Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job,job']);
-Route::get('/jobs/{job}/edit', 'edit')->middleware('auth')->can('edit-job', 'job');
-Route::post('/jobs', 'store');
-Route::patch('/jobs/{job}', 'update');
-Route::delete('/jobs/{job}', 'destroy');
 
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/create', [JobController::class, 'create'])
+    ->middleware('auth'); //this means you need to be signed in;
+
+Route::get('/jobs/{job}', [JobController::class, 'show'])
+    ->middleware('auth'); //this means you need to be signed in;
+
+//Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job,job']);
+
+Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])
+    ->middleware('auth')
+    ->can('edit-job', 'job');
+
+Route::post('/jobs', [JobController::class, 'store'])
+    ->middleware('auth')
+    ->can('edit-job', 'job');
+
+Route::patch('/jobs/{job}', [JobController::class, 'update'])
+    ->middleware('auth')
+    ->can('edit-job', 'job');
+
+Route::delete('/jobs/{job}', [JobController::class, 'destroy'])
+    ->middleware('auth')
+    ->can('edit-job', 'job');
 
 //1 - In case you need only a few to map, do:
 /*
