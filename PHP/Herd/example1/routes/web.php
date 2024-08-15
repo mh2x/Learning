@@ -54,7 +54,8 @@ if (false /*authorization not required*/) {
 Route::get('/jobs', 'index');
 Route::get('/jobs/create', 'create');
 Route::get('/jobs/{job}', 'show')->middleware('auth'); //this means you need to be signed in;
-Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job,job']);
+//Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job,job']);
+Route::get('/jobs/{job}/edit', 'edit')->middleware('auth')->can('edit-job', 'job');
 Route::post('/jobs', 'store');
 Route::patch('/jobs/{job}', 'update');
 Route::delete('/jobs/{job}', 'destroy');
