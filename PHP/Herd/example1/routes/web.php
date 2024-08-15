@@ -33,9 +33,11 @@ Route::get('/jobs/create', function () {
     return view('jobs.create');
 });
 
+//Route Model Binding
+//Route::get('/posts/{post:slug}', function (Post $post) {...}
+
 //Show
-Route::get('/jobs/{id}', function ($id) {
-    $job = Job::find($id);
+Route::get('/jobs/{job}', function (Job $job) {
     //dd($job);   //dump and die!
     return view('jobs.show', ['job' => $job]);
 });
@@ -65,14 +67,13 @@ Route::post('/jobs', function () {
 });
 
 //Edit
-Route::get('/jobs/{id}/edit', function ($id) {
-    $job = Job::find($id);
+Route::get('/jobs/{job}/edit', function (Job $job) {
     //dd($job);   //dump and die!
     return view('jobs.edit', ['job' => $job]);
 });
 
 //update
-Route::patch('/jobs/{id}', function ($id) {
+Route::patch('/jobs/{job}', function (Job $job) {
 
     //dd($job);   //dump and die!
 
@@ -84,7 +85,6 @@ Route::patch('/jobs/{id}', function ($id) {
 
     // authorize (on hold...)
     // update the job
-    $job = Job::findOrFail($id); //research laravel route model binding
     $job->title = request('title');
     $job->salary = request('salary');
 
@@ -105,15 +105,10 @@ Route::patch('/jobs/{id}', function ($id) {
 });
 
 //delete or destroy
-Route::delete('/jobs/{id}', function ($id) {
-    //dd($job);   //dump and die!
-
+Route::delete('/jobs/{job}', function (Job $job) {
     // authorize (on hold...)
     // delete the job
-    $job = Job::findOrFail($id); //research laravel route model binding
     $job->delete();
-    //You can also do
-    // Job::findOrFail($id)->delete();
     //redirect
     return redirect('/jobs');
 });
