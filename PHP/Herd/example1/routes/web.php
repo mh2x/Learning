@@ -42,8 +42,23 @@ Route::controller(JobController::class)->group(function () {
     Route::delete('/jobs/{job}', 'destroy');
 });
 */
-//This is equivalent to the above!
-Route::resource("jobs", JobController::class)->middleware('auth');
+if (false /*authorization not required*/) {
+    //This is equivalent to the above!
+    Route::resource("jobs", JobController::class);
+    //middleware routing is NOT good to use with resource as it applies to all routes :(
+    //Route::resource("jobs", JobController::class)->middleware('auth');
+    //That's why we need to go back to individual routes...
+
+    //->middleware('auth'); this means you need to be signed in
+}
+Route::get('/jobs', 'index');
+Route::get('/jobs/create', 'create');
+Route::get('/jobs/{job}', 'show')->middleware('auth'); //this means you need to be signed in;
+Route::get('/jobs/{job}/edit', 'edit')->middleware(['auth', 'can:edit-job,job']);
+Route::post('/jobs', 'store');
+Route::patch('/jobs/{job}', 'update');
+Route::delete('/jobs/{job}', 'destroy');
+
 
 //1 - In case you need only a few to map, do:
 /*

@@ -83,7 +83,7 @@ class JobController extends Controller
                 //if they have same id and belong to same table --> returns true
                 abort(403); //not authorized
             }
-        } else { //GATE
+        } else if (false /*not using middleware*/) { //GATE
 
             //This will run the logic 'edit-job' and if it fails, Laravel aborts with 403
             Gate::authorize('edit-job', ['job' => $job]); //403 automatic by Laravel :)
