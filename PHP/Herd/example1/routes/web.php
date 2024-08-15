@@ -10,6 +10,7 @@ Route::get('/', function () {
     ]);
 });
 
+//Index
 Route::get('/jobs', function () {
     //NOTE: employer is the relation found inside the Job class
     //This fixes N+1 Problem for Select * from Employer where id=?
@@ -27,10 +28,12 @@ Route::get('/jobs', function () {
     return view('jobs.index', ['jobs' => $jobs]);
 });
 
+//Create
 Route::get('/jobs/create', function () {
     return view('jobs.create');
 });
 
+//Show
 Route::get('/jobs/{id}', function ($id) {
     $job = Job::find($id);
     //dd($job);   //dump and die!
@@ -38,6 +41,7 @@ Route::get('/jobs/{id}', function ($id) {
 });
 
 
+//Store in DB
 Route::post('/jobs', function () {
     //dd(request()->all());   //dump and die!
 
@@ -57,6 +61,60 @@ Route::post('/jobs', function () {
     ]);
 
     //back to job list
+    return redirect('/jobs');
+});
+
+//Edit
+Route::get('/jobs/{id}/edit', function ($id) {
+    $job = Job::find($id);
+    //dd($job);   //dump and die!
+    return view('jobs.edit', ['job' => $job]);
+});
+
+//update
+Route::patch('/jobs/{id}', function ($id) {
+
+    //dd($job);   //dump and die!
+
+    // validate
+    request()->validate([
+        'title' => ['required', 'min:3'],
+        'salary' => ['required']
+    ]);
+
+    // authorize (on hold...)
+    // update the job
+    $job = Job::findOrFail($id); //research laravel route model binding
+    $job->title = request('title');
+    $job->salary = request('salary');
+
+    // and persist
+    $job->save();
+    /*
+        We can also do this:
+
+        $Job->update([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => 1,
+        ]);
+    */
+
+    // redirect to the job page
+    return redirect("/jobs/$job->id");
+});
+
+//delete or destroy
+Route::delete('/jobs/{id}', function ($id) {
+    //dd($job);   //dump and die!
+
+    // authorize (on hold...)
+    // delete the job
+    $job = Job::findOrFail($id); //research laravel route model binding
+    $job->delete();
+    //You can also do
+    // Job::findOrFail($id)->delete();
+    //redirect
     return redirect('/jobs');
 });
 
