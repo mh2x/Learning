@@ -34,6 +34,29 @@ class JobController extends Controller
         //dd($job);   //dump and die!
         return view('jobs.show', ['job' => $job]);
     }
+    public function store()
+    {
+        //dd(request()->all());   //dump and die!
+
+        //Validation ....
+        //For more details on Laravel provided validations:
+        //see: https://laravel.com/docs/11.x/validation
+
+        request()->validate([
+            'title' => ['required', 'min:3'],
+            'salary' => ['required']
+        ]);
+
+        Job::create([
+            'title' => request('title'),
+            'salary' => request('salary'),
+            'employer_id' => 1,
+        ]);
+
+        //back to job list
+        return redirect('/jobs');
+    }
+
     public function edit(Job $job)
     {
         //dd($job);   //dump and die!
@@ -77,28 +100,6 @@ class JobController extends Controller
         // delete the job
         $job->delete();
         //redirect
-        return redirect('/jobs');
-    }
-    public function store(Request $request)
-    {
-        //dd(request()->all());   //dump and die!
-
-        //Validation ....
-        //For more details on Laravel provided validations:
-        //see: https://laravel.com/docs/11.x/validation
-
-        request()->validate([
-            'title' => ['required', 'min:3'],
-            'salary' => ['required']
-        ]);
-
-        Job::create([
-            'title' => request('title'),
-            'salary' => request('salary'),
-            'employer_id' => 1,
-        ]);
-
-        //back to job list
         return redirect('/jobs');
     }
 }
