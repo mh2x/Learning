@@ -29,7 +29,7 @@ Route::view("/contact", "contact");
 
 
 //============JOB ROUTES====================
-
+/*
 Route::controller(JobController::class)->group(function () {
     Route::get('/jobs', 'index');
     Route::get('/jobs/create', 'create');
@@ -39,3 +39,6 @@ Route::controller(JobController::class)->group(function () {
     Route::patch('/jobs/{job}', 'update');
     Route::delete('/jobs/{job}', 'destroy');
 });
+*/
+//This is equivalent to the above!
+Route::resource("jobs", JobController::class);
