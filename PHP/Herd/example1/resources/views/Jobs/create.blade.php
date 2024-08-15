@@ -26,12 +26,7 @@
                     <x-form-field>
                         <x-form-label for="title">Title</x-form-label>
                         <div class="mt-2">
-                            <x-form-input
-                                type="text"
-                                name="title"
-                                id="title"
-                                placeholder="Manager"
-                                required />
+                            <x-form-input type="text" name="title" id="title" placeholder="Manager" required />
                             <x-form-error name="title" />
                             <!-- <x-error for="title" /> -->
                         </div>
@@ -40,12 +35,7 @@
                     <x-form-field>
                         <x-form-label for="salary">Salary</x-form-label>
                         <div class="mt-2">
-                            <x-form-input
-                                type="text"
-                                name="salary"
-                                id="salary"
-                                placeholder="$10000"
-                                required />
+                            <x-form-input type="text" name="salary" id="salary" placeholder="$10000" required />
                             <x-form-error name="salary" />
                             <!-- <x-error for="title" /> -->
                         </div>

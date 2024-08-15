@@ -20,7 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-    ];
+    ]; //You can use set protected @guarded=[]
+
 
     /**
      * The attributes that should be hidden for serialization.
