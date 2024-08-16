@@ -58,8 +58,9 @@ class JobController extends Controller
             'employer_id' => 1,
         ]);
 
-        //Send email to the user notifying him of the new job creation
-        Mail::to($job->employer->user)->send(new JobPosted($job));
+        //instead of ->send we ->queue the email because it takes time to send it.
+        
+        Mail::to($job->employer->user)->queue(new JobPosted($job));
 
         //back to job list
         return redirect('/jobs');

@@ -10,7 +10,16 @@ use App\Models\Job;
 use Illuminate\Support\Facades\Mail;
 
 Route::get("test", function () {
-    Mail::to("a@b.com")->send(new JobPosted());
+    //Mail::to("a@b.com")->send(new JobPosted());
+    //One way to queue jobs is to use
+    dispatch(function () {
+        logger('hello from the queue!');
+    });
+
+    dispatch(function () {
+        logger('hello from the queue after 5 seconds!');
+    })->delay(5);
+
     return 'Done.';
 });
 
