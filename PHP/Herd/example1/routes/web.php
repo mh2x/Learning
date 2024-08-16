@@ -3,6 +3,7 @@
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Jobs\TranslateJob;
 use App\Mail\JobPosted;
 use Illuminate\Support\Facades\Route;
 use Mockery\Generator\Method;
@@ -19,6 +20,12 @@ Route::get("test", function () {
     dispatch(function () {
         logger('hello from the queue after 5 seconds!');
     })->delay(5);
+
+    //Dedicated Job Class!
+    TranslateJob::dispatch(null);
+    $job = Job::first();
+    TranslateJob::dispatch($job);
+
 
     return 'Done.';
 });
