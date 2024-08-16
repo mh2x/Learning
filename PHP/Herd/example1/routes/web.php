@@ -3,9 +3,16 @@
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Mail\JobPosted;
 use Illuminate\Support\Facades\Route;
 use Mockery\Generator\Method;
 use App\Models\Job;
+use Illuminate\Support\Facades\Mail;
+
+Route::get("test", function () {
+    Mail::to("a@b.com")->send(new JobPosted());
+    return 'Done.';
+});
 
 Route::get('/', function () {
     return view('home', [
