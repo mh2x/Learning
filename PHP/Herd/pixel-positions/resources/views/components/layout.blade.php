@@ -16,8 +16,8 @@
 </head>
 
 <body class="bg-black text-white font-hanken-grotesk">
-    <div class="px-10">
-        <nav class="flex justify-between items-center py-4 border-b border-white/20">
+    <div class="bg-header">
+        <nav class="flex px-10 justify-between items-center py-4 border-b border-white/20">
             <div>
                 <a href="">
                     <img src="{{ Vite::asset('resources/images/codenzia_logo.png') }}" alt="" />
@@ -33,6 +33,8 @@
                 <a href="">Post a Job</a>
             </div>
         </nav>
+    </div>
+    <div class="px-10">
         <main class="mt-10 max-w-[986px] mx-auto">
             {{ $slot }}
         </main>
