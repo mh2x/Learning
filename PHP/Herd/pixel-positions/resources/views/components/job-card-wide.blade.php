@@ -1,5 +1,4 @@
-<div
-    class="p-5 bg-white/5 rounded-xl flex flex-row gap-x-6 border border-transparent hover:border-blue-800 group transition-colors duration-300">
+<x-panel class="flex gap-x-6">
     <div>
         <x-employer-logo />
     </div>
@@ -10,10 +9,10 @@
     </div>
 
     <div class="flex justify-between items-center mt-auto">
-        <div>
+        <div class="space-x-2">
             <x-tag>Tag1</x-tag>
             <x-tag>Tag2</x-tag>
             <x-tag>Tag3</x-tag>
         </div>
     </div>
-</div>
+</x-panel>
