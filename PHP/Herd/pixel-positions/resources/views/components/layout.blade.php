@@ -19,7 +19,7 @@
     <div class="bg-header">
         <nav class="flex px-10 justify-between items-center py-4 border-b border-white/20">
             <div>
-                <a href="">
+                <a href="/">
                     <img src="{{ Vite::asset('resources/images/codenzia_logo.png') }}" alt="" />
                 </a>
             </div>
