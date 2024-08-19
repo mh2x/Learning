@@ -18,7 +18,9 @@
             <x-section-heading>Featured Jobs</x-section-heading>
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
                 @foreach ($jobs as $job)
-                    <x-job-card :$job />
+                    @if ($job->featured)
+                        <x-job-card :$job />
+                    @endif
                 @endforeach
 
             </div>
