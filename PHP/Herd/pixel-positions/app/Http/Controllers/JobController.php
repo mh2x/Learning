@@ -6,6 +6,10 @@ use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Models\Tag;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class JobController extends Controller
 {
@@ -28,14 +32,37 @@ class JobController extends Controller
     public function create()
     {
         //
+        return view('jobs.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJobRequest $request)
+    //Look at https://laravel.com/docs/11.x/validation#form-request-validation
+    //public function store(StoreJobRequest $request)
+    public function store(Request $request)
     {
         //
+        $attributes = $request->validate([
+            'title' => ['required'],
+            'salary' => ['required'],
+            'location' => ['required'],
+            'schedule' => ['required', Rule::in('Part Time', 'Full Time')],
+            'url' => ['required', 'active_url'], //You can also do 'url'
+            'tags' => ['nullable'],
+        ]);
+
+        //unchecked checkboxes will not get passed
+        $attributes['featured'] = $request->has('featured');
+
+        $job = Auth::user()->employer->jobs()->create(Arr::except($attributes, 'tags'));
+
+        if ($attributes['tag'] ?? false /*if null assume false*/) {
+            foreach (explode(',', $attributes['tags']) as $tag) {
+                $job->tags($tag);
+            }
+        }
+        return redirect('/');
     }
 
     /**

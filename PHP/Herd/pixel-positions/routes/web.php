@@ -8,7 +8,12 @@ use App\Http\Controllers\TagController;
 use App\Models\Job;
 use Illuminate\Support\Facades\Route;
 
+//Home page
 Route::get('/', [JobController::class, 'index']);
+
+//Post a Job
+Route::get('/jobs/create', [JobController::class, 'create'])->middleware('auth');
+Route::post('/jobs', [JobController::class, 'store'])->middleware('auth');
 
 //Search
 //NOTE: without array, this is called invoke-able controller
@@ -23,7 +28,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
-    Route::get('/login', [SessionController::class, 'create']);
+    Route::get('/login', [SessionController::class, 'create'])->name("login");
     Route::post('/login', [SessionController::class, 'store']);
 });
 
