@@ -31,7 +31,12 @@
             </div>
             @auth
                 <div>
-                    <a href="/jobs/create">Post a Job</a>
+                    <h1 class="mb-2 font-bold text-xl text-violet-400">User: {{ Auth::user()->name }}</h1>
+
+                    <div class="space-x-6 font-bold">
+                        <a href="/jobs/create">Post a Job</a>
+                        <a href="/logout">Logout</a>
+                    </div>
                 </div>
             @endauth
             @guest

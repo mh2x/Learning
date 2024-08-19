@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 
 class RegisteredUserController extends Controller
@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Password::min(6)]
         ]);
 
+        //dd($usersAttribute);
         $employerAttribute = $request->validate([
             'employer' => ['required'],
             'logo' => ['required', File::types(['png', 'jpg', 'webp'])]

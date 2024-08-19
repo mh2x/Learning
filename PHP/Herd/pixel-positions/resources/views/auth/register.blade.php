@@ -4,7 +4,7 @@
     <x-forms.form method="POST" action="/register" enctype="multipart/form-data">
         <x-forms.input label="Name" name="name" />
         <x-forms.input label="Email" name="email" type="email" />
-        <x-forms.input label="Password" name="name" type="password" />
+        <x-forms.input label="Password" name="password" type="password" />
         <x-forms.input label="Confirm Password" name="password_confirmation" />
 
         <x-forms.divider />
