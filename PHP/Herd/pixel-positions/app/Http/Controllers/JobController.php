@@ -21,7 +21,7 @@ class JobController extends Controller
         //
         //$jobs = Job::all()->groupBy("featured");
         return view('jobs.index', [
-            'jobs' => Job::all(), //in real project, you would paginate this!
+            'jobs' => Job::latest()->get()->all(), //in real project, you would paginate this!
             'tags' => Tag::all(),
         ]);
     }
