@@ -3,23 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         //
+        return view('auth.login');
     }
 
     /**
@@ -28,30 +25,20 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         //
-    }
+        $usersAttribute = $request->validate([
+            'email' => ['required', 'email', 'max:254', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::min(6)]
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if (! Auth::attempt($usersAttribute)) {
+            throw ValidationException::withMessages([
+                'email' => trans('Sorry, invalid credentials.')
+            ]);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        //good practice to regenerate
+        $request->session()->regenerate();
+        return redirect('/jobs');
     }
 
     /**
@@ -59,6 +46,8 @@ class SessionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Logout
+        Auth::logout();
+        return redirect('/');
     }
 }
