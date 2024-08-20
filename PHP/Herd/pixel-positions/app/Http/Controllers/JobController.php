@@ -18,10 +18,13 @@ class JobController extends Controller
      */
     public function index()
     {
+
         //
+        // NOTE: Always eager load your queries using with()
+        // to avoid N+1 problem
         //$jobs = Job::all()->groupBy("featured");
         return view('jobs.index', [
-            'jobs' => Job::latest()->get()->all(), //in real project, you would paginate this!
+            'jobs' => Job::latest()->with(['employer', 'tags'])->get()->all(), //in real project, you would paginate this!
             'tags' => Tag::all(),
         ]);
     }

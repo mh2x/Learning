@@ -13,7 +13,10 @@ class SearchController extends Controller
         //dd(request("q"));
         // search for title has(*'q'*)...
 
-        $jobs = Job::where("title", "LIKE", "%" . request("q") . "%")->get();
+        $jobs = Job::query()  //query is optional, you can also do Job::with
+            ->with(['employer', 'tags'])
+            ->where("title", "LIKE", "%" . request("q") . "%")
+            ->get();
         return view("results", ["jobs" => $jobs]);
     }
 }
