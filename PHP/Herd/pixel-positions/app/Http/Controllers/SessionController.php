@@ -26,8 +26,8 @@ class SessionController extends Controller
     {
         //
         $usersAttribute = $request->validate([
-            'email' => ['required', 'email', 'max:254', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::min(6)]
+            'email' => ['required', 'email', 'max:254'],
+            'password' => ['required',  Password::min(6)]
         ]);
 
         if (! Auth::attempt($usersAttribute)) {
@@ -38,13 +38,13 @@ class SessionController extends Controller
 
         //good practice to regenerate
         $request->session()->regenerate();
-        return redirect('/jobs');
+        return redirect('/');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
         //Logout
         Auth::logout();

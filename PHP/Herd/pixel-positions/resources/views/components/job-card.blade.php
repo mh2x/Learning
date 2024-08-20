@@ -1,4 +1,5 @@
 @props(['job'])
+
 <x-panel class="flex flex-col text-center">
     <div class="self-start text-sm">{{ $job->employer->name }}</div>
 
@@ -15,6 +16,6 @@
             @endforeach
 
         </div>
-        <x-employer-logo :width="42" />
+        <x-employer-logo :width="42" :employer="$job->employer" />
     </div>
 </x-panel>

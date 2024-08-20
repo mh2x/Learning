@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="space-x-6 font-bold">
-                <a href="#">Jobs</a>
+                <a href="/">Jobs</a>
                 <a href="#">Careers</a>
                 <a href="#">Salaries</a>
                 <a href="#">Companies</a>
@@ -32,10 +32,14 @@
             @auth
                 <div>
                     <h1 class="mb-2 font-bold text-xl text-violet-400">User: {{ Auth::user()->name }}</h1>
-
-                    <div class="space-x-6 font-bold">
+                    <div class="space-x-6 font-bold flex">
                         <a href="/jobs/create">Post a Job</a>
-                        <a href="/logout">Logout</a>
+
+                        <form method="POST" action="/logout">
+                            @csrf
+                            @method('DELETE')
+                            <x-forms.button>Logout</x-forms.button>
+                        </form>
                     </div>
                 </div>
             @endauth
