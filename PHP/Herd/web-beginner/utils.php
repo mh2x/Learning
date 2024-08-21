@@ -8,9 +8,9 @@ function dd($value)
     die();
 }
 
-function abort()
+function abort($code = 404)
 {
-    http_response_code(404);
-    require "views/404.php";
+    http_response_code($code);
+    require "views/$code.php";
     die();
 }
