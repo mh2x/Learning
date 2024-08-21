@@ -1,23 +1,5 @@
 <?php
 
-include("utils.php");
 
-//parse request 
-$urlParts = parse_url($_SERVER['REQUEST_URI']);
-$url = $urlParts['path'];
-
-//map routes
-
-$routes = [
-    '/' => 'home',
-    '/about' => 'about',
-    '/contact' => 'contact',
-
-];
-if (array_key_exists($url, $routes)) {
-    $view = "controllers/$routes[$url].php";
-    //dd($view);
-    require $view;
-} else {
-    abort();
-}
+require_once("utils.php");
+include("router.php");
