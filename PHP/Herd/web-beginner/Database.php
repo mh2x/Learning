@@ -20,13 +20,13 @@ class Database
         );
     }
 
-    public function query($query)
+    public function query($query, $params = [])
     {
 
         //prepare a new query
         $stmt = $this->connection->prepare($query);
         //run it
-        $stmt->execute();
+        $stmt->execute($params);
         return $stmt;
     }
 }

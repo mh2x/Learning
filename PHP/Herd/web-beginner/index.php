@@ -10,10 +10,19 @@ require_once("database.php");
 //Data Source Name (DSN)
 $config = require("config.php");
 
+
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');
-$stmt = $db->query("select * from posts");
-//fetch results as assoc array 
-$posts  = $stmt->fetchAll();
-foreach ($posts as $post) {
-    echo "<li>" . $post["title"] . "</li>";
+//check if we're filtering by id
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $stmt = $db->query("select * from posts where id = ?", [$id]);
+    $post  = $stmt->fetch();
+    dd($post);
+} else {
+    $stmt = $db->query("select * from posts");
+    //fetch results as assoc array 
+    $posts  = $stmt->fetchAll();
+    foreach ($posts as $post) {
+        echo "<li>" . $post["title"] . "</li>";
+    }
 }
