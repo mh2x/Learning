@@ -1,0 +1,12 @@
+MySQL
+--------------------
+on terminal:
+mysql -u root -p
+pwd:M@M
+
+1. create database webbeginner;
+2. connect using database in vscode with info:
+   127.0.0.1:3306
+   root/M@M
+   db: webbeginner
+   
