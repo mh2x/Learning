@@ -8,14 +8,9 @@ require_once("database.php");
 //connect to our MySQL database using PDO
 
 //Data Source Name (DSN)
-$config = [
-    'host' => 'localhost',
-    'port' => 3306,
-    'dbname' => 'webbeginner',
-    'charset' => 'utf8mb4'
-];
+$config = require("config.php");
 
-$db = new Database($config, 'root', 'Mh2x@WLM');
+$db = new Database($config['database'], 'root', 'Mh2x@WLM');
 $stmt = $db->query("select * from posts");
 //fetch results as assoc array 
 $posts  = $stmt->fetchAll();
