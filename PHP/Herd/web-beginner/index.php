@@ -20,6 +20,9 @@ if (array_key_exists($url, $routes)) {
     require $view;
 } else {
     http_response_code(404);
+    /*
     echo "'$url' page not found.";
     die();
+    */
+    require "views/404.php";
 }
