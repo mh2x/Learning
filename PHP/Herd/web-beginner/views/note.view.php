@@ -5,7 +5,8 @@
 <main>
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
         <div class="m-8">
-            <h1 class="text-blue-500 font-bold text-2xl"><?= $note['body'] ?></h1>
+            <!-- avoid dangerous script tags in the body using htmlspecialchars-->
+            <h1 class="text-blue-500 font-bold text-2xl"><?= htmlspecialchars($note['body']) ?></h1>
         </div>
         <hr />
         <p class="mt-4">
