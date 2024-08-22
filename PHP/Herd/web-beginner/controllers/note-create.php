@@ -1,23 +1,23 @@
 <?php
+require 'validator.php';
+$config = require("config.php");
+
 $heading = "Create Note";
 
 //Data Source Name (DSN)
-$config = require("config.php");
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');
 $currentUserId = 1; //hard-coded
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
     //dd($_POST);
+
     $note = trim($_POST['body']);
 
     //validate the note
-    if (strlen($note) < 1) {
-        $errors['body'] = 'Note text cannot be empty!';
-    }
-    else if (strlen($note) > 1000)
-    {
-        $errors['body'] = 'Note text cannot exceed 1000 character!';
+    if (!Validator::string($note, 1, 1000)) {
+
+        $errors['body'] = 'Note body must be between 1 and 1000 characters max!!';
     }
 
     //Insert to DB if validation is OK
