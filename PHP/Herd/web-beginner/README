@@ -10,3 +10,35 @@ pwd:M@M
    root/M@M
    db: webbeginner
    
+Tables
+
+-- Active: 1724274408006@@127.0.0.1@3306@webbeginner
+CREATE TABLE users(  
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    create_time DATETIME COMMENT 'Create Time',
+    name VARCHAR(255) NOT NULL ,
+    email VARCHAR(255) NOT NULL UNIQUE 
+) COMMENT '';
+
+CREATE TABLE posts(  
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    create_time DATETIME COMMENT 'Create Time',
+    title VARCHAR(255)
+) COMMENT '';
+
+CREATE TABLE notes(  
+    id int NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary Key',
+    create_time DATETIME COMMENT 'Create Time',
+    body TEXT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES USERS(ID) ON DELETE CASCADE
+) COMMENT '';
+
+
+CREATE TABLE Orders (
+OrderID int NOT NULL,
+OrderNumber int NOT NULL,
+UserID int,
+PRIMARY KEY (OrderID),
+FOREIGN KEY (UserID) REFERENCES Users(ID)
+);

@@ -4,7 +4,14 @@
 
 <main>
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <p>Hello, welcome to the about page</p>
+        <p>Hello, welcome to the notes page</p>
+
+        <div class="mt-4">
+            <?php foreach ($notes as $note): ?>
+                <li><?= $note['body'] ?></li>
+            <?php endforeach; ?>
+
+        </div>
     </div>
 </main>
 

@@ -9,6 +9,7 @@ $url = $urlParts['path'];
 $routes = [
     '/' => 'home',
     '/about' => 'about',
+    '/notes' => "notes",
     '/contact' => 'contact',
 
 ];
