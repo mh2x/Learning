@@ -18,8 +18,10 @@ if (!$note) {
     abort();
 }
 
+$currentUserId = 1;
 //check for authorization
-if ($note['user_id'] !== '1') {
-    abort(403);
+if ($note['user_id'] !== $currentUserId) {
+    abort(Response::ACCESS_FORBIDDEN);
 }
+
 require "views/note.view.php";
