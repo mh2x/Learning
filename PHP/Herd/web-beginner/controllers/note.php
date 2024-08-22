@@ -17,8 +17,6 @@ $note = $db->query(
 
 $currentUserId = 1;
 //check for authorization
-if ($note['user_id'] !== $currentUserId) {
-    abort(Response::ACCESS_FORBIDDEN);
-}
+authorize($note['user_id'] !== $currentUserId);
 
 require "views/note.view.php";

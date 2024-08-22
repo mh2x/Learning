@@ -1,6 +1,6 @@
 <?php
 
-require_once("utils.php");
+require_once("functions.php");
 //parse request
 $urlParts = parse_url($_SERVER['REQUEST_URI']);
 $url = $urlParts['path'];
@@ -28,9 +28,10 @@ function mapRoute($url, $routes)
         abort();
     }
 }
-function abort($code = Response::NOT_FOUND)
+
+function authorize($condition, $status = Response::ACCESS_FORBIDDEN)
 {
-    http_response_code($code);
-    require "views/$code.php";
-    die();
+    if (! $condition) {
+        abort($status);
+    }
 }
