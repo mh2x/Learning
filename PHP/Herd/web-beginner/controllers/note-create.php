@@ -13,11 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->query(
         'INSERT INTO notes(body, user_id) VALUES(:body,:user_id)',
         [
-            'body' => $note,  //this is very risky, it can be anyting including <script>...</script> tags
+            'body' => $note,  //this is very risky, it can be anything including <script>...</script> tags
+            //one solution is to sanitize it before writing or another one is to escape it when reading
+            //using something like htmlspecialchars();
             'user_id' => $currentUserId
         ]
     );
-    
 }
 
 
