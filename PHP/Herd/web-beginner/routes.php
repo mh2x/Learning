@@ -4,9 +4,9 @@
 return  [
     '/' => 'home',
     '/about' => 'about',
-    '/notes' => "notes",
-    '/note' => 'note',
-    '/notes/create' => 'note-create',
+    '/notes' => "notes/index",
+    '/note' => 'notes/show',
+    '/notes/create' => 'notes/create',
     '/contact' => 'contact',
 
 ];
