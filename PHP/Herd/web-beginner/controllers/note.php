@@ -7,6 +7,16 @@ $heading = "Note: " . $id;
 $config = require("config.php");
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');
 
-$note = $db->query('select * from notes where id = :id', ['id' => $id])->fetch();
+$note = $db->query(
+    'select * from notes where user_id = :user and id = :id',
+    [
+        'user' => 1,
+        'id' => $id
+    ]
+)->fetch();
+
+if (!$note) {
+    abort();
+}
 
 require "views/note.view.php";
