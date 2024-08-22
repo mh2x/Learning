@@ -31,7 +31,8 @@ class Database
         return $this;
     }
 
-    public function fetchAll()
+    //or you can name it all
+    public function get()
     {
         $result = $this->statement->fetchAll();
         return $result;

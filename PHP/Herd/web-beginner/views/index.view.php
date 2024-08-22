@@ -21,13 +21,13 @@
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $stmt = $db->query("select * from posts where id = ?", [$id]);
-            $post = $stmt->fetch();
+            $post = $stmt->findOrFail();
             dd($post);
             echo "<li>" . $post["title"] . "</li>";
         } else {
             $stmt = $db->query("select * from posts");
             //fetch results as assoc array
-            $posts = $stmt->fetchAll();
+            $posts = $stmt->get();
             foreach ($posts as $post) {
                 echo "<li>" . $post["title"] . "</li>";
             }
