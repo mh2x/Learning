@@ -7,11 +7,17 @@
         <p>Hello, welcome to the notes page</p>
 
         <div class="mt-4">
-            <?php foreach ($notes as $note): ?>
-                <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
-                    <li><?= $note['body'] ?></li>
-                </a>
-            <?php endforeach; ?>
+            <ul>
+                <?php foreach ($notes as $note): ?>
+                    <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
+                        <li><?= $note['body'] ?></li>
+                    </a>
+                <?php endforeach; ?>
+            </ul>
+
+            <P class="mt-6">
+                <a href="/create" class="text-blue-500 hover:underline">New Note</a>
+            </P>
         </div>
     </div>
 </main>

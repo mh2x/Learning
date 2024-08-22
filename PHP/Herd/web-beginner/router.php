@@ -1,24 +1,16 @@
 <?php
 
 require_once("functions.php");
+$routes = require('routes.php');
+
 //parse request
 $urlParts = parse_url($_SERVER['REQUEST_URI']);
 $url = $urlParts['path'];
 
-//map routes
-$routes = [
-    '/' => 'home',
-    '/about' => 'about',
-    '/notes' => "notes",
-    '/note' => 'note',
-    '/contact' => 'contact',
+//Map the request to a controller
+mapRouteToController($url, $routes);
 
-];
-
-//Map the request
-mapRoute($url, $routes);
-
-function mapRoute($url, $routes)
+function mapRouteToController($url, $routes)
 {
     if (array_key_exists($url, $routes)) {
         $view = "controllers/$routes[$url].php";
