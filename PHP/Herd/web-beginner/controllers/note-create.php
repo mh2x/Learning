@@ -7,18 +7,31 @@ $db = new Database($config['database'], 'root', 'Mh2x@WLM');
 $currentUserId = 1; //hard-coded
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $errors = [];
     //dd($_POST);
-    $note = $_POST['body'];
+    $note = trim($_POST['body']);
 
-    $db->query(
-        'INSERT INTO notes(body, user_id) VALUES(:body,:user_id)',
-        [
-            'body' => $note,  //this is very risky, it can be anything including <script>...</script> tags
-            //one solution is to sanitize it before writing or another one is to escape it when reading
-            //using something like htmlspecialchars();
-            'user_id' => $currentUserId
-        ]
-    );
+    //validate the note
+    if (strlen($note) < 1) {
+        $errors['body'] = 'Note text cannot be empty!';
+    }
+    else if (strlen($note) > 1000)
+    {
+        $errors['body'] = 'Note text cannot exceed 1000 character!';
+    }
+
+    //Insert to DB if validation is OK
+    if (empty($errors)) {
+        $db->query(
+            'INSERT INTO notes(body, user_id) VALUES(:body,:user_id)',
+            [
+                'body' => $note,  //this is very risky, it can be anything including <script>...</script> tags
+                //one solution is to sanitize it before writing or another one is to escape it when reading
+                //using something like htmlspecialchars();
+                'user_id' => $currentUserId
+            ]
+        );
+    }
 }
 
 

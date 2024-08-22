@@ -15,7 +15,14 @@
                             <div class="mt-2">
                                 <textarea id="body" name="body" rows="4"
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-indigo-600 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Write your thoughts here..."></textarea>
+                                    placeholder="Write your thoughts here..."
+                                    required><?= $_POST['body'] ?? '' ?></textarea>
+
+                                <?php if (isset($errors)) : ?>
+
+                                    <p class="font-bold text-xs mt-1 text-red-500"><?= $errors['body'] ?></p>
+                                <?php endif ?>
+
                             </div>
                             <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences for your note...</p>
                         </div>
