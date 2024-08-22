@@ -27,3 +27,13 @@ function abort($code = Response::NOT_FOUND)
     require "views/$code.php";
     die();
 }
+function base_path(string $path)
+{
+    return BASE_PATH . $path;
+}
+
+function view(string $path, $attributes = [])
+{
+    extract($attributes); //turns array into local variables!
+    require base_path("views/" . $path);
+}

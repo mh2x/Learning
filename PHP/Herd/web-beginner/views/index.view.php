@@ -15,7 +15,7 @@
         //connect to our MySQL database using PDO
 
         //Data Source Name (DSN)
-        $config = require("config.php");
+        $config = require(base_path("config.php"));
         $db = new Database($config['database'], 'root', 'Mh2x@WLM');
         //check if we're filtering by id
         if (isset($_GET['id'])) {

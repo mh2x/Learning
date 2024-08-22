@@ -1,10 +1,9 @@
 <?php
 
 $id = $_GET['id'];
-$heading = "Note: " . $id;
 
 //Data Source Name (DSN)
-$config = require("config.php");
+$config = require(base_path("config.php"));
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');
 
 $note = $db->query(
@@ -19,4 +18,7 @@ $currentUserId = 1;
 //check for authorization
 authorize($note['user_id'] === $currentUserId);
 
-require "views/notes/show.view.php";
+view("notes/show.view.php", [
+    'heading' => "Note: " . $id,
+    'note' => $note
+]);

@@ -1,8 +1,6 @@
 <?php
-require 'validator.php';
-$config = require("config.php");
-
-$heading = "Create Note";
+require base_path('validator.php');
+$config = require(base_path("config.php"));
 
 //Data Source Name (DSN)
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');
@@ -35,4 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-require "views/notes/create.view.php";
+view("notes/create.view.php", [
+    'heading' => "Create Note",
+    'errors' => $errors
+]);
