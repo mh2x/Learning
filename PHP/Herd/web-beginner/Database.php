@@ -2,6 +2,7 @@
 class Database
 {
     private $connection;
+    private $statement;
 
     public function __construct($config, $user, $password = '')
     {
@@ -24,9 +25,30 @@ class Database
     {
 
         //prepare a new query
-        $stmt = $this->connection->prepare($query);
+        $this->statement = $this->connection->prepare($query);
         //run it
-        $stmt->execute($params);
-        return $stmt;
+        $this->statement->execute($params);
+        return $this;
+    }
+
+    public function fetchAll()
+    {
+        $result = $this->statement->fetchAll();
+        return $result;
+    }
+
+    public function find()
+    {
+        $result = $this->statement->fetch();
+        return $result;
+    }
+
+    public function findOrFail()
+    {
+        $result = $this->find();
+        if (! $result) {
+            abort();
+        }
+        return $result;
     }
 }

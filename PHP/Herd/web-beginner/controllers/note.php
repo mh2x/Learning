@@ -12,11 +12,8 @@ $note = $db->query(
     [
         'id' => $id
     ]
-)->fetch();
+)->findOrFail();
 
-if (!$note) {
-    abort();
-}
 
 $currentUserId = 1;
 //check for authorization
