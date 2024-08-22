@@ -8,9 +8,10 @@
 
         <div class="mt-4">
             <?php foreach ($notes as $note): ?>
-                <li><?= $note['body'] ?></li>
+                <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
+                    <li><?= $note['body'] ?></li>
+                </a>
             <?php endforeach; ?>
-
         </div>
     </div>
 </main>

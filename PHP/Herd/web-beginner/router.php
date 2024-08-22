@@ -10,6 +10,7 @@ $routes = [
     '/' => 'home',
     '/about' => 'about',
     '/notes' => "notes",
+    '/note' => 'note',
     '/contact' => 'contact',
 
 ];
