@@ -13,13 +13,11 @@
 
         <?php
 
-        use Core\Database;
-
         //connect to our MySQL database using PDO
+        use Core\Database;
+        use Core\App;
 
-        //Data Source Name (DSN)
-        $config = require(base_path("config.php"));
-        $db = new Database($config['database'], 'root', 'Mh2x@WLM');
+        $db = App::resolve(Database::class);
         //check if we're filtering by id
         if (isset($_GET['id'])) {
             $id = $_GET['id'];

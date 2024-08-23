@@ -1,13 +1,11 @@
 <?php
 //dd($_POST);
 
-use Core\Database;
 use Core\Validator;
+use Core\Database;
+use Core\App;
 
-$config = require(base_path("config.php"));
-
-//Data Source Name (DSN)
-$db = new Database($config['database'], 'root', 'Mh2x@WLM');
+$db = App::resolve(Database::class);
 $currentUserId = 1; //hard-coded
 $errors = [];
 

@@ -16,6 +16,9 @@ spl_autoload_register(function ($class) {
     require base_path("{$class}.php");
 });
 
+//We need the spl_autoload_register first
+require_once(BASE_PATH . "bootstrap.php");
+
 //parse request and map route...
 $router = new Router();
 require(base_path('routes.php'));

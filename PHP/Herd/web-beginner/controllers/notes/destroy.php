@@ -1,13 +1,12 @@
 <?php
 
 use Core\Database;
+use Core\App;
+
+$db = App::resolve(Database::class);
 
 $id = $_GET['id'];
 $currentUserId = 1;
-
-//Data Source Name (DSN)
-$config = require(base_path("config.php"));
-$db = new Database($config['database'], 'root', 'Mh2x@WLM');
 
 $note = $db->query(
     'select * from notes where id = :id',
