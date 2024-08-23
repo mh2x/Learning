@@ -1,5 +1,4 @@
 <?php
-require base_path('validator.php');
 $config = require(base_path("config.php"));
 
 //Data Source Name (DSN)
