@@ -3,6 +3,11 @@
 const BASE_PATH = __DIR__ . "/../";
 
 require_once(BASE_PATH . "functions.php");
-require_once(base_path("response.php"));
-require_once(base_path("database.php"));
+
+spl_autoload_register(function ($class) {
+    //dd($class); //this will tell you which class is being loaded/called
+    //you can dynamically load it like so:
+    require base_path($class . '.php');
+});
+
 include(base_path("router.php"));
