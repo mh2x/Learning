@@ -1,5 +1,7 @@
 <?php
 
+use Core\Database;
+
 $id = $_GET['id'];
 
 //Data Source Name (DSN)

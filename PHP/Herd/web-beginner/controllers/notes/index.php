@@ -1,4 +1,7 @@
 <?php
+
+use Core\Database;
+
 //Data Source Name (DSN)
 $config = require(base_path("config.php"));
 $db = new Database($config['database'], 'root', 'Mh2x@WLM');

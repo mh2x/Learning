@@ -12,6 +12,9 @@
         <p class="text-blue-500 font-bold mb-4">Using MySQL via PDO Example:</p>
 
         <?php
+
+        use Core\Database;
+
         //connect to our MySQL database using PDO
 
         //Data Source Name (DSN)
