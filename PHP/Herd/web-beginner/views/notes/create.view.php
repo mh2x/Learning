@@ -18,7 +18,7 @@
                                     placeholder="Write your thoughts here..."
                                     required><?= $_POST['body'] ?? '' ?></textarea>
 
-                                <?php if (isset($errors)) : ?>
+                                <?php if (!empty($errors)) : ?>
 
                                     <p class="font-bold text-xs mt-1 text-red-500"><?= $errors['body'] ?></p>
                                 <?php endif ?>

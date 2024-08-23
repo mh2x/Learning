@@ -37,3 +37,9 @@ function view(string $path, $attributes = [])
     extract($attributes); //turns array into local variables!
     require base_path("views/" . $path);
 }
+
+function redirect($url, $statusCode = 303)
+{
+    header('Location: ' . $url, true, $statusCode);
+    die();
+}
