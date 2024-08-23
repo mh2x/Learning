@@ -9,7 +9,8 @@
             <h1 class="text-blue-500 font-bold text-2xl"><?= htmlspecialchars($note['body']) ?></h1>
         </div>
         <hr />
-        <form method="POST" action="/delete">
+        <form method="POST">
+            <input name="_method" value="DELETE" hidden>
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <a href="/notes">
                     <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Go Back</button>
