@@ -10,12 +10,17 @@
         </div>
         <hr />
         <form method="POST">
-            <input name="_method" value="DELETE" hidden>
+            <input name="_method" value="DELETE" type="hidden">
+            <input type="hidden" name="id" value="<?= $note['id'] ?>">
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <a href="/notes">
-                    <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Go Back</button>
+                    <!-- <button type="button" class="w-[6rem] bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Go Back</button> -->
+                    <button type="button" class="w-32 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Go Back</button>
                 </a>
-                <button type="submit" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete</button>
+                <a href="/note/edit?id=<?= $note['id'] ?>">
+                    <button type="button" class="w-32 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Edit</button>
+                </a>
+                <button type="submit" class="w-32 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Delete</button>
             </div>
         </form>
     </div>

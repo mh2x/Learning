@@ -19,6 +19,7 @@ spl_autoload_register(function ($class) {
 //We need the spl_autoload_register first
 require_once(BASE_PATH . "bootstrap.php");
 
+#region Routing and router
 //parse request and map route...
 $router = new Router();
 require(base_path('routes.php'));
@@ -28,3 +29,4 @@ $url = $urlParts['path'];
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD']; //either we get the hidden '_method' name or the normal GET/POST
 
 $router->route($url, $method);
+#endregion Routing

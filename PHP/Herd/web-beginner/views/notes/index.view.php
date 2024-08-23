@@ -7,6 +7,7 @@
         <p>Hello, welcome to the notes page</p>
 
         <div class="mt-4 pb-4">
+            <!-- #region List -->
             <ul class="mt-4 pb-4">
                 <?php foreach ($notes as $note): ?>
                     <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
@@ -15,14 +16,15 @@
                     </a>
                 <?php endforeach; ?>
             </ul>
+            <!-- #endregion -->
             <hr />
 
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
                 <a href="/notes/create">
                     <button
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        Add New Note...
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                        Add New Note
                     </button>
                 </a>
                 </P>
