@@ -2,7 +2,7 @@
 //set the base_path relative to our document root 'public'
 const BASE_PATH = __DIR__ . "/../";
 
-require_once(BASE_PATH . "functions.php");
+require_once(BASE_PATH . "core/functions.php");
 
 spl_autoload_register(function ($class) {
     //dd($class); //this will tell you which class is being loaded/called
@@ -11,4 +11,4 @@ spl_autoload_register(function ($class) {
     require base_path("core/{$class}.php");
 });
 
-include(base_path("router.php"));
+include(base_path("core/router.php"));
