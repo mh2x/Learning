@@ -1,31 +1,65 @@
 <?php
 
+namespace Core;
+
 use Core\Response;
 
-require_once("functions.php");
-$routes = require(base_path('routes.php'));
-
-//parse request
-$urlParts = parse_url($_SERVER['REQUEST_URI']);
-$url = $urlParts['path'];
-
-//Map the request to a controller
-mapRouteToController($url, $routes);
-
-function mapRouteToController($url, $routes)
+class Router
 {
-    if (array_key_exists($url, $routes)) {
-        $controller = "controllers/$routes[$url].php";
-        //dd($view);
-        require base_path($controller);
-    } else {
-        abort();
+    protected $routes = [];
+
+    public function add($method, $uri, $controller)
+    {
+        //we can also use $this->routes[] = compact('uri', 'controller', 'method'); 
+        $this->routes[] = [
+            'uri' => $uri,
+            'controller' => $controller,
+            'method' => $method
+        ];
     }
-}
 
-function authorize($condition, $status = Response::ACCESS_FORBIDDEN)
-{
-    if (! $condition) {
-        abort($status);
+    public function get($uri, $controller)
+    {
+        $this->add('GET', $uri, $controller);
+    }
+
+    public function post($uri, $controller)
+    {
+        $this->add('POST', $uri, $controller);
+    }
+
+    public function delete($uri, $controller)
+    {
+        $this->add('DELETE', $uri, $controller);
+    }
+
+    public function patch($uri, $controller)
+    {
+        $this->add('PATCH', $uri, $controller);
+    }
+
+    public function put($uri, $controller)
+    {
+        $this->add('PUT', $uri, $controller);
+    }
+
+    public function route($uri, $method)
+    {
+        foreach ($this->routes as $route) {
+            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
+                return require base_path("{$route['controller']}");
+            }
+        }
+
+        $this->abort();
+    }
+
+    protected function abort($code = 404)
+    {
+        http_response_code($code);
+
+        require base_path("views/{$code}.php");
+
+        die();
     }
 }

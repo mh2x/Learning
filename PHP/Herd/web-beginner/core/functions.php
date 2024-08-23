@@ -22,6 +22,12 @@ function urlIs2(string $url)
     return $currUrl === $url;
 }
 
+function authorize($condition, $status = Response::ACCESS_FORBIDDEN)
+{
+    if (! $condition) {
+        abort($status);
+    }
+}
 
 function abort($code = Response::NOT_FOUND)
 {

@@ -2,6 +2,8 @@
 //set the base_path relative to our document root 'public'
 const BASE_PATH = __DIR__ . "/../";
 
+use Core\Router;
+
 require_once(BASE_PATH . "core/functions.php");
 
 spl_autoload_register(function ($class) {
@@ -14,4 +16,12 @@ spl_autoload_register(function ($class) {
     require base_path("{$class}.php");
 });
 
-include(base_path("core/router.php"));
+//parse request and map route...
+$router = new Router();
+require(base_path('routes.php'));
+
+$urlParts = parse_url($_SERVER['REQUEST_URI']);
+$url = $urlParts['path'];
+$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD']; //either we get the hidden '_method' name or the normal GET/POST
+
+$router->route($url, $method);

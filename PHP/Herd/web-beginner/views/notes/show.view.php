@@ -9,10 +9,14 @@
             <h1 class="text-blue-500 font-bold text-2xl"><?= htmlspecialchars($note['body']) ?></h1>
         </div>
         <hr />
-        <p class="mt-4">
-            <a class="text-blue-500 hover:underline" href="/notes">
-                Go Back...</a>
-        </p>
+        <form method="POST" action="/delete">
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <a href="/notes">
+                    <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Go Back</button>
+                </a>
+                <button type="submit" class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete</button>
+            </div>
+        </form>
     </div>
 </main>
 
