@@ -20,6 +20,7 @@ if ($form->validate($email, $password)) {
     }
 
     $form->error('email', 'No matching account found for that email address and password.');
+    Session::flash('old', ['email' => $_POST['email']]);
 }
 
 Session::flash('errors', $form->errors());
