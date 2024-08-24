@@ -63,9 +63,10 @@ function login($user)
 
 function logout()
 {
-    $_SESSION = [];
-    session_destroy();
+    $_SESSION = [];  //clear the session data
+    session_destroy(); // close the session
 
     $params = session_get_cookie_params();
+    //Remove the cookie by specifying a time in the past
     setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
 }
