@@ -61,4 +61,5 @@ if ($user) {
         'email' => $email
     ];
 }
+login($user);
 redirect('/');

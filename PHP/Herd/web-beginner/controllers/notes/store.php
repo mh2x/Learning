@@ -6,12 +6,11 @@ use Core\Database;
 use Core\App;
 
 $db = App::resolve(Database::class);
-$currentUserId = 1; //hard-coded
+$currentUserId = 8; //hard-coded
 $errors = [];
 
 
 $note = trim($_POST['body'] ?? '');
-
 //validate the note
 if (!Validator::string($note, 1, 1000)) {
 
