@@ -4,6 +4,7 @@ const BASE_PATH = __DIR__ . "/../";
 
 use Core\Router;
 use Core\Session;
+use Core\ValidationException;
 
 require_once(BASE_PATH . "core/functions.php");
 
@@ -28,9 +29,18 @@ $router = new Router();
 require(base_path('routes.php'));
 
 $urlParts = parse_url($_SERVER['REQUEST_URI']);
-$url = $urlParts['path'];
+$uri = $urlParts['path'];
 $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD']; //either we get the hidden '_method' name or the normal GET/POST
 
-$router->route($url, $method);
+try {
+    $router->route($uri, $method);
+} catch (ValidationException $exception) {
+
+    Session::flash('errors', $exception->errors);
+    Session::flash('old', $exception->old);
+
+    return redirect($router->previousUrl());
+}
+
 #endregion Routing
 Session::unflash();
