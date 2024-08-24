@@ -8,4 +8,8 @@ return [
         'charset' => 'utf8mb4'
     ],
     //more services here
+    'password_hash'   =>  function ($password) {
+        return $password;
+        //return password_hash($password, PASSWORD_BCRYPT);
+    }
 ];

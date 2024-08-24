@@ -6,6 +6,8 @@ use Core\Router;
 
 require_once(BASE_PATH . "core/functions.php");
 
+session_start();
+
 spl_autoload_register(function ($class) {
     //dd($class); //this will tell you which class is being loaded/called
     //you can dynamically load it like so:

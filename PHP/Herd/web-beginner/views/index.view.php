@@ -5,7 +5,7 @@
 
 <main>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="font-bold text-lg">Hello, Welcome to my home page.</h1>
+        <h1 class="font-bold text-lg">Hello, <strong>"<?= $_SESSION['user']['email'] ?? 'Guest' ?>"</strong>. Welcome to the home page.</h1>
 
     </div>
     <div class="p-10 m-8 flex flex-col text-2xl">

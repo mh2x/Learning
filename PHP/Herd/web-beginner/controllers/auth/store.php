@@ -5,6 +5,8 @@ use Core\Validator;
 use Core\Database;
 use Core\App;
 
+$config = require(base_path("config.php"));
+
 $currentUserId = 1; //hard-coded
 $errors = [];
 
@@ -52,7 +54,7 @@ if ($user) {
 } else {
     $db->query('INSERT INTO users(email, password) VALUES(:email, :password)', [
         'email' => $email,
-        'password' => $password // NEVER store database passwords in clear text. We'll fix this in the login form episode. :)
+        'password' => $config['password_hash']($password) // NEVER store database passwords in clear text. We'll fix this in the login form episode. :)
     ]);
 
     $_SESSION['user'] = [
