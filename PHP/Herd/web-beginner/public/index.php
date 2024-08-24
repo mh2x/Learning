@@ -3,6 +3,7 @@
 const BASE_PATH = __DIR__ . "/../";
 
 use Core\Router;
+use Core\Session;
 
 require_once(BASE_PATH . "core/functions.php");
 
@@ -32,3 +33,4 @@ $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD']; //either we get the h
 
 $router->route($url, $method);
 #endregion Routing
+Session::unflash();

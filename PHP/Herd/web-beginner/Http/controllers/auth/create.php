@@ -1,6 +1,8 @@
 <?php
 
+use Core\Session;
+
 view("auth/create.view.php", [
     'heading' => "Sign Up",
-    'errors' => []
+    'errors' => Session::get('errors')
 ]);
