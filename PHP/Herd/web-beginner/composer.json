@@ -13,5 +13,7 @@
             "email": "mh2x@hotmail.com"
         }
     ],
-    "require": {}            
+    "require": {
+        "illuminate/collections": "^11.21"
+    }            
 }
