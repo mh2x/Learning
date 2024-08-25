@@ -4,6 +4,7 @@
 use Core\Validator;
 use Core\Database;
 use Core\App;
+use Http\Forms\LoginForm;
 
 $config = require(base_path("config.php"));
 

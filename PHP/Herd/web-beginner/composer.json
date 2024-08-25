@@ -1,0 +1,17 @@
+{
+    "name": "mh2x/web-beginner",
+    "autoload": {
+        "psr-4": {
+            "Mh2x\\WebBeginner\\": "src/",
+             "Core\\":"Core/",
+            "Http\\": "Http/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mohammad Elhaj",
+            "email": "mh2x@hotmail.com"
+        }
+    ],
+    "require": {}            
+}
