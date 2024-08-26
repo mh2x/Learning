@@ -16,8 +16,9 @@
 </head>
 
 <body class="w-full h-full text-white">
+
     <header>
-        <div class="min-h-full">
+        <div>
             <nav class="bg-white">
                 <div class="px-4 mx-auto sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-16">
@@ -46,7 +47,7 @@
         </div>
     </header>
 
-    <main class="flex flex-col items-center w-full h-full bg-gray-900">
+    <main class="flex flex-col items-center min-w-full overflow-y-auto bg-gray-900">
         <div class="justify-between px-4 mx-auto my-auto">
             {{ $slot }}
         </div>

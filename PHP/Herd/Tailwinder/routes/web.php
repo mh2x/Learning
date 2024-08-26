@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/tailwind', function () {
     return view('twexample');
 });
+
+Route::get('/daisyui', function () {
+    return view('daisyui');
+});

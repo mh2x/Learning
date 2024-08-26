@@ -128,6 +128,4 @@
             </div>
         </div>
     </div>
-    <h1 class="mt-4">Drawers:</h1>
-
 </x-layout>
