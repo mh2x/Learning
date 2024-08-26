@@ -5,12 +5,14 @@ export default {
         "./resources/**/*.js",
         "./resources/**/*.html",
         "./resources/**/*.vue",
+        "./node_modules/flowbite/**/*.js",
     ],
     theme: {
         extend: {},
     },
     plugins: [
         require("@tailwindcss/typography"),
+        require("flowbite/plugin"),
         require("daisyui"),
         //require("@headlessui/tailwindcss"),
         // Or with a custom prefix:
