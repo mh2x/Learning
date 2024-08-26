@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout2>
     <div class="flex flex-col items-center text-black/5 dark:text-white/50">
         <h1 class="text-3xl font-bold text-violet-600">
             ✨✨ TailWinder ✨✨
@@ -10,8 +10,5 @@
                 <p class="text-slate-500">Welcome to Tailwinder!</p>
             </div>
         </div>
-        <footer class="py-16 text-sm text-center text-black dark:text-white/70">
-            Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-        </footer>
     </div>
-</x-layout>
+</x-layout2>
