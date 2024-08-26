@@ -17,7 +17,7 @@
 
 <body class="w-full h-full text-white">
 
-    <header>
+    <header >
         <div>
             <nav class="bg-white">
                 <div class="px-4 mx-auto sm:px-6 lg:px-8">

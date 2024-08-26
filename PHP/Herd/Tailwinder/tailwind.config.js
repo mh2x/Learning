@@ -11,7 +11,9 @@ export default {
         extend: {},
     },
     plugins: [
+        require("@tailwindcss/forms"),
         require("@tailwindcss/typography"),
+        require("preline/plugin"),
         require("flowbite/plugin"),
         require("daisyui"),
         //require("@headlessui/tailwindcss"),
