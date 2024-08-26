@@ -125,8 +125,8 @@
                 </svg>
 
             </div>
-            <div class="p-5 m-15">
-                <h1 class="m-4 p-4 text-2xl font-bold" x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+            <div class="px-10 py-5 border m-15">
+                <h1 class="p-4 m-4 text-2xl font-bold" x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
                 <div class="m-4" x-data="{ count: 0 }">
                     <button class="p-2 bg-blue-400 border border-gray-500" x-on:click="count++">Increment</button>
                     <span x-text="count"></span>
@@ -154,7 +154,8 @@
                         </template>
                     </ul>
                 </div>
-                <a class="underline" href="https://alpinejs.dev/start-here">More About Alpine.JS</a>
+                <a class="text-blue-600 underline" href="https://alpinejs.dev/start-here" target="blank">GOTO
+                    Alpine.JS</a>
             </div>
         </div>
     </div>

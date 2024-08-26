@@ -1,5 +1,6 @@
 <x-layout>
     <h1 class="mb-4 text-4xl font-bold text-white">Tailwind Samples</h1>
+    <a class="text-blue-600 underline" href="https://tailwindui.com/components" target="blank">GOTO Tailwind</a>
     <ul role="list" class="divide-y divide-gray-100">
         <li class="flex justify-between py-5 gap-x-6">
             <div class="flex min-w-0 gap-x-4">
