@@ -47,7 +47,7 @@
         </div>
     </header>
 
-    <main class="flex flex-col items-center min-w-full overflow-y-auto bg-gray-900">
+    <main class="flex flex-col items-center min-w-full min-h-full overflow-y-auto bg-gray-900">
         <div class="justify-between px-4 mx-auto my-auto">
             {{ $slot }}
         </div>

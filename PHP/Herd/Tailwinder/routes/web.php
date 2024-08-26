@@ -13,3 +13,19 @@ Route::get('/tailwind', function () {
 Route::get('/daisyui', function () {
     return view('daisyui');
 });
+
+Route::get('/flowbite', function () {
+    return view('flowbite');
+});
+
+Route::get('/materialize', function () {
+    return view('materialize');
+});
+
+Route::get('/preline', function () {
+    return view('preline');
+});
+
+Route::get('/tailgrids', function () {
+    return view('tailgrids');
+});
