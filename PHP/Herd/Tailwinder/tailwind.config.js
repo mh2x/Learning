@@ -16,6 +16,7 @@ export default {
         require("preline/plugin"),
         require("flowbite/plugin"),
         require("daisyui"),
+        require("tailgrids/plugin"),
         //require("@headlessui/tailwindcss"),
         // Or with a custom prefix:
         //require("@headlessui/tailwindcss")({ prefix: "ui" }),
