@@ -125,7 +125,37 @@
                 </svg>
 
             </div>
+            <div class="p-5 m-15">
+                <h1 class="m-4 p-4 text-2xl font-bold" x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
+                <div class="m-4" x-data="{ count: 0 }">
+                    <button class="p-2 bg-blue-400 border border-gray-500" x-on:click="count++">Increment</button>
+                    <span x-text="count"></span>
+                </div>
+                <div class="m-4" x-data="{ open: false }">
+                    <button class="p-2 bg-blue-400 border border-gray-500" @click="open = ! open">Toggle</button>
+                    <div x-show="open" @click.outside="open = false">Contents...</div>
+                </div>
+                <div class="m-4" x-data="{
+                    search: '',
+                
+                    items: ['foo', 'bar', 'baz'],
+                
+                    get filteredItems() {
+                        return this.items.filter(
+                            i => i.startsWith(this.search)
+                        )
+                    }
+                }">
+                    <input class="text-black" x-model="search" placeholder="Search...">
 
+                    <ul>
+                        <template x-for="item in filteredItems" :key="item">
+                            <li x-text="item"></li>
+                        </template>
+                    </ul>
+                </div>
+                <a class="underline" href="https://alpinejs.dev/start-here">More About Alpine.JS</a>
+            </div>
         </div>
     </div>
 </x-layout>
