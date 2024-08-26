@@ -6,6 +6,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dash', function () {
-    return view('twdash');
+Route::get('/tailwind', function () {
+    return view('twexample');
 });

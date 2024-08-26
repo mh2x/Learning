@@ -1,4 +1,4 @@
-<x-layout2>
+<x-layout>
     <div class="flex flex-col items-center text-black/5 dark:text-white/50">
         <h1 class="text-3xl font-bold text-violet-600">
             ✨✨ TailWinder ✨✨
@@ -11,4 +11,4 @@
             </div>
         </div>
     </div>
-</x-layout2>
+</x-layout>

@@ -13,27 +13,45 @@
 
 </head>
 
-<body class="h-full pb-20 text-white bg-gray-900">
-    <div class="bg-header">
-        <nav class="flex items-center justify-between px-10 py-4 border-b border-white/20">
-            <div>
-                <a href="/">
-                    <img src="{{ Vite::asset('resources/images/codenzia_logo.png') }}" alt="" />
-                </a>
-            </div>
-            <div class="space-x-6 font-bold">
-                <a href="/dash">Dash</a>
-                <a href="#">Careers</a>
-                <a href="#">Salaries</a>
-                <a href="#">Companies</a>
-            </div>
-        </nav>
-    </div>
-    <div class="px-10">
-        <main class="mt-10 max-w-[986px] mx-auto">
+<body class="w-full h-full text-white">
+    <header>
+        <div class="min-h-full">
+            <nav class="bg-white">
+                <div class="px-4 mx-auto sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <a href="/" class="-m-1.5 p-1.5">
+                                    <img src="{{ Vite::asset('resources/images/codenzia_logo.png') }}" alt="" />
+                                </a>
+                            </div>
+                            <div class="hidden md:block">
+                                <div class="flex items-baseline ml-10 space-x-4">
+                                    <x-menu />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile menu, show/hide based on menu state. -->
+                    <div class="md:hidden" id="mobile-menu">
+                        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                            <x-menu />
+                        </div>
+                    </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex flex-col items-center w-full h-full bg-gray-900">
+        <div class="justify-between px-4 mx-auto my-auto">
             {{ $slot }}
-        </main>
-    </div>
+        </div>
+    </main>
+    <footer class="block text-sm text-center text-white bg-slate-700">
+        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+    </footer>
 </body>
 
 </html>
