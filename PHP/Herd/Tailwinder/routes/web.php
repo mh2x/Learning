@@ -7,7 +7,11 @@ Route::get('/', function () {
 });
 
 Route::get('/tailwind', function () {
-    return view('twexample');
+    return view('tailwind');
+});
+
+Route::get('/tails', function () {
+    return view('tails');
 });
 
 Route::get('/daisyui', function () {
