@@ -7,17 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tailwinder by Codenzia</title>
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+    <!-- Material Icons Link -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <!-- Fonts -->
+    <!-- Font Awesome Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+        integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+        crossorigin="anonymous" />
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <!-- Apline.js -->
     <!-- https://alpinejs.dev/start-here -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- this is for material tailwnd from node_modules -->
+    <script async src="node_modules/@material-tailwind/html/scripts/ripple.js"></script>
+    <script async src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
+
+
 </head>
 
 <body class="w-full h-full text-white">
 
-    <header >
+    <header>
         <div>
             <nav class="bg-white">
                 <div class="px-4 mx-auto sm:px-6 lg:px-8">

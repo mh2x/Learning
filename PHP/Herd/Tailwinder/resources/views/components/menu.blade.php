@@ -6,8 +6,8 @@
     Samples</a>
 <a href="/preline" class="px-3 py-2 text-sm font-medium text-black rounded-md hover:bg-gray-700 hover:text-white">Preline
     Samples</a>
-<a href="/materialize"
-    class="px-3 py-2 text-sm font-medium text-black rounded-md hover:bg-gray-700 hover:text-white">Materialize
+<a href="/material"
+    class="px-3 py-2 text-sm font-medium text-black rounded-md hover:bg-gray-700 hover:text-white">Material Tailwind
     Samples</a>
 <a href="/tailgrids"
     class="px-3 py-2 text-sm font-medium text-black rounded-md hover:bg-gray-700 hover:text-white">TailGrids

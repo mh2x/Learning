@@ -18,8 +18,8 @@ Route::get('/flowbite', function () {
     return view('flowbite');
 });
 
-Route::get('/materialize', function () {
-    return view('materialize');
+Route::get('/material', function () {
+    return view('material');
 });
 
 Route::get('/preline', function () {
