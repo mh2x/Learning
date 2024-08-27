@@ -8,9 +8,12 @@ class Counter extends Component
 {
     public $count = 1;
 
-    public function increment()
+    public function increment($inc = 1)
     {
-        $this->count++;
+        //*! DO NOT TRUST FRONT-END INPUT
+        //*? Always validate input
+
+        $this->count += $inc;
     }
     public function render()
     {
