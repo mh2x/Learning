@@ -16,6 +16,9 @@
 
 @guest
 @endguest
+<x-nav-link href="/facedetection" :active="request()->routeIs('facedetection')" wire:navigate>
+    {{ __('Face Detection') }}
+</x-nav-link>
 
 <x-nav-link href="/playground" :active="request()->routeIs('playground')" wire:navigate>
     {{ __('Playground') }}

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
 Route::view('playground', 'playground')->name('playground');
+Route::view('facedetection', 'facedetection')->name('facedetection');
 
 Route::group(['middleware' => ["auth", "verified",]], function () {
     Route::view('chirper', 'chirper')->name('chirper');
