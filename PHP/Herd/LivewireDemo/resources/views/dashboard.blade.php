@@ -11,10 +11,12 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @php
                         $user = Auth::user();
+
                     @endphp
                     {{ __("You're logged in as:") }} <strong>{{ $user->name }}</strong>
 
                 </div>
+                <p>Roles={{ count($user->roles) }}</p>
             </div>
         </div>
     </div>
