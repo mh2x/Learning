@@ -5,16 +5,20 @@ namespace App\Livewire;
 use App\Models\Todo;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class TodoList extends Component
 {
+    use WithPagination;
+
     #[Rule('required|min:5|max:20')]
     public $newTodo;
     public $search;
 
     public function all()
     {
-        return Todo::latest()->get();
+        //return Todo::latest()->get();
+        return Todo::latest()->paginate(5);
     }
     public function createNewTodo()
     {

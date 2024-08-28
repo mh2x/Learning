@@ -41,4 +41,7 @@
             <livewire:todo-item :todo=$todo />
         @endforeach
     </div>
+    <div class="px-20 mt-2 mb-2">
+        {{ $this->all()->links() }}
+    </div>
 </div>
