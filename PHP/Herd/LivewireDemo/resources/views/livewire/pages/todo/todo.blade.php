@@ -13,6 +13,7 @@
                     {{ __('Welcome to Livewire TODO Demo!') }}
                     <hr />
                 </div>
+                @include('livewire.pages.todo.todo-header')
                 <livewire:todo-list />
             </div>
         </div>

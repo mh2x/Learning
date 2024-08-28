@@ -8,6 +8,6 @@ class TodoItem extends Component
 {
     public function render()
     {
-        return view('livewire.todo-item');
+        return view('livewire.pages.todo.todo-item');
     }
 }

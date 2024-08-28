@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Todo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +10,7 @@ Route::view('facedetection', 'facedetection')->name('facedetection');
 
 Route::group(['middleware' => ["auth", "verified",]], function () {
     Route::view('chirper', 'chirper')->name('chirper');
-    Route::view('todo', 'todo')->name('todo');
+    Route::view('todo', 'livewire.pages.todo.todo')->name('todo');
 });
 
 Route::view('dashboard', 'dashboard')
