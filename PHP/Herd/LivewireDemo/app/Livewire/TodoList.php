@@ -18,20 +18,25 @@ class TodoList extends Component
     #[Rule('required|min:5|max:20')]
     public $newTodo;
     public $search;
-
+    public $hideDone = false;
     public function getTodos()
     {
         //return Todo::latest()->get();
         //return Todo::latest()->paginate(5);
 
-        $result =  Todo::query()
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->latest()
-            ->paginate(5);
+        $result =  Todo::query()->where('name', 'like', '%' . $this->search . '%');
 
-        return $result;
+        if ($this->hideDone) {
+            //only show incomplete items
+            $result =  $result->where('completed', false);
+        }
+        return $result->latest()->paginate(5);
     }
 
+    public function toggleHideDone()
+    {
+        $this->hideDone = !$this->hideDone;
+    }
 
     public function createNewTodo()
     {

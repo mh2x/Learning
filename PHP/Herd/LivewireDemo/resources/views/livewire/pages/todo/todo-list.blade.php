@@ -36,6 +36,10 @@
         </div>
     </div>
     <div class="max-w-2xl mx-auto">
+        <div class="flex flex-row items-center mb-2 space-x-2">
+            <input type="checkbox" class="bg-blue-400 rounded-md" wire:click='toggleHideDone'>
+            <div class="leading-snug text-blue-400">Hide items already done</div>
+        </div>
         @foreach ($todos as $todo)
             <livewire:todo-item :todo="$todo" :key="$todo->id" />
         @endforeach
