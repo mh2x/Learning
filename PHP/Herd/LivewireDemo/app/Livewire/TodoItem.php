@@ -8,7 +8,9 @@ use Livewire\Component;
 class TodoItem extends Component
 {
     public $todo;
+    public $newName;
 
+    public $editMode = false;
     public function mount($todo)
     {
         //get the param
@@ -18,7 +20,7 @@ class TodoItem extends Component
     public function toggleStatus()
     {
         $newState = !$this->todo->completed;
-        $this->todo = Todo::find($this->todo->id);
+        $this->todo = Todo::findOrFail($this->todo->id);
         $this->todo->completed = $newState;
         $this->todo->save();
     }
@@ -37,6 +39,28 @@ class TodoItem extends Component
         $this->dispatch('todo-deleted')->to(TodoList::class);
         $this->dispatch('refreshParent');
     }
+
+    public function edit()
+    {
+        $this->todo = Todo::findOrFail($this->todo->id);
+        $this->newName = $this->todo->name;
+        $this->editMode = true;
+    }
+    public function cancelEdit()
+    {
+        $this->todo = Todo::findOrFail($this->todo->id);
+        $this->editMode = false;
+    }
+
+    public function update()
+    {
+        $this->todo = Todo::findOrFail($this->todo->id);
+        $this->todo->name = $this->newName;
+        $this->todo->save();
+        $this->editMode = false;
+        $this->reset('newName');
+    }
+
 
     public function render()
     {
