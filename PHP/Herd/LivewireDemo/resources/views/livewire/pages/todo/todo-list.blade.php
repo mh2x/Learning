@@ -1,5 +1,4 @@
 <div>
-
     <div class="flex flex-col items-center mb-5 rounded-md">
         <div class="flex flex-col items-end justify-between w-6/12">
             <div class="flex flex-col w-full rounded-md">
@@ -19,7 +18,7 @@
     <div class="flex flex-col items-center mb-5 rounded-md">
         <div class="flex flex-col items-center">
             <div class="flex rounded-md">
-                <input type="text" name="q"
+                <input type="text" name="q" wire:model.live.debounce.500ms='search'
                     class="p-3 placeholder-current border border-2 border-gray-300 rounded-md rounded-r-none dark:bg-gray-500 dark:text-gray-300 dark:border-none "
                     placeholder="search todos..." />
                 <button
@@ -37,11 +36,11 @@
         </div>
     </div>
     <div class="max-w-2xl mx-auto">
-        @foreach ($this->all() as $todo)
-            <livewire:todo-item :todo=$todo />
+        @foreach ($todos as $todo)
+            <livewire:todo-item :todo="$todo" :key="$todo->id" />
         @endforeach
     </div>
     <div class="px-20 mt-2 mb-2">
-        {{ $this->all()->links() }}
+        {{ $todos->links() }}
     </div>
 </div>
