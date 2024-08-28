@@ -1,9 +1,9 @@
-<div class="flex items-center justify-between p-3 border-t hover:bg-white/10">
+<div wire:key='{{ $this->todo->id }}' class="flex items-center justify-between p-3 border-t hover:bg-white/10">
     <div class="flex items-center">
         <div class="flex flex-col ml-2 space-y-3">
-            <div class="text-xl font-bold leading-snug text-white">TODO Name</div>
-            <div class="leading-snug text-gray-400 text-md">{{ now() }}</div>
-            <div class="leading-snug text-green-400 text-md">status</div>
+            <div class="text-xl font-bold leading-snug text-white">{{ $todo->name }}</div>
+            <div class="leading-snug text-gray-400 text-md">{{ $todo->created_at }}</div>
+             <div class="leading-snug {{ $this->statusColor() }} text-md">{{ $this->status() }}</div>
         </div>
     </div>
     <div class="flex flex-row space-x-1">
