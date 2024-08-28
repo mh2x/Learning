@@ -52,6 +52,9 @@ class TodoList extends Component
         $this->reset('newTodo');
 
         session()->flash('success', 'Your TODO has been added successfully!');
+
+        //Take the user back to 1st page to see the newly added to do...
+        $this->resetPage();
     }
 
     #[On('todo-deleted')]

@@ -3,7 +3,8 @@
         <div class="flex flex-col items-end justify-between w-6/12">
             <div class="flex flex-col w-full rounded-md">
                 <input type="text" wire:model='newTodo' id="newTodo"
-                    class="w-full p-3 placeholder-current rounded-md rounded-r-none" placeholder="Add new todo...">
+                    class="w-full text-black p-3 placeholder-current rounded-md rounded-r-none"
+                    placeholder="Add new todo...">
                 <x-error name="newTodo" />
                 <x-flash-alert key="success" />
             </div>
@@ -44,7 +45,8 @@
             <livewire:todo-item :todo="$todo" :key="$todo->id" />
         @endforeach
     </div>
-    <div class="px-20 mt-2 mb-2">
+    <hr />
+    <div class="px-20 mt-4 mb-4">
         {{ $todos->links() }}
     </div>
 </div>
