@@ -4,11 +4,15 @@ namespace App\Livewire;
 
 use App\Models\Todo;
 use Livewire\Component;
+use Livewire\Attributes\Rule;
+use Livewire\Attributes\On;
 
 class TodoItem extends Component
 {
     public $todo;
-    public $newName;
+
+    #[Rule('required|min:3|max:20')]
+    public $newTodo;
 
     public $editMode = false;
     public function mount($todo)
@@ -24,10 +28,12 @@ class TodoItem extends Component
         $this->todo->completed = $newState;
         $this->todo->save();
     }
+
     public function status()
     {
         return $this->todo->completed ? "Done" : "Todo";
     }
+
     public function statusTextColor()
     {
         return $this->todo->completed ? "text-green-400" : "text-red-400";
@@ -46,6 +52,7 @@ class TodoItem extends Component
         $this->newName = $this->todo->name;
         $this->editMode = true;
     }
+
     public function cancelEdit()
     {
         $this->todo = Todo::findOrFail($this->todo->id);
@@ -55,10 +62,11 @@ class TodoItem extends Component
     public function update()
     {
         $this->todo = Todo::findOrFail($this->todo->id);
-        $this->todo->name = $this->newName;
+        $this->todo->name = $this->newTodo;
+        $this->validateOnly('newTodo');
         $this->todo->save();
         $this->editMode = false;
-        $this->reset('newName');
+        $this->reset('newTodo');
     }
 
 

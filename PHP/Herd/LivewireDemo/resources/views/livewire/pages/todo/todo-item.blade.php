@@ -3,9 +3,10 @@
         <div class="flex flex-col ml-2 space-y-3">
             @if ($this->editMode)
                 <div class="flex flex-row items-center space-x-2">
-                    <input type="text" wire:model="newName" class="text-xl font-bold leading-snug text-blue-600"
+                    <input type="text" wire:model="newTodo" class="text-xl font-bold leading-snug text-blue-600"
                         value="{{ $todo->name }}">
                 </div>
+                <x-error name="newTodo" />
             @else
                 <div class="flex flex-row items-center space-x-2">
                     <input wire:click='toggleStatus' type="checkbox"
