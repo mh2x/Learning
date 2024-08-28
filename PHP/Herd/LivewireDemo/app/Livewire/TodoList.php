@@ -15,7 +15,7 @@ class TodoList extends Component
 
     protected $listeners = ['refreshParent' => '$refresh'];
 
-    #[Rule('required|min:3|max:20')]
+    #[Rule('required|min:3|max:20|unique:todos,name')]
     public $newTodo;
     public $search;
     public $hideDone = false;

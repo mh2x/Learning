@@ -11,7 +11,7 @@ class TodoItem extends Component
 {
     public $todo;
 
-    #[Rule('required|min:3|max:20')]
+    #[Rule('required|min:3|max:20|unique:todos,name')]
     public $newTodo;
 
     public $editMode = false;
@@ -49,7 +49,7 @@ class TodoItem extends Component
     public function edit()
     {
         $this->todo = Todo::findOrFail($this->todo->id);
-        $this->newName = $this->todo->name;
+        $this->newTodo = $this->todo->name;
         $this->editMode = true;
     }
 
