@@ -23,14 +23,14 @@ return new class extends Migration {
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('country_id')->nullable()->constrained('countries');
+            $table->foreignId('country_id')->nullable()->constrained('countries')->cascadeOnDelete();
             $table->string('avatar')->nullable();
             $table->text('bio')->nullable();
         });
 
         Schema::create('language_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('language_id')->constrained('languages');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('language_id')->constrained('languages')->cascadeOnDelete();
             $table->timestamps();
         });
     }
