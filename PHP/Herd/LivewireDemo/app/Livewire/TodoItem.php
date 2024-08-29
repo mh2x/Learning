@@ -22,6 +22,9 @@ class TodoItem extends Component
         $this->todo = $todo;
     }
 
+    public function updating() {}
+    public function updated() {}
+
     public function toggleStatus()
     {
         $newState = !$this->todo->completed;
