@@ -89,34 +89,46 @@ new class extends Component {
 
 <div>
     <x-header title="Edit User '{{ $user->name }}'" separator progress-indicator />
-    <!-- Grid stuff from Tailwind -->
-    <div class="grid gap-5 lg:grid-cols-2">
-        <x-form wire:submit="save">
-            <!--crop-after-change attribute on x-file is failing-->
-            <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg">
-                <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-32 rounded-lg" />
-            </x-file>
 
-            <x-input label="Name" wire:model="name" />
-            <x-input label="Email" wire:model="email" />
+    <x-form wire:submit="save">
+        {{--  Basic section  --}}
+        <div class="lg:grid grid-cols-5">
+            <div class="col-span-2">
+                <x-header title="Basic" subtitle="Basic info from user" size="text-2xl" />
+            </div>
+            <div class="col-span-2 grid gap-3">
+                <!--crop-after-change attribute on x-file is failing-->
+                <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg">
+                    <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-40 rounded-lg" />
+                </x-file>
 
-            <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
-            {{-- Multi selection --}}
-            {{-- Pro tip: for larger lists use the x-choices component variation. --}}
-            <x-choices-offline label="My languages" wire:model="my_languages" :options="$languages" searchable />
-
-            <x-input wire:model="bio" label="Bio" hint="The great bio" />
-
-            <x-slot:actions>
-                <x-button label="Cancel" link="/users" />
-                {{-- The important thing here is `type="submit"` --}}
-                {{-- The spinner property is nice! --}}
-                <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-            </x-slot:actions>
-        </x-form>
-        <div>
-            {{-- Get a nice picture from `StorySet` web site --}}
-            <img src="/edit-form.png" width="480" class="mx-auto" />
+                <x-input label="Name" wire:model="name" />
+                <x-input label="Email" wire:model="email" />
+                <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
+            </div>
         </div>
-    </div>
+
+        {{--  Details section --}}
+        <x-hr class="my-5" />
+        <div class="lg:grid grid-cols-5">
+            <div class="col-span-2">
+                <x-header title="Details" subtitle="More about the user" size="text-2xl" />
+            </div>
+            <div class="col-span-2 grid gap-3">
+                {{-- Multi selection --}}
+                {{-- Pro tip: for larger lists use the x-choices component variation. --}}
+                <x-choices-offline label="My languages" wire:model="my_languages" :options="$languages" searchable />
+
+                <x-input wire:model="bio" label="Bio" hint="The great bio" />
+
+            </div>
+        </div>
+
+        <x-slot:actions>
+            <x-button label="Cancel" link="/users" />
+            {{-- The important thing here is `type="submit"` --}}
+            {{-- The spinner property is nice! --}}
+            <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+        </x-slot:actions>
+    </x-form>
 </div>
