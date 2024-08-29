@@ -101,6 +101,7 @@ new class extends Component {
         <x-slot:actions>
             <x-button label="Filters" @click="$wire.drawer = true" responsive icon="o-funnel"
                 badge="{{ $this->filters() }}" />
+            <x-button label="Create" link="/users/create" responsive icon="o-plus" class="btn-primary" />
         </x-slot:actions>
     </x-header>
 
