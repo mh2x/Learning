@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Todo;
+use Exception;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\On;
@@ -41,15 +42,24 @@ class TodoItem extends Component
 
     public function delete()
     {
-        $this->todo->delete();
-        $this->dispatch('todo-deleted')->to(TodoList::class);
-        $this->dispatch('refreshParent');
+        try {
+            $this->todo->delete();
+            $this->dispatch('todo-deleted')->to(TodoList::class);
+            $this->dispatch('refreshParent');
+        } catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
+            return;
+        }
     }
 
     public function edit()
     {
-        $this->todo = Todo::findOrFail($this->todo->id);
-        $this->newTodo = $this->todo->name;
+        try {
+            $this->todo = Todo::findOrFail($this->todo->id);
+            $this->newTodo = $this->todo->name;
+        } catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
         $this->editMode = true;
     }
 
@@ -61,10 +71,17 @@ class TodoItem extends Component
 
     public function update()
     {
-        $this->todo = Todo::findOrFail($this->todo->id);
-        $this->todo->name = $this->newTodo;
-        $this->validateOnly('newTodo');
-        $this->todo->save();
+        try {
+            $this->todo = Todo::findOrFail($this->todo->id);
+            if ($this->newTodo !== $this->todo->name) {
+                $this->todo->name = $this->newTodo;
+                $this->validateOnly('newTodo');
+                $this->todo->save();
+            }
+        } catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
+
         $this->editMode = false;
         $this->reset('newTodo');
     }
