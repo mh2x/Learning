@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\User;
+use App\Models\Language;
 use Mary\Traits\Toast;
 use Livewire\Attributes\Rule;
 use App\Models\Country;
@@ -28,17 +29,28 @@ new class extends Component {
     #[Rule('nullable|image|max:1024')]
     public $photo;
 
+    // Selected languages
+    #[Rule('required')]
+    public array $my_languages = [];
+
     // We also need this to fill Countries combobox on upcoming form
+    //with makes data available to the view of our components
+    //so we can access them
+    //The with method returns an associative array where the keys are variable names that
+    //you can use in your view, and the values are the data you want to pass to the view.
     public function with(): array
     {
         return [
             'countries' => Country::all(),
+            'languages' => Language::all(), // Available Languages
         ];
     }
-
     public function mount(): void
     {
         $this->fill($this->user);
+
+        // Fill the selected languages property
+        $this->my_languages = $this->user->languages->pluck('id')->all();
     }
 
     public function save(): void
@@ -48,6 +60,10 @@ new class extends Component {
 
         // Update
         $this->user->update($data);
+
+        // Sync selection
+        //This will update and fix the many-to-many table
+        $this->user->languages()->sync($this->my_languages);
 
         // Upload file and save the avatar `url` on User model
         if ($this->photo) {
@@ -79,7 +95,12 @@ new class extends Component {
 
             <x-input label="Name" wire:model="name" />
             <x-input label="Email" wire:model="email" />
+
             <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
+            {{-- Multi selection --}}
+            {{-- Pro tip: for larger lists use the x-choices component variation. --}}
+            <x-choices-offline label="My languages" wire:model="my_languages" :options="$languages" searchable />
+
             <x-slot:actions>
                 <x-button label="Cancel" link="/users" />
                 {{-- The important thing here is `type="submit"` --}}
