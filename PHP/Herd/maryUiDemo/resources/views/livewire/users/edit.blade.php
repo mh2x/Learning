@@ -51,7 +51,13 @@ new class extends Component {
 
         // Upload file and save the avatar `url` on User model
         if ($this->photo) {
+            //BUGBUG: temp images are not cleared from \maryUiDemo\storage\app\livewire-tmp
+            //https://github.com/livewire/livewire/discussions/3470
+            //// Clean the Livewire temp-upload folder
+            //\Illuminate\Support\Facades\File::cleanDirectory(\storage_path('app/livewire-tmp'));
+            
             $url = $this->photo->store('users', 'public');
+
             $this->user->update(['avatar' => "/storage/$url"]);
             //$this->Info("User has new avatar at {{$url}}");
         }
@@ -64,6 +70,7 @@ new class extends Component {
 <div>
     <x-header title="Edit User '{{ $user->name }}'" separator progress-indicator />
     <x-form wire:submit="save">
+        <!--crop-after-change attribute on x-file is failing-->
         <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg">
             <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-32 rounded-lg" />
         </x-file>
