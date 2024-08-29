@@ -33,6 +33,10 @@ new class extends Component {
     #[Rule('required')]
     public array $my_languages = [];
 
+    // Optional
+    #[Rule('sometimes')]
+    public ?string $bio = null;
+
     // We also need this to fill Countries combobox on upcoming form
     //with makes data available to the view of our components
     //so we can access them
@@ -100,6 +104,8 @@ new class extends Component {
             {{-- Multi selection --}}
             {{-- Pro tip: for larger lists use the x-choices component variation. --}}
             <x-choices-offline label="My languages" wire:model="my_languages" :options="$languages" searchable />
+
+            <x-input wire:model="bio" label="Bio" hint="The great bio" />
 
             <x-slot:actions>
                 <x-button label="Cancel" link="/users" />
