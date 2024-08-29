@@ -55,7 +55,7 @@ new class extends Component {
             //https://github.com/livewire/livewire/discussions/3470
             //// Clean the Livewire temp-upload folder
             //\Illuminate\Support\Facades\File::cleanDirectory(\storage_path('app/livewire-tmp'));
-            
+
             $url = $this->photo->store('users', 'public');
 
             $this->user->update(['avatar' => "/storage/$url"]);
@@ -69,20 +69,27 @@ new class extends Component {
 
 <div>
     <x-header title="Edit User '{{ $user->name }}'" separator progress-indicator />
-    <x-form wire:submit="save">
-        <!--crop-after-change attribute on x-file is failing-->
-        <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg">
-            <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-32 rounded-lg" />
-        </x-file>
+    <!-- Grid stuff from Tailwind -->
+    <div class="grid gap-5 lg:grid-cols-2">
+        <x-form wire:submit="save">
+            <!--crop-after-change attribute on x-file is failing-->
+            <x-file label="Avatar" wire:model="photo" accept="image/png, image/jpeg">
+                <img src="{{ $user->avatar ?? '/empty-user.jpg' }}" class="h-32 rounded-lg" />
+            </x-file>
 
-        <x-input label="Name" wire:model="name" />
-        <x-input label="Email" wire:model="email" />
-        <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
-        <x-slot:actions>
-            <x-button label="Cancel" link="/users" />
-            {{-- The important thing here is `type="submit"` --}}
-            {{-- The spinner property is nice! --}}
-            <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
-        </x-slot:actions>
-    </x-form>
+            <x-input label="Name" wire:model="name" />
+            <x-input label="Email" wire:model="email" />
+            <x-select label="Country" wire:model="country_id" :options="$countries" placeholder="---" />
+            <x-slot:actions>
+                <x-button label="Cancel" link="/users" />
+                {{-- The important thing here is `type="submit"` --}}
+                {{-- The spinner property is nice! --}}
+                <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
+            </x-slot:actions>
+        </x-form>
+        <div>
+            {{-- Get a nice picture from `StorySet` web site --}}
+            <img src="/edit-form.png" width="480" class="mx-auto" />
+        </div>
+    </div>
 </div>
