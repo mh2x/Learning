@@ -14,5 +14,4 @@ new class extends Component {
             </x-card>
         </x-slot:middle>
     </x-header>
-
 </div>
