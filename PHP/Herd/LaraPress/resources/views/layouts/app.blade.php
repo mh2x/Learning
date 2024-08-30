@@ -28,16 +28,7 @@
         <div class="bg-red-500">
             <x-slot:middle class="!justify-center">
                 <x-slot:actions>
-                    <div class="w-full">
-                        {{-- User --}}
-                        @if ($user = auth()->user())
-                            <x-dropdown :label="$user->name" class="w-full btn-outline" no-x-anchor>
-                                <x-menu-item title="profile" icon="o-user" />
-                                <x-menu-separator />
-                                <x-menu-item title="Logout" icon="o-power" action="/logout" />
-                            </x-dropdown>
-                        @endif
-                    </div>
+                    <livewire:user-dropdown />
                     <label for="main-drawer" class="lg:hidden me-3">
                         <x-icon name="o-bars-3" class="cursor-pointer" />
                     </label>
