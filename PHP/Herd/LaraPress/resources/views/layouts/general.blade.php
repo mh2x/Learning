@@ -20,7 +20,11 @@
     <x-nav sticky full-width progress-indicator>
         <x-slot:brand>
             <x-app-brand />
+            <div class="w-full flex flex-row justify-center">
+                <x-nav-menu />
+            </div>
         </x-slot:brand>
+
         <x-slot:middle class="!justify-end">
             <x-slot:actions>
                 @guest

@@ -17,15 +17,33 @@
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 
     {{-- NAVBAR mobile only --}}
-    <x-nav sticky class="lg:hidden">
+    <x-nav sticky full-width>
         <x-slot:brand>
             <x-app-brand />
+            <div class="w-full flex flex-row justify-center">
+                <x-nav-menu />
+            </div>
+
         </x-slot:brand>
-        <x-slot:actions>
-            <label for="main-drawer" class="lg:hidden me-3">
-                <x-icon name="o-bars-3" class="cursor-pointer" />
-            </label>
-        </x-slot:actions>
+        <div class="bg-red-500">
+            <x-slot:middle class="!justify-center">
+                <x-slot:actions>
+                    <div class="w-full">
+                        {{-- User --}}
+                        @if ($user = auth()->user())
+                            <x-dropdown :label="$user->name" class="w-full btn-outline" no-x-anchor>
+                                <x-menu-item title="profile" icon="o-user" />
+                                <x-menu-separator />
+                                <x-menu-item title="Logout" icon="o-power" action="/logout" />
+                            </x-dropdown>
+                        @endif
+                    </div>
+                    <label for="main-drawer" class="lg:hidden me-3">
+                        <x-icon name="o-bars-3" class="cursor-pointer" />
+                    </label>
+                </x-slot:actions>
+            </x-slot:middle>
+        </div>
     </x-nav>
 
     {{-- MAIN --}}
@@ -33,25 +51,8 @@
         {{-- SIDEBAR --}}
         <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit">
 
-            {{-- BRAND --}}
-            <x-app-brand class="p-5 pt-3" />
-
             {{-- MENU --}}
             <x-menu activate-by-route>
-
-                {{-- User --}}
-                @if ($user = auth()->user())
-                    <x-menu-separator />
-
-                    <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="-mx-2 !-my-2 rounded">
-                        <x-slot:actions>
-                            <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate link="/logout" />
-                        </x-slot:actions>
-                    </x-list-item>
-
-                    <x-menu-separator />
-                @endif
-
                 <x-menu-item title="Home" icon="o-sparkles" link="/" />
                 <x-menu-item title="Users" icon="o-users" link="/users" />
                 <x-menu-sub title="Settings" icon="o-cog-6-tooth">

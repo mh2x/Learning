@@ -8,10 +8,11 @@ new class extends Component {
 
 <x-general-layout>
     <div class="max-w-5xl">
+        <div class="h-20"></div>
         <span class="font-bold text-gray-200 max-w-5xl text-7xl">
             Spend less time coding and more time creating with
         </span>
-        <span class="font-bold text-7xl me-3 bg-gradient-to-r from-purple-500 to-pink-300 bg-clip-text text-transparent ">
+        <span class="font-bold text-7xl bg-gradient-to-r from-purple-500 to-pink-300 bg-clip-text text-transparent ">
             LaraPress!
         </span>
     </div>
@@ -28,7 +29,8 @@ new class extends Component {
         <div class="flex flex-col justify-stretch">
         </div>
         <div>
-            <div class="-mr-10 rounded-lg md:rounded-l-full bg-gradient-to-br from-purple-700 to-purple-300 h-64"></div>
+            <div class="-mr-10 rounded-lg md:rounded-l-full bg-gradient-to-br from-purple-700 to-purple-300 h-64">
+            </div>
         </div>
     </div>
 
