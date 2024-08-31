@@ -21,7 +21,7 @@
         <x-slot:brand>
             <x-app-brand />
             <div class="w-full flex flex-row justify-center">
-                <x-nav-menu />
+                <livewire:header-menu />
             </div>
         </x-slot:brand>
 
