@@ -1,5 +1,5 @@
 <div class="w-full">
-    <x-slot:sidebar drawer="main-drawer" collapsible class="dark:bg-gray-700" {{ $attributes }}>
+    <x-slot:sidebar drawer="main-drawer" collapsible class="dark:bg-gray-800" {{ $attributes }}>
         {{-- User --}}
         @if ($user = auth()->user())
             <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="text-sm">

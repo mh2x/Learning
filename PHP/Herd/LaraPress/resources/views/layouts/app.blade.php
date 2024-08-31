@@ -15,28 +15,28 @@
 </head>
 
 <body class="min-h-screen font-sans antialiased dark:bg-base-200 dark:text-white">
-    <x-top-header />
 
-    <div>
-        <h1 class="text-white font-bold text-3xl">Foo 1</h1>
-        {{-- HEADER --}}
-        {{ $title }}
+    {{-- LP HEADER --}}
+    <x-layout.header :title=$title />
 
-    </div>
     {{-- MAIN --}}
     <x-main full-width>
-        {{-- LEFT SIDEBAR --}}
-        <x-sidebar />
+        {{-- LP SIDEBAR --}}
+        <x-layout.sidebar />
+
         {{-- The `$slot` goes here --}}
         <x-slot:content>
             {{ $slot }}
         </x-slot:content>
+
     </x-main>
-    <x-footer />
+
     {{--  TOAST area --}}
     <x-toast />
     {{--  TOAST area --}}
     <x-spotlight />
+    {{-- LP FOOTER --}}
+    <x-layout.footer />
 </body>
 
 </html>
