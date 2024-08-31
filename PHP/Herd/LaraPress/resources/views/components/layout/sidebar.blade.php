@@ -21,5 +21,4 @@
             </x-menu-sub>
         </x-menu>
     </x-slot:sidebar>
-
 </div>

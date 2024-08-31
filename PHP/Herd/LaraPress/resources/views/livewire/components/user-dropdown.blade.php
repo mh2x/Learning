@@ -19,7 +19,7 @@ new class extends Component {
     {{-- User --}}
     @if ($user = auth()->user())
         <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent">
-            <x-menu-item title="{{ __('Profile') }}" icon="o-user" />
+            <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
             <x-menu-separator />
             <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
         </x-dropdown>
