@@ -15,13 +15,13 @@ new class extends Component {
         die();
     }
 }; ?>
-<div class="hidden md:block">
+<div class="w-full">
     {{-- User --}}
     @if ($user = auth()->user())
-        <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent">
+        <x-dropdown :label="$user->name" class="w-full bg-transparent">
             <x-menu-item title="{{ __('Profile') }}" icon="o-user" />
             <x-menu-separator />
-            <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
+            <x-menu-item title="{{ __('Log Out') }}" icon="o-power" wire:click="Logout" />
         </x-dropdown>
     @endif
 </div>

@@ -14,45 +14,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
-
-    {{-- NAVBAR mobile only --}}
-    <x-nav sticky full-width>
-        <x-slot:brand>
-            <x-app-brand />
-            <div class="w-full flex flex-row justify-center">
-                <x-nav-menu />
-            </div>
-
-        </x-slot:brand>
-        <div class="bg-red-500">
-            <x-slot:middle class="!justify-center">
-                <x-slot:actions>
-                    <livewire:user-dropdown />
-                    <label for="main-drawer" class="lg:hidden me-3">
-                        <x-icon name="o-bars-3" class="cursor-pointer" />
-                    </label>
-                </x-slot:actions>
-            </x-slot:middle>
-        </div>
-    </x-nav>
+<body class="min-h-screen font-sans antialiased dark:bg-base-200 dark:text-white">
 
     {{-- MAIN --}}
+    <livewire:header />
+    {{-- MAIN --}}
     <x-main full-width>
-        {{-- SIDEBAR --}}
-        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit">
-
-            {{-- MENU --}}
-            <x-menu activate-by-route>
-                <x-menu-item title="Home" icon="o-sparkles" link="/" />
-                <x-menu-item title="Users" icon="o-users" link="/users" />
-                <x-menu-sub title="Settings" icon="o-cog-6-tooth">
-                    <x-menu-item title="Wifi" icon="o-wifi" link="####" />
-                    <x-menu-item title="Archives" icon="o-archive-box" link="####" />
-                </x-menu-sub>
-            </x-menu>
-        </x-slot:sidebar>
-
+        {{-- LEFT SIDEBAR --}}
+        <livewire:left-sidebar />
         {{-- The `$slot` goes here --}}
         <x-slot:content>
             {{ $slot }}
