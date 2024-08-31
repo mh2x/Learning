@@ -1,12 +1,5 @@
-<?php
-use App\Livewire\Actions\Logout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Volt\Component;
-
-new class extends Component {}; ?>
-
 <div class="w-full">
-    <x-slot:sidebar drawer="main-drawer" collapsible class="dark:bg-gray-700">
+    <x-slot:sidebar drawer="main-drawer" collapsible class="dark:bg-gray-700" {{ $attributes }}>
         {{-- User --}}
         @if ($user = auth()->user())
             <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="text-sm">

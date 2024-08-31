@@ -1,11 +1,4 @@
-<?php
-use App\Livewire\Actions\Logout;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Volt\Component;
-
-new class extends Component {}; ?>
-
-<div class="w-ful" class="dark:bg-gray-800">
+<div class="w-full dark:bg-gray-800">
     {{-- NAVBAR mobile only --}}
     <x-nav sticky class="lg:hidden">
         <x-slot:brand>

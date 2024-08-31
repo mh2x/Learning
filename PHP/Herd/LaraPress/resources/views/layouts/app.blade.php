@@ -16,18 +16,18 @@
 
 <body class="min-h-screen font-sans antialiased dark:bg-base-200 dark:text-white">
 
-    {{-- MAIN --}}
-    <livewire:header />
+    {{-- HEADER --}}
+    <x-top-header />
     {{-- MAIN --}}
     <x-main full-width>
         {{-- LEFT SIDEBAR --}}
-        <livewire:left-sidebar />
+        <x-sidebar />
         {{-- The `$slot` goes here --}}
         <x-slot:content>
             {{ $slot }}
         </x-slot:content>
     </x-main>
-
+    <x-footer />
     {{--  TOAST area --}}
     <x-toast />
     {{--  TOAST area --}}
