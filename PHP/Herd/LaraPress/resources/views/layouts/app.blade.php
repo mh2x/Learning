@@ -15,9 +15,14 @@
 </head>
 
 <body class="min-h-screen font-sans antialiased dark:bg-base-200 dark:text-white">
-
-    {{-- HEADER --}}
     <x-top-header />
+
+    <div>
+        <h1 class="text-white font-bold text-3xl">Foo 1</h1>
+        {{-- HEADER --}}
+        {{ $title }}
+
+    </div>
     {{-- MAIN --}}
     <x-main full-width>
         {{-- LEFT SIDEBAR --}}

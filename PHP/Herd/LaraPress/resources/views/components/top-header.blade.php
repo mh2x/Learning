@@ -17,6 +17,7 @@
             <div class="hidden lg:block mr-20">
                 <x-app-brand />
             </div>
+
             <h2 class="font-bold text-2xl dark:text-white leading-tight">
                 {{ __('Dashboard') }}
             </h2>
