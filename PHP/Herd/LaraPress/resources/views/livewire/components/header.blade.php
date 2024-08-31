@@ -27,9 +27,10 @@ new class extends Component {}; ?>
             <h2 class="font-bold text-2xl dark:text-white leading-tight">
                 {{ __('Dashboard') }}
             </h2>
-            <div class="w-full flex flex-row justify-center">
+            <div class="w-full flex flex-row justify-end items-center">
                 <x-nav-menu />
             </div>
+
         </x-slot:brand>
         <div>
             <x-slot:middle class="!justify-center">
