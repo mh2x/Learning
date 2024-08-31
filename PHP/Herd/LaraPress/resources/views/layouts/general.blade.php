@@ -46,6 +46,7 @@
     <x-toast />
     {{--  TOAST area --}}
     <x-spotlight />
+    <x-layout.footer />
 </body>
 
 </html>

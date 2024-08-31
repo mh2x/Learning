@@ -63,5 +63,4 @@ new class extends Component {
 
 
     <div class="h-32 md:h-40"></div>
-    <hr />
 </x-general-layout>
