@@ -3,25 +3,13 @@ use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    public function Logout(): void
-    {
-        Auth::guard('web')->logout();
-
-        Session::invalidate();
-        Session::regenerateToken();
-
-        header('Location: /', true);
-        die();
-    }
-}; ?>
-<div class="hidden md:block">
-    {{-- User --}}
+new class extends Component {}; ?>
+<div>
     @if ($user = auth()->user())
-        <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent">
-            <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
-            <x-menu-separator />
-            <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
-        </x-dropdown>
+        <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="text-sm">
+            <x-slot:actions>
+                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="Logout" no-wire-navigate link="/logout" />
+            </x-slot:actions>
+        </x-list-item>
     @endif
 </div>

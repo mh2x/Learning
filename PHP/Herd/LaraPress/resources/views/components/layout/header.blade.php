@@ -21,12 +21,13 @@
                     <x-app-brand />
                 </div>
 
+                {{-- Each page must have a <slot:title> to display the title here --}}
                 <h2 class="font-bold text-2xl dark:text-white leading-tight">
                     {{ $title }}
                 </h2>
 
                 <div class="w-full flex flex-row justify-end items-center">
-                    <x-nav-menu />
+                    <livewire:header-menu />
                 </div>
             </x-slot:brand>
             <div>
