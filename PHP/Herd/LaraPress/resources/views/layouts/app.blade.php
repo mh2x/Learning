@@ -35,6 +35,7 @@
     {{--  TOAST area --}}
     <x-spotlight />
     {{-- LP FOOTER --}}
+
     <x-layout.footer />
 </body>
 

@@ -1,6 +1,7 @@
 <footer class="bg-gray-800 mt-1 p-2">
-    <div class="w-full flex flex-row justify-center items-center">
-        <x-nav-menu />
+
+    <div class="w-full flex flex-row justify-center items-center mt-3 mb-3">
+        <livewire:footer-menu />
     </div>
 
     <div class="text-center text-sm text-black dark:text-white/70">
