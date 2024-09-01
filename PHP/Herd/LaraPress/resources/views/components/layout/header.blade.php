@@ -21,10 +21,14 @@
                     <x-app-brand />
                 </div>
 
-                {{-- Each page must have a <slot:title> to display the title here --}}
-                <h2 class="font-bold text-2xl dark:text-white leading-tight">
-                    {{ $title }}
-                </h2>
+                @if ($title->hasActualContent())
+                    {{-- Each page must have a <slot:title> to display the title here --}}
+                    <h2 class="font-bold text-2xl dark:text-white leading-tight">
+                        {{ $title }}
+                    </h2>
+                @else
+                    <p class="text-red-400 font-bold">MISSING_TITLE</p>
+                @endif
 
                 <div class="w-full flex flex-row justify-end items-center">
                     <livewire:header-menu />

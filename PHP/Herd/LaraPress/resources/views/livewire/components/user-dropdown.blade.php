@@ -18,10 +18,12 @@ new class extends Component {
 <div class="hidden md:block">
     {{-- User --}}
     @if ($user = auth()->user())
-        <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent">
-            <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
-            <x-menu-separator />
-            <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
+        <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent" right>
+            <div class="border border-gray-800 p-3">
+                <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
+                <x-menu-separator />
+                <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
+            </div>
         </x-dropdown>
     @endif
 </div>
