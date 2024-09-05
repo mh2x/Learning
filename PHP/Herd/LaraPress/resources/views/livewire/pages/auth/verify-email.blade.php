@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component {
+new class extends Component {
     /**
      * Send an email verification notification to the user.
      */
+    #[Layout('components.layouts.guest')]
     public function sendVerification(): void
     {
         if (Auth::user()->hasVerifiedEmail()) {

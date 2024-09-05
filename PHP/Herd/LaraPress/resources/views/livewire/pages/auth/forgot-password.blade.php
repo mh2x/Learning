@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component {
+new class extends Component {
+    #[Layout('components.layouts.guest')]
     public string $email = '';
 
     /**
