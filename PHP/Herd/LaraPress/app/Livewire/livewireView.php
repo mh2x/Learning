@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
+//This is a sample test page
 class LivewireView extends Component
 {
     public $count = 1;

@@ -4,13 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\LivewireView;
 
-Route::view('/', "livewire.welcome.welcome");
+Route::view('/', "livewire.pages.welcome.welcome");
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::view('profile', 'livewire.pages.profile.profile')
     ->middleware(['auth'])
     ->name('profile');
 
