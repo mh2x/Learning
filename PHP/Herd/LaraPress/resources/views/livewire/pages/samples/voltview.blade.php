@@ -11,11 +11,12 @@ new class extends Component {
 
 <div>
     <x-slot:title>
-        {{ __('Languages') }}
+        {{ __('VoltView') }}
     </x-slot:title>
     <div class="max-w-5xl">
-        <span class="font-bold text-yellow-400 max-w-5xl text-3xl">
-            Languages Management...
+        <div class="h-20"></div>
+        <span class="font-bold text-gray-200 max-w-5xl text-7xl">
+            Volt View
         </span>
     </div>
 </div>
