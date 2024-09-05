@@ -19,7 +19,7 @@ new class extends Component {
     @if ($user = auth()->user())
         <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="text-sm">
             <x-slot:actions>
-                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="Logout" wire:click="Logout" wire:confirm="{{ __('Are you sure you want to logout?') }}" />
+                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip="Logout" wire:click="Logout" wire:confirm="{{ __('Are you sure you want to logout?') }}" />
             </x-slot:actions>
         </x-list-item>
     @endif
