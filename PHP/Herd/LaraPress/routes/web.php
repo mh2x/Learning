@@ -6,7 +6,7 @@ use App\Livewire\LivewireView;
 
 Route::view('/', "livewire.pages.welcome.welcome");
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', 'pages.user.dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -20,7 +20,7 @@ Volt::route('languages', 'pages.admin.languages')
     ->name('languages');
 
 //Test stuff
-Route::view('normalview', 'normal-view'); //normal blade view
+Route::view('normalview', 'pages.samples.normal-view'); //normal blade view
 Route::get('livewireview', LivewireView::class); //livewire blade view
 
 require __DIR__ . '/auth.php';
