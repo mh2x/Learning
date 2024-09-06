@@ -6,6 +6,7 @@ use Livewire\Volt\Component;
 new class extends Component {}; ?>
 <div>
     {{-- MENU --}}
+    {{-- heroicons: https://blade-ui-kit.com/blade-icons?set=1#search --}}
     <x-menu activate-by-route>
         <x-menu-item title="{{ __('Dashboard') }}" icon="o-sparkles" link="/dashboard" />
         <x-menu-item title="{{ __('Users') }}" icon="o-users" link="/users" />

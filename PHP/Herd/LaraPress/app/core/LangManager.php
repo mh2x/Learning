@@ -38,6 +38,8 @@ class LangManager
      */
     private $translations = [];
 
+    private $app_locales = [];
+
     /**
      * Manager constructor.
      *
@@ -182,6 +184,7 @@ class LangManager
         );
     }
 
+
     /**
      * Get found translation lines found per file.
      *
@@ -233,5 +236,161 @@ class LangManager
         }
 
         $this->disk->copyDirectory(resource_path('lang'), storage_path('LangBackup/' . time()));
+    }
+
+    public function getAppLocales()
+    {
+        return $this->app_locales;
+    }
+
+    public function setAppLocales($localesArray)
+    {
+        $this->app_locales = $localesArray;
+    }
+
+    public function getLocalesArray()
+    {
+        //Shortened list
+        return [
+            ['id' => "af", 'name' => "Afrikaans"],
+            ['id' => "ak", 'name' => "Akan"],
+            ['id' => "sq", 'name' => "Albanian"],
+            ['id' => "am", 'name' => "Amharic"],
+            ['id' => "ar", 'name' => "Arabic"],
+            ['id' => "hy", 'name' => "Armenian"],
+            ['id' => "as", 'name' => "Assamese"],
+            ['id' => "asa", 'name' => "Asu"],
+            ['id' => "az", 'name' => "Azerbaijani"],
+            ['id' => "bm", 'name' => "Bambara"],
+            ['id' => "eu", 'name' => "Basque"],
+            ['id' => "be", 'name' => "Belarusian"],
+            ['id' => "bem", 'name' => "Bemba"],
+            ['id' => "bez", 'name' => "Bena"],
+            ['id' => "bn", 'name' => "Bengali"],
+            ['id' => "bs", 'name' => "Bosnian"],
+            ['id' => "bg", 'name' => "Bulgarian"],
+            ['id' => "my", 'name' => "Burmese"],
+            ['id' => "yue_Hant_HK", 'name' => "Cantonese"],
+            ['id' => "ca", 'name' => "Catalan"],
+            ['id' => "tzm", 'name' => "Central Morocco Tamazight"],
+            ['id' => "chr", 'name' => "Cherokee"],
+            ['id' => "cgg", 'name' => "Chiga"],
+            ['id' => "zh", 'name' => "Chinese"],
+            ['id' => "kw", 'name' => "Cornish"],
+            ['id' => "hr", 'name' => "Croatian"],
+            ['id' => "cs", 'name' => "Czech"],
+            ['id' => "da", 'name' => "Danish"],
+            ['id' => "nl", 'name' => "Dutch"],
+            ['id' => "ebu", 'name' => "Embu"],
+            ['id' => "en", 'name' => "English"],
+            ['id' => "eo", 'name' => "Esperanto"],
+            ['id' => "et", 'name' => "Estonian"],
+            ['id' => "ee", 'name' => "Ewe"],
+            ['id' => "fo", 'name' => "Faroese"],
+            ['id' => "fil", 'name' => "Filipino"],
+            ['id' => "fi", 'name' => "Finnish"],
+            ['id' => "fr", 'name' => "French"],
+            ['id' => "ff", 'name' => "Fulah"],
+            ['id' => "gl", 'name' => "Galician"],
+            ['id' => "lg", 'name' => "Ganda"],
+            ['id' => "ka", 'name' => "Georgian"],
+            ['id' => "de", 'name' => "German"],
+            ['id' => "el", 'name' => "Greek"],
+            ['id' => "gu", 'name' => "Gujarati"],
+            ['id' => "guz", 'name' => "Gusii"],
+            ['id' => "ha", 'name' => "Hausa"],
+            ['id' => "haw", 'name' => "Hawaiian"],
+            ['id' => "he", 'name' => "Hebrew"],
+            ['id' => "hi", 'name' => "Hindi"],
+            ['id' => "hu", 'name' => "Hungarian"],
+            ['id' => "is", 'name' => "Icelandic"],
+            ['id' => "ig", 'name' => "Igbo"],
+            ['id' => "id", 'name' => "Indonesian"],
+            ['id' => "ga", 'name' => "Irish"],
+            ['id' => "it", 'name' => "Italian"],
+            ['id' => "ja", 'name' => "Japanese"],
+            ['id' => "kea", 'name' => "Kabuverdianu"],
+            ['id' => "kab", 'name' => "Kabyle"],
+            ['id' => "kl", 'name' => "Kalaallisut"],
+            ['id' => "kln", 'name' => "Kalenjin"],
+            ['id' => "kam", 'name' => "Kamba"],
+            ['id' => "kn", 'name' => "Kannada"],
+            ['id' => "kk", 'name' => "Kazakh"],
+            ['id' => "km", 'name' => "Khmer"],
+            ['id' => "ki", 'name' => "Kikuyu"],
+            ['id' => "rw", 'name' => "Kinyarwanda"],
+            ['id' => "kok", 'name' => "Konkani"],
+            ['id' => "ko", 'name' => "Korean"],
+            ['id' => "khq", 'name' => "Koyra Chiini"],
+            ['id' => "ses", 'name' => "Koyraboro Senni"],
+            ['id' => "lag", 'name' => "Langi"],
+            ['id' => "lv", 'name' => "Latvian"],
+            ['id' => "lt", 'name' => "Lithuanian"],
+            ['id' => "luo", 'name' => "Luo"],
+            ['id' => "luy", 'name' => "Luyia"],
+            ['id' => "mk", 'name' => "Macedonian"],
+            ['id' => "jmc", 'name' => "Machame"],
+            ['id' => "kde", 'name' => "Makonde"],
+            ['id' => "mg", 'name' => "Malagasy"],
+            ['id' => "ms", 'name' => "Malay"],
+            ['id' => "ml", 'name' => "Malayalam"],
+            ['id' => "mt", 'name' => "Maltese"],
+            ['id' => "gv", 'name' => "Manx"],
+            ['id' => "mr", 'name' => "Marathi"],
+            ['id' => "mas", 'name' => "Masai"],
+            ['id' => "mer", 'name' => "Meru"],
+            ['id' => "mfe", 'name' => "Morisyen"],
+            ['id' => "naq", 'name' => "Nama"],
+            ['id' => "ne", 'name' => "Nepali"],
+            ['id' => "nd", 'name' => "North Ndebele"],
+            ['id' => "nb", 'name' => "Norwegian Bokmål"],
+            ['id' => "nn", 'name' => "Norwegian Nynorsk"],
+            ['id' => "nyn", 'name' => "Nyankole"],
+            ['id' => "or", 'name' => "Oriya"],
+            ['id' => "om", 'name' => "Oromo"],
+            ['id' => "ps", 'name' => "Pashto"],
+            ['id' => "fa", 'name' => "Persian"],
+            ['id' => "pl", 'name' => "Polish"],
+            ['id' => "pt", 'name' => "Portuguese"],
+            ['id' => "pa", 'name' => "Punjabi"],
+            ['id' => "ro", 'name' => "Romanian"],
+            ['id' => "rm", 'name' => "Romansh"],
+            ['id' => "rof", 'name' => "Rombo"],
+            ['id' => "ru", 'name' => "Russian"],
+            ['id' => "rwk", 'name' => "Rwa"],
+            ['id' => "saq", 'name' => "Samburu"],
+            ['id' => "sg", 'name' => "Sango"],
+            ['id' => "seh", 'name' => "Sena"],
+            ['id' => "sr", 'name' => "Serbian"],
+            ['id' => "sn", 'name' => "Shona"],
+            ['id' => "ii", 'name' => "Sichuan Yi"],
+            ['id' => "si", 'name' => "Sinhala"],
+            ['id' => "sk", 'name' => "Slovak"],
+            ['id' => "sl", 'name' => "Slovenian"],
+            ['id' => "xog", 'name' => "Soga"],
+            ['id' => "so", 'name' => "Somali"],
+            ['id' => "es", 'name' => "Spanish"],
+            ['id' => "sw", 'name' => "Swahili"],
+            ['id' => "sv", 'name' => "Swedish"],
+            ['id' => "gsw", 'name' => "Swiss German"],
+            ['id' => "shi", 'name' => "Tachelhit"],
+            ['id' => "dav", 'name' => "Taita"],
+            ['id' => "ta", 'name' => "Tamil"],
+            ['id' => "te", 'name' => "Telugu"],
+            ['id' => "teo", 'name' => "Teso"],
+            ['id' => "th", 'name' => "Thai"],
+            ['id' => "bo", 'name' => "Tibetan"],
+            ['id' => "ti", 'name' => "Tigrinya"],
+            ['id' => "to", 'name' => "Tonga"],
+            ['id' => "tr", 'name' => "Turkish"],
+            ['id' => "uk", 'name' => "Ukrainian"],
+            ['id' => "ur", 'name' => "Urdu"],
+            ['id' => "uz", 'name' => "Uzbek"],
+            ['id' => "vi", 'name' => "Vietnamese"],
+            ['id' => "vun", 'name' => "Vunjo"],
+            ['id' => "cy", 'name' => "Welsh"],
+            ['id' => "yo", 'name' => "Yoruba"],
+            ['id' => "zu", 'name' => "Zulu"],
+        ];
     }
 }

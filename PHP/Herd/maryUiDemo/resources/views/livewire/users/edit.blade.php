@@ -55,6 +55,7 @@ new class extends Component {
 
         // Fill the selected languages property
         $this->my_languages = $this->user->languages->pluck('id')->all();
+        //dd(Language::all());
     }
 
     public function save(): void
