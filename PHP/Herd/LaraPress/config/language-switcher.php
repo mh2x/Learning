@@ -12,7 +12,7 @@ return [
     |
      */
 
-    'enable' => true,
+    'enable' => Settings('app_enable_lang_switch', true),
 
     /*
     |--------------------------------------------------------------------------

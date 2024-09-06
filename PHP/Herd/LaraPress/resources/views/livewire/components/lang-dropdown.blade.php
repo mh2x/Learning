@@ -10,5 +10,5 @@ new class extends Component {}; ?>
     <x-menu-item title="English" />
     <x-menu-item title="Arabic" />
     <x-menu-separator />
-    <x-menu-item title="Manage languages..." />
+    <x-menu-item title="Manage languages..." link="/languages" />
 </x-dropdown>

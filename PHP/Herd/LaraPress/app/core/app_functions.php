@@ -21,3 +21,8 @@ function Logout($str): void
     header('Location: /', true);
     die();
 }
+
+function Settings($key, $default)
+{
+    return $default;
+}
