@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Core\SettingsManager;
 
 function isRTL()
 {
@@ -22,7 +23,17 @@ function Logout($str): void
     die();
 }
 
-function Settings($key, $default)
+function Settings($key, $default = null)
 {
-    return $default;
+    //Register the settings manager
+    if (!app()->bound(SettingsManager::class)) {
+        app()->singleton(SettingsManager::class, function ($app) {
+            //dd($app['path.base']);
+            return new SettingsManager($app['path.base']);
+        });
+    }
+
+    $SettingsManager = app(SettingsManager::class);
+    //dd($SettingsManager);
+    return $SettingsManager->getValueOrDefault($key, $default);
 }
