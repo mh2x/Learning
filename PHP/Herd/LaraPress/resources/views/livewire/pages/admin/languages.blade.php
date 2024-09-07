@@ -21,7 +21,7 @@ new class extends Component {
     {
         updateSettingsValue('allowed_locales', $this->app_locales ?? ['en']);
         $this->success('Changes saved successfully.');
-        $names = getLocaleName($this->app_locales);
+        //$names = getLocaleName($this->app_locales);
     }
 }; ?>
 

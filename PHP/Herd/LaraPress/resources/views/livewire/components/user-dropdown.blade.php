@@ -18,7 +18,7 @@ new class extends Component {
 <div class="hidden md:block">
     {{-- User --}}
     @if ($user = auth()->user())
-        <x-dropdown :label="$user->name" class="w-full bg-transparent border-transparent" right>
+        <x-dropdown :label="$user->name" class="w-full btn btn-ghost" right>
             <div class="border border-gray-800 p-3">
                 <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
                 <x-menu-separator />

@@ -55,3 +55,28 @@ function getLocaleName(array $locale): array
     $langManager = app(LangManager::class);
     return $langManager->getLocaleName($locale);
 }
+
+function getAllowedLocaleNames(): array
+{
+    $locales = Settings('allowed_locales', ['en']);
+    return getLocaleName($locales);
+}
+
+function setAppLocale($locale)
+{
+
+    $locales = Settings('allowed_locales', ['en']);
+    if (!in_array($locale, $locales)) {
+        dd("'$locale' not allowed!");
+        return;
+    }
+    //Update settings
+    updateSettingsValue('default_locale', $locale);
+    App::setLocale($locale);
+    // Redirect back to the same page
+    //header("Location: " . $_SERVER['HTTP_REFERER'] . "?lang=$locale");
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    // Refresh the page immediately
+    //header("Refresh:0");
+    exit();
+}
