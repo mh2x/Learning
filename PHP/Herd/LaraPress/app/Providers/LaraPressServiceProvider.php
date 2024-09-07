@@ -27,8 +27,6 @@ class LaraPressServiceProvider extends ServiceProvider
         //  $langManager = app(LangManager::class);
         //OR
         //  $langManager = resolve(LangManager::class);
-
-        //$SettingsManager = app(SettingsManager::class);
     }
 
     /**

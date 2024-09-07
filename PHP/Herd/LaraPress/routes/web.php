@@ -16,6 +16,8 @@ Route::view('profile', 'livewire.pages.profile.profile')
     ->name('profile');
 
 //Admin
+Volt::route('settings/general', 'pages.admin.settings.general');
+
 Volt::route('languages', 'pages.admin.languages')
     ->middleware(['auth', 'verified'])
     ->name('languages');

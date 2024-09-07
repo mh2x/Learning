@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Core\SettingsManager;
+use App\Core\LangManager;
 
 function isRTL()
 {
     $locale = app()->getLocale();
-
     return in_array($locale, ["ar", "dv", "fa", "ha", "he", "iw", "ji", "ps", "ur", "yi"]);
 }
 
@@ -33,7 +33,25 @@ function Settings($key, $default = null)
         });
     }
 
-    $SettingsManager = app(SettingsManager::class);
+    $settingsManager = app(SettingsManager::class);
     //dd($SettingsManager);
-    return $SettingsManager->getValueOrDefault($key, $default);
+    return $settingsManager->getValueOrDefault($key, $default);
+}
+
+function updateSettingsValue($key, $value, $save = true)
+{
+    $settingsManager = app(SettingsManager::class);
+    $settingsManager->setValue($key, $value, $save);
+}
+
+function getAllLocales(): array
+{
+    $langManager = app(LangManager::class);
+    return $langManager->getLocalesArray();
+}
+
+function getLocaleName(array $locale): array
+{
+    $langManager = app(LangManager::class);
+    return $langManager->getLocaleName($locale);
 }

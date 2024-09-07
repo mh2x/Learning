@@ -54,12 +54,7 @@ return [
     |
      */
 
-    'allowed_locales' => [
-        'en',
-        'ar',
-        'es',
-    ],
-
+    'allowed_locales' => Settings('allowed_locales', ['en']),
     /*
     |--------------------------------------------------------------------------
     | Fallback Locale
@@ -71,7 +66,7 @@ return [
     |
      */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => Settings('default_locale', ['en']),
 
     /*
     |--------------------------------------------------------------------------

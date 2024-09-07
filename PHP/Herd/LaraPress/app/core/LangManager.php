@@ -40,6 +40,8 @@ class LangManager
 
     private $app_locales = [];
 
+    private $locales_by_code=[];
+
     /**
      * Manager constructor.
      *
@@ -246,6 +248,26 @@ class LangManager
     public function setAppLocales($localesArray)
     {
         $this->app_locales = $localesArray;
+    }
+
+    public function getLocaleName($locales)
+    {
+        if (!count($this->locales_by_code)){
+            $allLocales = $this->getLocalesArray();
+
+            foreach ($allLocales as $element) {
+                $this->locales_by_code[$element['id']] = $element['name'];
+            }
+        }
+
+        $names=[];
+        foreach ($locales as $locale)
+        {
+            if (array_key_exists($locale, $this->locales_by_code)){
+                $names[$locale] = $this->locales_by_code[$locale];
+            }
+        }
+        return $names;
     }
 
     public function getLocalesArray()
