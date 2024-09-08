@@ -35,14 +35,12 @@ new class extends Component {
         </svg>
     </div>
     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
-
         @foreach (getAllowedLocaleNames() as $key => $value)
             @if ($key === $this->appLocale)
                 <li class="text-slate-500 pointer-events-none">
                     <a href="#">
                         <span class="w-2">&#10003;</span>
                         {{ __($value) }}</a>
-
                 </li>
             @else
                 <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')">

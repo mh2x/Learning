@@ -38,7 +38,8 @@ new class extends Component {
                 </div>
                 <div class="col-span-2 grid gap-3">
                     {{-- Multi selection --}}
-                    <x-choices-offline label="Supported Locales" wire:model="app_locales" :options="$locales" searchable class="focus:text-red-500" />
+                    <x-choices-offline label="Supported Locales" wire:model="app_locales" :options="$locales" searchable
+                        class="focus:text-red-500" />
                 </div>
 
             </div>
