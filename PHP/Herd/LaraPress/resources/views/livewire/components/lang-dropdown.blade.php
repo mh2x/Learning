@@ -36,7 +36,7 @@ new class extends Component {
     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
         @foreach (getAllowedLocaleNames() as $key => $value)
             @if ($key === $this->appLocale)
-                <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')"><x-icon name="s-check-circle" /> {{ __($value) }}</a></li>
+                <li class="text-slate-500 pointer-events-none"><a href="#">{{ __($value) }}</a></li>
             @else
                 <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')">{{ __($value) }}</a></li>
             @endif

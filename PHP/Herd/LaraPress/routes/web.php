@@ -5,6 +5,7 @@ use Livewire\Volt\Volt;
 use App\Livewire\LivewireView;
 
 Route::view('/', "livewire.pages.welcome.welcome")
+    ->middleware(['guest'])
     ->name("welcome");
 
 Route::view('dashboard', 'pages.user.dashboard')
