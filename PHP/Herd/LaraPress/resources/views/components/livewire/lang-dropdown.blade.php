@@ -49,7 +49,7 @@ new class extends Component {
             @endif
         @endforeach
         <x-hr />
-        <li><a href="/languages" class="text-yellow-500">
+        <li><a href="{{ route('admin.languages') }}" class="text-yellow-500">
                 <x-icon name="s-cog-6-tooth" />
                 {{ __('Configure...') }}</a></li>
     </ul>

@@ -23,6 +23,6 @@ class LivewireView extends Component
     public function render()
     {
         //dd('render');
-        return view('livewire.pages.samples.livewireview');
+        return view('pages.samples.livewireview');
     }
 }
