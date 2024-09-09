@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\LivewireView;
+use App\Http\Controllers\Auth\VerifyEmailController;
 
 Route::view('/', "pages.welcome.welcome")
     ->middleware(['guest'])
@@ -12,21 +13,23 @@ Route::view('dashboard', 'pages.user.dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'livewire.pages.profile.profile')
+Route::view('profile', 'pages.profile.profile')
     ->middleware(['auth'])
     ->name('profile');
 
-//volt sample - folio replaces this
-/*Volt::route('/admin/languages', 'languages')
-    ->middleware(['auth', 'verified'])
-    ->name('languages');
-*/
 
 //Test stuff
 Route::view('normalview', 'pages.samples.normal-view'); //normal blade view
 Route::get('livewireview', LivewireView::class); //livewire blade view
-//Folio is handling this
-//Volt::route('voltview', 'voltview'); //Livewire / volt view
 
+//auth
+Route::middleware('guest')->group(function () {
+    //Volt::route('reset-password/{token}', 'pages.auth.reset-password')
+    //    ->name('password.reset');
+});
 
-require __DIR__ . '/auth.php';
+Route::middleware('auth')->group(function () {
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+});

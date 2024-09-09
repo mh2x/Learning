@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ isRTL() ? 'rtl' : 'ltr' }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -27,8 +28,10 @@
         <x-slot:middle class="!justify-end">
             <x-slot:actions>
                 @guest
-                    <x-button label="Login" icon="o-paper-airplane" class="btn-outline btn-primary" link="/login" />
-                    <x-button label="Register" icon="m-user-plus" type="submit" class="btn-outline btn-secondary" spinner="register" link="/register" />
+                    <x-button label="Login" icon="o-paper-airplane" class="btn-outline btn-primary"
+                        link="{{ route('login') }}" />
+                    <x-button label="Register" icon="m-user-plus" type="submit" class="btn-outline btn-secondary"
+                        spinner="register" link="{{ route('register') }}" />
                 @endguest
             </x-slot:actions>
         </x-slot:middle>
