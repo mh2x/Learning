@@ -58,11 +58,21 @@ class LangManager
 
     /**
      * Get all the available lines that have been translated.
+     * NOTE: These are already saved as $lang.json files
+     * so we just read what is in the files into array:
+     * [
+     *   '$locale1' => ['original text' : 'translation1'],
+     *   '$locale2' => ['original text' : 'translation2'],
+     *   '$locale3' => ['original text' : 'translation3'],
+     * 
+     * ]
+     * locale1,2,3 like 'ar', 'es', 'fr'...
+     * this shows only the lines with translations in the array
      *
      * @param bool $reload
      * @return array
      */
-    public function getTranslations($reload = false)
+    public function getExistingTranslationsFromLanguageJsonFiles($reload = false)
     {
         if ($this->translations && ! $reload) {
             return $this->translations;
@@ -82,14 +92,15 @@ class LangManager
 
     /**
      * Get all the  lines that have not been translated.
-     *
+     * an array of all the lines with no translations
      */
-    public function getAllNotTranslated()
+    public function getOnlyNotTranslated()
     {
         $output = [];
-        $translations = $this->getTranslations();
+        $translations = $this->getExistingTranslationsFromLanguageJsonFiles();
 
-        $keysFromFiles = array_unique(Arr::collapse($this->getTranslationsFromFiles()));
+        //$keysFromFiles = array_unique(Arr::collapse($this->getAllTranslationLinesFromSourceFiles()));
+        $keysFromFiles = $this->getOnlyUniqueTranslationLinesFromSourceFiles();
         foreach ($keysFromFiles as $index => $key) {
             foreach ($translations as $lang => $keys) {
                 // Ensure $keys is an array
@@ -106,51 +117,63 @@ class LangManager
 
     /**
      * Get all the localizable __() lines from files.
-     *
+     * This will get ALL lines, regardless whether translated or not
+     * But will not show duplicate values (unique ones only)
      */
-    public function getAllTranslationsFromFiles()
+    public function getOnlyUniqueTranslationLinesFromSourceFiles()
     {
-        $keysFromFiles = array_values(array_unique(Arr::collapse($this->getTranslationsFromFiles())));
-        //dd($keysFromFiles);
+        $keysFromFiles = array_values(array_unique(Arr::collapse($this->getAllTranslationLinesFromSourceFiles())));
         return $keysFromFiles;
     }
 
     /**
-     * Synchronize the language keys from files.
+     * List all translations with their locales
+     * [
+     *  'text1': [  'ar'->'',
+     *              'es'->''
+	 *  	        'fr'->'']
+     *  'text2':[   'ar'->'',
+     *              'es'->''
+	 *  	        'fr'->'']
+    *   ]
      *
      * @return array
      */
-    public function sync()
+    public function getAllTranslationsWithLocales($locales, $default_locale)
     {
-        $this->backup();
-
         $output = [];
 
-        $translations = $this->getTranslations();
+        //make sure to exclude default_locale from the given array
+        $translation_locales = array_diff($locales, [$default_locale]);
+        
+        //get all existing translations
+        $translations = $this->getExistingTranslationsFromLanguageJsonFiles();
 
-        //$keysFromFiles = array_collapse($this->getTranslationsFromFiles());
-        //$keysFromFiles = Arr::collapse($this->getTranslationsFromFiles());
-        //$keysFromFiles = array_keys($this->getTranslationsFromFiles());
-        $keysFromFiles = array_unique(Arr::collapse($this->getTranslationsFromFiles()));
-
-        //dd($keysFromFiles);
-        //dd($translations);
-
+        $keysFromFiles = array_unique(Arr::collapse($this->getAllTranslationLinesFromSourceFiles()));
+        
+        $index = 0;
         foreach ($keysFromFiles as $index => $key) {
+            $index++;
+            foreach($translation_locales as $locale){
+                $output[$index][$default_locale]=$key; //initialize an empty slot
+                $output[$index][$locale]=''; //initialize an empty slot
+            }
+            //Find existing translation
             foreach ($translations as $lang => $keys) {
                 // Ensure $keys is an array
                 if (is_object($keys)) {
                     $keys = (array) $keys;
                 }
-                if (! array_key_exists($key, $keys)) {
-                    $output[] = $key;
+                if (array_key_exists($key, $keys)) {
+                    $output[$index][$lang] = $keys[ $key ];  //get the translation
+                }
+                else{
+                    $output[$index][$lang] = '';  //no translation, just blank
                 }
             }
         }
-
         //dd($output);
-
-        return array_values(array_unique($output));
+        return $output;
     }
 
     /**
@@ -192,7 +215,7 @@ class LangManager
      *
      * @return array
      */
-    private function getTranslationsFromFiles()
+    private function getAllTranslationLinesFromSourceFiles()
     {
         /*
          * This pattern is derived from Barryvdh\TranslationManager by Barry vd. Heuvel <barryvdh@gmail.com>
@@ -217,12 +240,13 @@ class LangManager
 
         $allMatches = [];
 
-        foreach ($this->disk->allFiles($this->lookupPaths) as $file) {
-            if (preg_match_all("/$pattern/siU", $file->getContents(), $matches)) {
-                $allMatches[$file->getRelativePathname()] = $matches[2];
+        foreach ($this->lookupPaths as $path){
+            foreach ($this->disk->allFiles($path) as $file) {
+                if (preg_match_all("/$pattern/siU", $file->getContents(), $matches)) {
+                    $allMatches[$file->getRelativePathname()] = $matches[2];
+                }
             }
         }
-
         return $allMatches;
     }
 
@@ -252,6 +276,8 @@ class LangManager
 
     public function getLocaleName($locales)
     {
+        //TODO: switch this code to a hard-coded array since it
+        // is always fixed
         if (!count($this->locales_by_code)){
             $allLocales = $this->getLocalesArray();
 
@@ -272,6 +298,7 @@ class LangManager
 
     public function getLocalesArray()
     {
+        //TODO: move the array to a separate file 
         //Shortened list
         return [
             ['id' => "af", 'name' => "Afrikaans"],
