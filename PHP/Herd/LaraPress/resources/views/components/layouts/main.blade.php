@@ -28,7 +28,7 @@
         <x-slot:middle class="!justify-end">
             <x-slot:actions>
                 @guest
-                    @livewire('lang-dropdown')
+                    @livewire('language-dropdown')
                     <x-button label="Login" icon="o-paper-airplane" class="btn-outline btn-primary"
                         link="{{ route('login') }}" />
                     <x-button label="Register" icon="m-user-plus" type="submit" class="btn-outline btn-secondary"

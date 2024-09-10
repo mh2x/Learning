@@ -37,21 +37,26 @@ new class extends Component {
         //Translations
         $default_locale = Settings('default_locale', ['en']);
         $this->translationData = $langManager->getAllTranslationsWithLocales($this->app_locales, $default_locale);
+        //dd($this->translationData);
         if (count($this->translationData) > 1) {
-            $firstKey = array_key_first($this->translationData);
             //set the new $translation_locales array
-            $translation_locales = $this->translationData[$firstKey];
+            $translation_locales = $this->translationData[1];
         }
 
         //Add columns for each locale
         foreach ($translation_locales as $key => $value) {
-            $localeInfo = array_filter($this->locales, function ($value) use ($key) {
-                return $value['id'] === $key; // Example condition: value starts with 'A'
-            });
-            $firstKey = array_key_first($localeInfo);
-            $this->table_headers[] = ['key' => "$key", 'label' => $localeInfo[$firstKey]['name']];
+            if ($key === '#') {
+                $label = $key;
+            } else {
+                //map the 'ar', 'es', .. to its 'Arabic', 'Spanish', ...label
+                $localeInfo = array_filter($this->locales, function ($value) use ($key) {
+                    return $value['id'] === $key;
+                });
+                $firstKey = array_key_first($localeInfo);
+                $label = $localeInfo[$firstKey]['name'];
+            }
+            $this->table_headers[] = ['key' => "$key", 'label' => $label];
         }
-
         //dd($this->translationData);
     }
 
@@ -90,6 +95,11 @@ new class extends Component {
             'translations' => $this->Translations(),
             'headers' => $this->table_headers,
         ];
+    }
+
+    public function editRow($row)
+    {
+        dd($row);
     }
 
     public function save()
@@ -137,17 +147,18 @@ new class extends Component {
                                     @foreach ($headers as $header)
                                         <th>{{ $header['label'] }}</th>
                                     @endforeach
-                                    <th></th>
+                                    <th class="w-1"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- row -->
-                                @foreach ($translations as $translation)
+                                @foreach ($translations as $key => $translation)
                                     <tr class="hover">
                                         @foreach ($translation as $value)
                                             <td>{{ $value }}</td>
                                         @endforeach
-                                        <td><x-button icon="o-pencil-square" class="btn-circle btn-ghost" /></td>
+                                        <td><x-button icon="o-pencil-square" class="btn-circle btn-ghost"
+                                                wire:click="editRow({{ $translation['#'] }})" /></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -156,7 +167,6 @@ new class extends Component {
                     {{ $translations->links() }}
                 </div>
             </div>
-
         </div>
     @endvolt
 </x-layouts.app>

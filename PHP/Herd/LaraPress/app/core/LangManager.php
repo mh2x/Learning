@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
+//TODO: rename to languageManager
 class LangManager
 {
     /**
@@ -151,12 +152,12 @@ class LangManager
 
         $keysFromFiles = array_unique(Arr::collapse($this->getAllTranslationLinesFromSourceFiles()));
         
-        $index = 0;
-        foreach ($keysFromFiles as $index => $key) {
-            $index++;
+        $newIndex = 0;
+        foreach ($keysFromFiles as  $key) {
+            $output[$newIndex]['#'] = ++$newIndex;
             foreach($translation_locales as $locale){
-                $output[$index][$default_locale]=$key; //initialize an empty slot
-                $output[$index][$locale]=''; //initialize an empty slot
+                $output[$newIndex][$default_locale]=$key; //initialize an empty slot
+                $output[$newIndex][$locale]=''; //initialize an empty slot
             }
             //Find existing translation
             foreach ($translations as $lang => $keys) {
@@ -165,14 +166,18 @@ class LangManager
                     $keys = (array) $keys;
                 }
                 if (array_key_exists($key, $keys)) {
-                    $output[$index][$lang] = $keys[ $key ];  //get the translation
+                    $output[$newIndex][$lang] = $keys[ $key ];  //get the translation
                 }
                 else{
-                    $output[$index][$lang] = '';  //no translation, just blank
+                    $output[$newIndex][$lang] = '';  //no translation, just blank
                 }
             }
         }
-        //dd($output);
+
+        //reindex the array
+        //return array_values($output);
+        //make it start from 1
+        //return array_combine(range(1, count($output)), $output);
         return $output;
     }
 
