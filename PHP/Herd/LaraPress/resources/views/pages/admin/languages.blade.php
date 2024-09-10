@@ -14,6 +14,7 @@ new class extends Component {
     public $locales = [];
     public $table_headers = [];
     public $translationData = [];
+    public $edit_mode_id = 0;
 
     // Reset pagination when any component property changes
     public function updated($property): void
@@ -97,9 +98,17 @@ new class extends Component {
         ];
     }
 
-    public function editRow($row)
+    public function editRow($id)
     {
-        dd($row);
+        if ($this->edit_mode_id !== 0) {
+            return;
+        }
+        $this->edit_mode_id = $id;
+    }
+
+    public function endEditRow()
+    {
+        $this->edit_mode_id = 0;
     }
 
     public function save()
@@ -153,12 +162,28 @@ new class extends Component {
                             <tbody>
                                 <!-- row -->
                                 @foreach ($translations as $key => $translation)
+                                    @php $index = 0; @endphp
                                     <tr class="hover">
                                         @foreach ($translation as $value)
-                                            <td>{{ $value }}</td>
+                                            @if ($edit_mode_id === $translation['#'] && $index++ > 1)
+                                                <td><input type="text" value="{{ $value }}" class="text-black" />
+                                                </td>
+                                            @else
+                                                <td>{{ $value }}</td>
+                                            @endif
                                         @endforeach
-                                        <td><x-button icon="o-pencil-square" class="btn-circle btn-ghost"
-                                                wire:click="editRow({{ $translation['#'] }})" /></td>
+                                        @if ($edit_mode_id === 0)
+                                            <td><x-button icon="o-pencil-square" class="btn-circle btn-ghost"
+                                                    wire:click="editRow({{ $translation['#'] }})" /></td>
+                                        @else
+                                            @if ($edit_mode_id === $translation['#'])
+                                                <td><x-button icon="m-check-circle" class="btn-circle btn-ghost"
+                                                        wire:click="endEditRow" /></td>
+                                            @else
+                                                <td><x-button disabled icon="o-pencil-square" class="btn-circle btn-ghost"
+                                                        wire:click="editRow({{ $translation['#'] }})" /></td>
+                                            @endif
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
