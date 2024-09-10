@@ -27,6 +27,10 @@ class LaraPressServiceProvider extends ServiceProvider
         //  $langManager = app(LangManager::class);
         //OR
         //  $langManager = resolve(LangManager::class);
+
+        //DebugBar messages
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
     /**

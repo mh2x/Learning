@@ -1,8 +1,9 @@
 <?php
 
-use App\Livewire\Actions\Logout;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
+use Livewire\livewire;
 
 new class extends Component {
     public $localeOptions = [];

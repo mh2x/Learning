@@ -9,7 +9,7 @@ new class extends Component {
     }
 }; ?>
 
-<x-main-layout>
+<x-layouts.main>
     <div class="max-w-5xl">
         <div class="h-20"></div>
         <span class="font-bold text-gray-200 max-w-5xl text-7xl">
@@ -70,4 +70,4 @@ new class extends Component {
 
 
     <div class="h-32 md:h-40"></div>
-</x-main-layout>
+</x-layouts.main>

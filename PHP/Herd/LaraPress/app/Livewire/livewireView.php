@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace app\Livewire;
 
 use Livewire\Component;
 
 //This is a sample test page
-class LivewireView extends Component
+class livewireView extends Component
 {
     public $count = 1;
 

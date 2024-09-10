@@ -25,6 +25,12 @@ Route::view('profile', 'pages.profile.profile')
     ->middleware(['auth'])
     ->name('profile');
 
+//Admin
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('/admin/languages', "pages.admin.languages")
+            ->name("admin.languages");
+});
+
 //Test stuff
 Route::view('normalview', 'pages.samples.normal-view'); //normal blade view
 Route::get('livewireview', LivewireView::class); //livewire blade view

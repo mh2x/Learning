@@ -31,15 +31,15 @@
                 @endif
 
                 <div class="w-full flex flex-row justify-end items-center">
-                    <livewire:header-menu />
+                    <x-header-menu />
                 </div>
             </x-slot:brand>
             <div>
                 <x-slot:middle class="!justify-center">
                     <x-slot:actions>
-                        <livewire:theme-changer />
-                        <livewire:lang-dropdown />
-                        <livewire:user-dropdown />
+                        @livewire('theme-changer')
+                        @livewire('lang-dropdown')
+                        @livewire('user-dropdown')
                     </x-slot:actions>
                 </x-slot:middle>
             </div>

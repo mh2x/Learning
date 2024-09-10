@@ -1,14 +1,10 @@
 <?php
 
-use function Laravel\Folio\{middleware, name};
 use Livewire\Volt\Component;
-use Mary\Traits\Toast;
-use App\Core\LangManager;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-name('admin.languages');
-middleware(['auth', 'verified']);
+use Mary\Traits\Toast;
+use App\Core\LangManager;
 
 new class extends Component {
     use Toast;
@@ -53,7 +49,6 @@ new class extends Component {
                 return $value['id'] === $key; // Example condition: value starts with 'A'
             });
             $firstKey = array_key_first($localeInfo);
-            //dd($localeInfo);
             $this->table_headers[] = ['key' => "$key", 'label' => $localeInfo[$firstKey]['name']];
         }
 
@@ -106,7 +101,7 @@ new class extends Component {
 }; ?>
 
 <x-layouts.app>
-    @volt('languages.locales')
+    @volt
         <div class="bg-gray-700 p-6">
             <x-slot:title>
                 {{ __('Languages') }}
@@ -134,9 +129,34 @@ new class extends Component {
                     <x-header title="Translations" subtitle="Localize your app messages" size="text-2xl" />
                 </div>
                 <div>
-                    <x-table :headers="$table_headers" :rows="$translations" with-pagination />
+                    <div class="overflow-x-auto">
+                        <table class="table">
+                            <!-- head -->
+                            <thead>
+                                <tr>
+                                    @foreach ($headers as $header)
+                                        <th>{{ $header['label'] }}</th>
+                                    @endforeach
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- row -->
+                                @foreach ($translations as $translation)
+                                    <tr class="hover">
+                                        @foreach ($translation as $value)
+                                            <td>{{ $value }}</td>
+                                        @endforeach
+                                        <td><x-button icon="o-pencil-square" class="btn-circle btn-ghost" /></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $translations->links() }}
                 </div>
             </div>
+
         </div>
     @endvolt
 </x-layouts.app>
