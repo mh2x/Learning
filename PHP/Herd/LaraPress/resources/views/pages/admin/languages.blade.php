@@ -215,7 +215,7 @@ new class extends Component {
                 </div>
             </div>
             <!---- EDIT DIALOG -->
-            <x-modal wire:model="showTranslationDialog" title="Edit Translation" subtitle="edit translated text">
+            <x-modal wire:model="showTranslationDialog" title="Edit Translation" subtitle="edit translated text" persistent>
                 @php
                     $index = 0;
                 @endphp
