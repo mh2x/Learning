@@ -17,13 +17,11 @@ new class extends Component {
     public $edit_row_id = 0;
     public $edit_translation = [];
     public $showTranslationDialog = false;
-
-    //need to update the list items
-    protected $listeners = ['refreshItemList' => '$refresh'];
+    public $autoSaveTranslations = false;
 
     public function Refresh()
     {
-        $this->dispatch('refreshItemList');
+        $this->dispatch('$refresh');
     }
 
     // Reset pagination when any component property changes
@@ -108,6 +106,17 @@ new class extends Component {
         ];
     }
 
+    public function toggleAutoSaveTranslations()
+    {
+        $this->autoSaveTranslations = !$this->autoSaveTranslations;
+        if ($this->autoSaveTranslations && !empty($this->edit_translation)) {
+            //We have some changes not saved
+            $this->saveTranslations();
+        } else {
+            $this->Refresh();
+        }
+    }
+
     public function editRow($id)
     {
         if ($this->edit_row_id !== 0) {
@@ -119,10 +128,16 @@ new class extends Component {
         $this->showTranslationDialog = true;
     }
 
-    public function endEditRow($save)
+    public function endEditRow($confirm)
     {
-        if ($save) {
+        if ($confirm) {
+            //update the text
             $this->translationData[$this->edit_row_id] = $this->edit_translation;
+
+            if ($this->autoSaveTranslations) {
+                //Commit the changes to the backend / files
+                $this->saveTranslations();
+            }
             //dd($this->translationData);
             $this->Refresh();
         }
@@ -170,46 +185,52 @@ new class extends Component {
             </x-form>
             {{--  Translation section --}}
             <x-hr class="my-5" />
-            <div class="lg:grid grid-cols-1">
-                <div class="col-span-1">
+            <div>
+                <div class="flex flex-row justify-between">
                     <x-header title="Translations" subtitle="Localize your app messages" size="text-2xl" />
+                    <x-checkbox label="Auto-save translation changes" wire:click="toggleAutoSaveTranslations"
+                        class="checkbox-warning" right tight />
                 </div>
-                <x-form wire:submit='saveTranslations'>
-                    <div class="overflow-x-auto">
-                        <table class="table">
-                            <!-- head -->
-                            <thead>
-                                <tr>
-                                    @foreach ($headers as $header)
-                                        <th>{{ $header['label'] }}</th>
-                                    @endforeach
-                                    <th class="w-1"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- row -->
-                                @foreach ($translations as $key => $translation)
-                                    @php $index = 0; @endphp
-                                    <tr class="hover" wire:click="editRow({{ $translation['#'] }})">
-                                        @foreach ($translation as $value)
-                                            <td>{{ $value }}</td>
+                <div class="lg:grid grid-cols-1">
+                    <x-form wire:submit='saveTranslations'>
+                        <div class="overflow-x-auto">
+                            <table class="table">
+                                <!-- head -->
+                                <thead>
+                                    <tr>
+                                        @foreach ($headers as $header)
+                                            <th>{{ $header['label'] }}</th>
                                         @endforeach
-                                        <td>
-                                            <x-button icon="o-pencil-square" class="btn-circle btn-ghost"
-                                                wire:click="editRow({{ $translation['#'] }})" />
-                                        </td>
+                                        <th class="w-1"></th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <x-slot:actions>
-                        {{-- The important thing here is `type="submit"` --}}
-                        {{-- The spinner property is nice! --}}
-                        <x-button label="Save Translations" icon="o-paper-airplane" spinner="save" type="submit"
-                            class="{{ empty($edit_translation) ? 'btn-disabled' : 'btn-error' }}" />
-                    </x-slot:actions>
-                </x-form>
+                                </thead>
+                                <tbody>
+                                    <!-- row -->
+                                    @foreach ($translations as $key => $translation)
+                                        @php $index = 0; @endphp
+                                        <tr class="hover" wire:click="editRow({{ $translation['#'] }})">
+                                            @foreach ($translation as $value)
+                                                <td>{{ $value }}</td>
+                                            @endforeach
+                                            <td>
+                                                <x-button icon="o-pencil-square" class="btn-circle btn-ghost"
+                                                    wire:click="editRow({{ $translation['#'] }})" />
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <x-slot:actions>
+                            @if (!$autoSaveTranslations)
+                                <x-button label="Save Translations" icon="o-paper-airplane" spinner="save" type="submit"
+                                    class="{{ empty($edit_translation) ? 'btn-disabled' : 'btn-error' }}" />
+                            @else
+                                <p class="text-md text-yellow-400">Auto-save is ON</p>
+                            @endif
+                        </x-slot:actions>
+                    </x-form>
+                </div>
                 <div class="mt-4 border border-gray-900 p-4">
                     {{ $translations->links() }}
                 </div>
