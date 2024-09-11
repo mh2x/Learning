@@ -41,7 +41,7 @@ class LangManager
 
     private $app_locales = [];
 
-    private $locales_by_code=[];
+    private $locales_by_code = [];
 
     /**
      * Manager constructor.
@@ -65,7 +65,7 @@ class LangManager
      *   '$locale1' => ['original text' : 'translation1'],
      *   '$locale2' => ['original text' : 'translation2'],
      *   '$locale3' => ['original text' : 'translation3'],
-     * 
+     *
      * ]
      * locale1,2,3 like 'ar', 'es', 'fr'...
      * this shows only the lines with translations in the array
@@ -75,7 +75,7 @@ class LangManager
      */
     public function getExistingTranslationsFromLanguageJsonFiles($reload = false)
     {
-        if ($this->translations && ! $reload) {
+        if ($this->translations && !$reload) {
             return $this->translations;
         }
 
@@ -84,8 +84,7 @@ class LangManager
                 return $this->disk->extension($file) == 'json';
             })
             ->each(function ($file) {
-                $this->translations[str_replace('.json', '', $file->getFilename())]
-                    = json_decode($file->getContents());
+                $this->translations[str_replace('.json', '', $file->getFilename())] = json_decode($file->getContents());
             });
 
         return $this->translations;
@@ -108,7 +107,7 @@ class LangManager
                 if (is_object($keys)) {
                     $keys = (array) $keys;
                 }
-                if (! array_key_exists($key, $keys)) {
+                if (!array_key_exists($key, $keys)) {
                     $output[] = $key;
                 }
             }
@@ -132,11 +131,11 @@ class LangManager
      * [
      *  'text1': [  'ar'->'',
      *              'es'->''
-	 *  	        'fr'->'']
+     *  	        'fr'->'']
      *  'text2':[   'ar'->'',
      *              'es'->''
-	 *  	        'fr'->'']
-    *   ]
+     *  	        'fr'->'']
+     *   ]
      *
      * @return array
      */
@@ -146,18 +145,18 @@ class LangManager
 
         //make sure to exclude default_locale from the given array
         $translation_locales = array_diff($locales, [$default_locale]);
-        
+
         //get all existing translations
         $translations = $this->getExistingTranslationsFromLanguageJsonFiles();
 
         $keysFromFiles = array_unique(Arr::collapse($this->getAllTranslationLinesFromSourceFiles()));
-        
+
         $newIndex = 0;
-        foreach ($keysFromFiles as  $key) {
+        foreach ($keysFromFiles as $key) {
             $output[$newIndex]['#'] = ++$newIndex;
-            foreach($translation_locales as $locale){
-                $output[$newIndex][$default_locale]=$key; //initialize an empty slot
-                $output[$newIndex][$locale]=''; //initialize an empty slot
+            foreach ($translation_locales as $locale) {
+                $output[$newIndex][$default_locale] = $key; //initialize an empty slot
+                $output[$newIndex][$locale] = ''; //initialize an empty slot
             }
             //Find existing translation
             foreach ($translations as $lang => $keys) {
@@ -166,10 +165,9 @@ class LangManager
                     $keys = (array) $keys;
                 }
                 if (array_key_exists($key, $keys)) {
-                    $output[$newIndex][$lang] = $keys[ $key ];  //get the translation
-                }
-                else{
-                    $output[$newIndex][$lang] = '';  //no translation, just blank
+                    $output[$newIndex][$lang] = $keys[$key]; //get the translation
+                } else {
+                    $output[$newIndex][$lang] = ''; //no translation, just blank
                 }
             }
         }
@@ -186,15 +184,39 @@ class LangManager
      *
      * @param $translations
      */
-    public function saveTranslations($translations)
+    public function saveTranslations($translations, $default_locale)
     {
+        //$translations:
+        /*[
+        *    index => ['#'=>id, 'es'=>'english','ar'=>'arabic','es'=>spanish...]
+        * ]
+        * We need to convert it into separate files:
+        * 'ar' => [
+                    'english': 'arabic',
+                    ...
+                  ] 
+            then save it and loop...                    
+            'es',
+            ...
+        */
+        $files = [];
+
+        //Collect and split all lines into file contents
+        //$files['ar'==>[lines], 'es'=>[lines],.. ]
+        foreach ($translations as $index => $langs) {
+            $line = $langs[$default_locale];
+            foreach ($langs as $key => $value) {
+                if ($key !== '#' && $key !== $default_locale) {
+                    $files[$key][$line] = $value;
+                }
+            }
+        }
+
         $this->backup();
 
-        foreach ($translations as $lang => $lines) {
+        foreach ($files as $lang => $lines) {
             $filename = $this->languageFilesPath . DIRECTORY_SEPARATOR . "$lang.json";
-
             ksort($lines);
-
             file_put_contents($filename, json_encode($lines, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
         }
     }
@@ -208,12 +230,8 @@ class LangManager
     {
         $this->backup();
 
-        file_put_contents(
-            $this->languageFilesPath . DIRECTORY_SEPARATOR . "$language.json",
-            json_encode((object) [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-        );
+        file_put_contents($this->languageFilesPath . DIRECTORY_SEPARATOR . "$language.json", json_encode((object) [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     }
-
 
     /**
      * Get found translation lines found per file.
@@ -227,25 +245,26 @@ class LangManager
          *
          * https://github.com/barryvdh/laravel-translation-manager/blob/master/src/Manager.php
          */
-        $functions =  ['__'];
+        $functions = ['__'];
 
         $pattern =
             // See https://regex101.com/r/jS5fX0/5
             '[^\w]' . // Must not start with any alphanum or _
             '(?<!->)' . // Must not start with ->
-            '(' . implode('|', $functions) . ')' . // Must start with one of the functions
-            "\(" . // Match opening parentheses
+            '(' .
+            implode('|', $functions) .
+            ')' . // Must start with one of the functions
+            '\(' . // Match opening parentheses
             "[\'\"]" . // Match " or '
             '(' . // Start a new group to match:
             '.+' . // Must start with group
             ')' . // Close group
             "[\'\"]" . // Closing quote
-            "[\),]"  // Close parentheses or new parameter
-        ;
+            '[\),]'; // Close parentheses or new parameter
 
         $allMatches = [];
 
-        foreach ($this->lookupPaths as $path){
+        foreach ($this->lookupPaths as $path) {
             foreach ($this->disk->allFiles($path) as $file) {
                 if (preg_match_all("/$pattern/siU", $file->getContents(), $matches)) {
                     $allMatches[$file->getRelativePathname()] = $matches[2];
@@ -260,9 +279,8 @@ class LangManager
      */
     private function backup()
     {
-        if (! $this->disk->exists(storage_path('LangBackup'))) {
+        if (!$this->disk->exists(storage_path('LangBackup'))) {
             $this->disk->makeDirectory(storage_path('LangBackup'));
-
             $this->disk->put(storage_path('LangBackup' . '/.gitignore'), "*\n!.gitignore");
         }
 
@@ -283,7 +301,7 @@ class LangManager
     {
         //TODO: switch this code to a hard-coded array since it
         // is always fixed
-        if (!count($this->locales_by_code)){
+        if (!count($this->locales_by_code)) {
             $allLocales = $this->getLocalesArray();
 
             foreach ($allLocales as $element) {
@@ -291,10 +309,9 @@ class LangManager
             }
         }
 
-        $names=[];
-        foreach ($locales as $locale)
-        {
-            if (array_key_exists($locale, $this->locales_by_code)){
+        $names = [];
+        foreach ($locales as $locale) {
+            if (array_key_exists($locale, $this->locales_by_code)) {
                 $names[$locale] = $this->locales_by_code[$locale];
             }
         }
@@ -303,148 +320,148 @@ class LangManager
 
     public function getLocalesArray()
     {
-        //TODO: move the array to a separate file 
+        //TODO: move the array to a separate file
         //Shortened list
         return [
-            ['id' => "af", 'name' => "Afrikaans"],
-            ['id' => "ak", 'name' => "Akan"],
-            ['id' => "sq", 'name' => "Albanian"],
-            ['id' => "am", 'name' => "Amharic"],
-            ['id' => "ar", 'name' => "Arabic"],
-            ['id' => "hy", 'name' => "Armenian"],
-            ['id' => "as", 'name' => "Assamese"],
-            ['id' => "asa", 'name' => "Asu"],
-            ['id' => "az", 'name' => "Azerbaijani"],
-            ['id' => "bm", 'name' => "Bambara"],
-            ['id' => "eu", 'name' => "Basque"],
-            ['id' => "be", 'name' => "Belarusian"],
-            ['id' => "bem", 'name' => "Bemba"],
-            ['id' => "bez", 'name' => "Bena"],
-            ['id' => "bn", 'name' => "Bengali"],
-            ['id' => "bs", 'name' => "Bosnian"],
-            ['id' => "bg", 'name' => "Bulgarian"],
-            ['id' => "my", 'name' => "Burmese"],
-            ['id' => "yue_Hant_HK", 'name' => "Cantonese"],
-            ['id' => "ca", 'name' => "Catalan"],
-            ['id' => "tzm", 'name' => "Central Morocco Tamazight"],
-            ['id' => "chr", 'name' => "Cherokee"],
-            ['id' => "cgg", 'name' => "Chiga"],
-            ['id' => "zh", 'name' => "Chinese"],
-            ['id' => "kw", 'name' => "Cornish"],
-            ['id' => "hr", 'name' => "Croatian"],
-            ['id' => "cs", 'name' => "Czech"],
-            ['id' => "da", 'name' => "Danish"],
-            ['id' => "nl", 'name' => "Dutch"],
-            ['id' => "ebu", 'name' => "Embu"],
-            ['id' => "en", 'name' => "English"],
-            ['id' => "eo", 'name' => "Esperanto"],
-            ['id' => "et", 'name' => "Estonian"],
-            ['id' => "ee", 'name' => "Ewe"],
-            ['id' => "fo", 'name' => "Faroese"],
-            ['id' => "fil", 'name' => "Filipino"],
-            ['id' => "fi", 'name' => "Finnish"],
-            ['id' => "fr", 'name' => "French"],
-            ['id' => "ff", 'name' => "Fulah"],
-            ['id' => "gl", 'name' => "Galician"],
-            ['id' => "lg", 'name' => "Ganda"],
-            ['id' => "ka", 'name' => "Georgian"],
-            ['id' => "de", 'name' => "German"],
-            ['id' => "el", 'name' => "Greek"],
-            ['id' => "gu", 'name' => "Gujarati"],
-            ['id' => "guz", 'name' => "Gusii"],
-            ['id' => "ha", 'name' => "Hausa"],
-            ['id' => "haw", 'name' => "Hawaiian"],
-            ['id' => "he", 'name' => "Hebrew"],
-            ['id' => "hi", 'name' => "Hindi"],
-            ['id' => "hu", 'name' => "Hungarian"],
-            ['id' => "is", 'name' => "Icelandic"],
-            ['id' => "ig", 'name' => "Igbo"],
-            ['id' => "id", 'name' => "Indonesian"],
-            ['id' => "ga", 'name' => "Irish"],
-            ['id' => "it", 'name' => "Italian"],
-            ['id' => "ja", 'name' => "Japanese"],
-            ['id' => "kea", 'name' => "Kabuverdianu"],
-            ['id' => "kab", 'name' => "Kabyle"],
-            ['id' => "kl", 'name' => "Kalaallisut"],
-            ['id' => "kln", 'name' => "Kalenjin"],
-            ['id' => "kam", 'name' => "Kamba"],
-            ['id' => "kn", 'name' => "Kannada"],
-            ['id' => "kk", 'name' => "Kazakh"],
-            ['id' => "km", 'name' => "Khmer"],
-            ['id' => "ki", 'name' => "Kikuyu"],
-            ['id' => "rw", 'name' => "Kinyarwanda"],
-            ['id' => "kok", 'name' => "Konkani"],
-            ['id' => "ko", 'name' => "Korean"],
-            ['id' => "khq", 'name' => "Koyra Chiini"],
-            ['id' => "ses", 'name' => "Koyraboro Senni"],
-            ['id' => "lag", 'name' => "Langi"],
-            ['id' => "lv", 'name' => "Latvian"],
-            ['id' => "lt", 'name' => "Lithuanian"],
-            ['id' => "luo", 'name' => "Luo"],
-            ['id' => "luy", 'name' => "Luyia"],
-            ['id' => "mk", 'name' => "Macedonian"],
-            ['id' => "jmc", 'name' => "Machame"],
-            ['id' => "kde", 'name' => "Makonde"],
-            ['id' => "mg", 'name' => "Malagasy"],
-            ['id' => "ms", 'name' => "Malay"],
-            ['id' => "ml", 'name' => "Malayalam"],
-            ['id' => "mt", 'name' => "Maltese"],
-            ['id' => "gv", 'name' => "Manx"],
-            ['id' => "mr", 'name' => "Marathi"],
-            ['id' => "mas", 'name' => "Masai"],
-            ['id' => "mer", 'name' => "Meru"],
-            ['id' => "mfe", 'name' => "Morisyen"],
-            ['id' => "naq", 'name' => "Nama"],
-            ['id' => "ne", 'name' => "Nepali"],
-            ['id' => "nd", 'name' => "North Ndebele"],
-            ['id' => "nb", 'name' => "Norwegian Bokmål"],
-            ['id' => "nn", 'name' => "Norwegian Nynorsk"],
-            ['id' => "nyn", 'name' => "Nyankole"],
-            ['id' => "or", 'name' => "Oriya"],
-            ['id' => "om", 'name' => "Oromo"],
-            ['id' => "ps", 'name' => "Pashto"],
-            ['id' => "fa", 'name' => "Persian"],
-            ['id' => "pl", 'name' => "Polish"],
-            ['id' => "pt", 'name' => "Portuguese"],
-            ['id' => "pa", 'name' => "Punjabi"],
-            ['id' => "ro", 'name' => "Romanian"],
-            ['id' => "rm", 'name' => "Romansh"],
-            ['id' => "rof", 'name' => "Rombo"],
-            ['id' => "ru", 'name' => "Russian"],
-            ['id' => "rwk", 'name' => "Rwa"],
-            ['id' => "saq", 'name' => "Samburu"],
-            ['id' => "sg", 'name' => "Sango"],
-            ['id' => "seh", 'name' => "Sena"],
-            ['id' => "sr", 'name' => "Serbian"],
-            ['id' => "sn", 'name' => "Shona"],
-            ['id' => "ii", 'name' => "Sichuan Yi"],
-            ['id' => "si", 'name' => "Sinhala"],
-            ['id' => "sk", 'name' => "Slovak"],
-            ['id' => "sl", 'name' => "Slovenian"],
-            ['id' => "xog", 'name' => "Soga"],
-            ['id' => "so", 'name' => "Somali"],
-            ['id' => "es", 'name' => "Spanish"],
-            ['id' => "sw", 'name' => "Swahili"],
-            ['id' => "sv", 'name' => "Swedish"],
-            ['id' => "gsw", 'name' => "Swiss German"],
-            ['id' => "shi", 'name' => "Tachelhit"],
-            ['id' => "dav", 'name' => "Taita"],
-            ['id' => "ta", 'name' => "Tamil"],
-            ['id' => "te", 'name' => "Telugu"],
-            ['id' => "teo", 'name' => "Teso"],
-            ['id' => "th", 'name' => "Thai"],
-            ['id' => "bo", 'name' => "Tibetan"],
-            ['id' => "ti", 'name' => "Tigrinya"],
-            ['id' => "to", 'name' => "Tonga"],
-            ['id' => "tr", 'name' => "Turkish"],
-            ['id' => "uk", 'name' => "Ukrainian"],
-            ['id' => "ur", 'name' => "Urdu"],
-            ['id' => "uz", 'name' => "Uzbek"],
-            ['id' => "vi", 'name' => "Vietnamese"],
-            ['id' => "vun", 'name' => "Vunjo"],
-            ['id' => "cy", 'name' => "Welsh"],
-            ['id' => "yo", 'name' => "Yoruba"],
-            ['id' => "zu", 'name' => "Zulu"],
+            ['id' => 'af', 'name' => 'Afrikaans'],
+            ['id' => 'ak', 'name' => 'Akan'],
+            ['id' => 'sq', 'name' => 'Albanian'],
+            ['id' => 'am', 'name' => 'Amharic'],
+            ['id' => 'ar', 'name' => 'Arabic'],
+            ['id' => 'hy', 'name' => 'Armenian'],
+            ['id' => 'as', 'name' => 'Assamese'],
+            ['id' => 'asa', 'name' => 'Asu'],
+            ['id' => 'az', 'name' => 'Azerbaijani'],
+            ['id' => 'bm', 'name' => 'Bambara'],
+            ['id' => 'eu', 'name' => 'Basque'],
+            ['id' => 'be', 'name' => 'Belarusian'],
+            ['id' => 'bem', 'name' => 'Bemba'],
+            ['id' => 'bez', 'name' => 'Bena'],
+            ['id' => 'bn', 'name' => 'Bengali'],
+            ['id' => 'bs', 'name' => 'Bosnian'],
+            ['id' => 'bg', 'name' => 'Bulgarian'],
+            ['id' => 'my', 'name' => 'Burmese'],
+            ['id' => 'yue_Hant_HK', 'name' => 'Cantonese'],
+            ['id' => 'ca', 'name' => 'Catalan'],
+            ['id' => 'tzm', 'name' => 'Central Morocco Tamazight'],
+            ['id' => 'chr', 'name' => 'Cherokee'],
+            ['id' => 'cgg', 'name' => 'Chiga'],
+            ['id' => 'zh', 'name' => 'Chinese'],
+            ['id' => 'kw', 'name' => 'Cornish'],
+            ['id' => 'hr', 'name' => 'Croatian'],
+            ['id' => 'cs', 'name' => 'Czech'],
+            ['id' => 'da', 'name' => 'Danish'],
+            ['id' => 'nl', 'name' => 'Dutch'],
+            ['id' => 'ebu', 'name' => 'Embu'],
+            ['id' => 'en', 'name' => 'English'],
+            ['id' => 'eo', 'name' => 'Esperanto'],
+            ['id' => 'et', 'name' => 'Estonian'],
+            ['id' => 'ee', 'name' => 'Ewe'],
+            ['id' => 'fo', 'name' => 'Faroese'],
+            ['id' => 'fil', 'name' => 'Filipino'],
+            ['id' => 'fi', 'name' => 'Finnish'],
+            ['id' => 'fr', 'name' => 'French'],
+            ['id' => 'ff', 'name' => 'Fulah'],
+            ['id' => 'gl', 'name' => 'Galician'],
+            ['id' => 'lg', 'name' => 'Ganda'],
+            ['id' => 'ka', 'name' => 'Georgian'],
+            ['id' => 'de', 'name' => 'German'],
+            ['id' => 'el', 'name' => 'Greek'],
+            ['id' => 'gu', 'name' => 'Gujarati'],
+            ['id' => 'guz', 'name' => 'Gusii'],
+            ['id' => 'ha', 'name' => 'Hausa'],
+            ['id' => 'haw', 'name' => 'Hawaiian'],
+            ['id' => 'he', 'name' => 'Hebrew'],
+            ['id' => 'hi', 'name' => 'Hindi'],
+            ['id' => 'hu', 'name' => 'Hungarian'],
+            ['id' => 'is', 'name' => 'Icelandic'],
+            ['id' => 'ig', 'name' => 'Igbo'],
+            ['id' => 'id', 'name' => 'Indonesian'],
+            ['id' => 'ga', 'name' => 'Irish'],
+            ['id' => 'it', 'name' => 'Italian'],
+            ['id' => 'ja', 'name' => 'Japanese'],
+            ['id' => 'kea', 'name' => 'Kabuverdianu'],
+            ['id' => 'kab', 'name' => 'Kabyle'],
+            ['id' => 'kl', 'name' => 'Kalaallisut'],
+            ['id' => 'kln', 'name' => 'Kalenjin'],
+            ['id' => 'kam', 'name' => 'Kamba'],
+            ['id' => 'kn', 'name' => 'Kannada'],
+            ['id' => 'kk', 'name' => 'Kazakh'],
+            ['id' => 'km', 'name' => 'Khmer'],
+            ['id' => 'ki', 'name' => 'Kikuyu'],
+            ['id' => 'rw', 'name' => 'Kinyarwanda'],
+            ['id' => 'kok', 'name' => 'Konkani'],
+            ['id' => 'ko', 'name' => 'Korean'],
+            ['id' => 'khq', 'name' => 'Koyra Chiini'],
+            ['id' => 'ses', 'name' => 'Koyraboro Senni'],
+            ['id' => 'lag', 'name' => 'Langi'],
+            ['id' => 'lv', 'name' => 'Latvian'],
+            ['id' => 'lt', 'name' => 'Lithuanian'],
+            ['id' => 'luo', 'name' => 'Luo'],
+            ['id' => 'luy', 'name' => 'Luyia'],
+            ['id' => 'mk', 'name' => 'Macedonian'],
+            ['id' => 'jmc', 'name' => 'Machame'],
+            ['id' => 'kde', 'name' => 'Makonde'],
+            ['id' => 'mg', 'name' => 'Malagasy'],
+            ['id' => 'ms', 'name' => 'Malay'],
+            ['id' => 'ml', 'name' => 'Malayalam'],
+            ['id' => 'mt', 'name' => 'Maltese'],
+            ['id' => 'gv', 'name' => 'Manx'],
+            ['id' => 'mr', 'name' => 'Marathi'],
+            ['id' => 'mas', 'name' => 'Masai'],
+            ['id' => 'mer', 'name' => 'Meru'],
+            ['id' => 'mfe', 'name' => 'Morisyen'],
+            ['id' => 'naq', 'name' => 'Nama'],
+            ['id' => 'ne', 'name' => 'Nepali'],
+            ['id' => 'nd', 'name' => 'North Ndebele'],
+            ['id' => 'nb', 'name' => 'Norwegian Bokmål'],
+            ['id' => 'nn', 'name' => 'Norwegian Nynorsk'],
+            ['id' => 'nyn', 'name' => 'Nyankole'],
+            ['id' => 'or', 'name' => 'Oriya'],
+            ['id' => 'om', 'name' => 'Oromo'],
+            ['id' => 'ps', 'name' => 'Pashto'],
+            ['id' => 'fa', 'name' => 'Persian'],
+            ['id' => 'pl', 'name' => 'Polish'],
+            ['id' => 'pt', 'name' => 'Portuguese'],
+            ['id' => 'pa', 'name' => 'Punjabi'],
+            ['id' => 'ro', 'name' => 'Romanian'],
+            ['id' => 'rm', 'name' => 'Romansh'],
+            ['id' => 'rof', 'name' => 'Rombo'],
+            ['id' => 'ru', 'name' => 'Russian'],
+            ['id' => 'rwk', 'name' => 'Rwa'],
+            ['id' => 'saq', 'name' => 'Samburu'],
+            ['id' => 'sg', 'name' => 'Sango'],
+            ['id' => 'seh', 'name' => 'Sena'],
+            ['id' => 'sr', 'name' => 'Serbian'],
+            ['id' => 'sn', 'name' => 'Shona'],
+            ['id' => 'ii', 'name' => 'Sichuan Yi'],
+            ['id' => 'si', 'name' => 'Sinhala'],
+            ['id' => 'sk', 'name' => 'Slovak'],
+            ['id' => 'sl', 'name' => 'Slovenian'],
+            ['id' => 'xog', 'name' => 'Soga'],
+            ['id' => 'so', 'name' => 'Somali'],
+            ['id' => 'es', 'name' => 'Spanish'],
+            ['id' => 'sw', 'name' => 'Swahili'],
+            ['id' => 'sv', 'name' => 'Swedish'],
+            ['id' => 'gsw', 'name' => 'Swiss German'],
+            ['id' => 'shi', 'name' => 'Tachelhit'],
+            ['id' => 'dav', 'name' => 'Taita'],
+            ['id' => 'ta', 'name' => 'Tamil'],
+            ['id' => 'te', 'name' => 'Telugu'],
+            ['id' => 'teo', 'name' => 'Teso'],
+            ['id' => 'th', 'name' => 'Thai'],
+            ['id' => 'bo', 'name' => 'Tibetan'],
+            ['id' => 'ti', 'name' => 'Tigrinya'],
+            ['id' => 'to', 'name' => 'Tonga'],
+            ['id' => 'tr', 'name' => 'Turkish'],
+            ['id' => 'uk', 'name' => 'Ukrainian'],
+            ['id' => 'ur', 'name' => 'Urdu'],
+            ['id' => 'uz', 'name' => 'Uzbek'],
+            ['id' => 'vi', 'name' => 'Vietnamese'],
+            ['id' => 'vun', 'name' => 'Vunjo'],
+            ['id' => 'cy', 'name' => 'Welsh'],
+            ['id' => 'yo', 'name' => 'Yoruba'],
+            ['id' => 'zu', 'name' => 'Zulu'],
         ];
     }
 }

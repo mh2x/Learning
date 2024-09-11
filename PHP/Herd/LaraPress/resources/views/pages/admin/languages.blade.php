@@ -13,7 +13,7 @@ new class extends Component {
     public $app_locales = [];
     public $locales = [];
     public $table_headers = [];
-    public $translationData = [];
+    public $allTranslationData = [];
     public $edit_row_id = 0;
     public $edit_translation = [];
     public $showTranslationDialog = false;
@@ -45,11 +45,11 @@ new class extends Component {
 
         //Translations
         $default_locale = Settings('default_locale', ['en']);
-        $this->translationData = $langManager->getAllTranslationsWithLocales($this->app_locales, $default_locale);
-        //dd($this->translationData);
-        if (count($this->translationData) > 1) {
+        $this->allTranslationData = $langManager->getAllTranslationsWithLocales($this->app_locales, $default_locale);
+        //dd($this->allTranslationData);
+        if (count($this->allTranslationData) > 1) {
             //set the new $translation_locales array
-            $translation_locales = $this->translationData[1];
+            $translation_locales = $this->allTranslationData[1];
         }
 
         //Add columns for each locale
@@ -66,12 +66,12 @@ new class extends Component {
             }
             $this->table_headers[] = ['key' => "$key", 'label' => $label];
         }
-        //dd($this->translationData);
+        //dd($this->allTranslationData);
     }
 
     public function translations(): LengthAwarePaginator
     {
-        $data = $this->translationData;
+        $data = $this->allTranslationData;
         // Pagination variables
         $itemsPerPage = 10;
         $page = LengthAwarePaginator::resolveCurrentPage() ?: 1;
@@ -123,7 +123,7 @@ new class extends Component {
             return;
         }
         $this->edit_row_id = $id;
-        $this->edit_translation = $this->translationData[$id];
+        $this->edit_translation = $this->allTranslationData[$id];
         //dd($this->edit_translation);
         $this->showTranslationDialog = true;
     }
@@ -132,13 +132,13 @@ new class extends Component {
     {
         if ($confirm) {
             //update the text
-            $this->translationData[$this->edit_row_id] = $this->edit_translation;
+            $this->allTranslationData[$this->edit_row_id] = $this->edit_translation;
 
             if ($this->autoSaveTranslations) {
                 //Commit the changes to the backend / files
                 $this->saveTranslations();
             }
-            //dd($this->translationData);
+            //dd($this->allTranslationData);
             $this->Refresh();
         }
         //dd($this->edit_translation);
@@ -155,6 +155,9 @@ new class extends Component {
 
     public function saveTranslations()
     {
+        $langManager = app(LangManager::class);
+        $langManager->saveTranslations($this->allTranslationData, Settings('default_locale', ['en']));
+
         $this->edit_translation = [];
         $this->success('Translations saved successfully.');
     }
@@ -240,14 +243,14 @@ new class extends Component {
                 @php
                     $index = 0;
                 @endphp
-                <x-form class="m-4 p-2">
+                <x-form class="m-4 p-2" wire:submit='endEditRow(true)'>
                     @foreach ($edit_translation as $key => $value)
                         @if ($index < 2)
                             <x-input label="{{ $headers[$index]['label'] }}" value="{{ $value }}" inline readonly
                                 class="text-gray-300" />
                         @else
                             <x-input label="{{ $headers[$index]['label'] }}"
-                                wire:model="edit_translation.{{ $key }}" />
+                                wire:model="edit_translation.{{ $key }}" required />
                         @endif
                         @php
                             $index++;
@@ -255,7 +258,7 @@ new class extends Component {
                     @endforeach
                     <x-slot:actions>
                         <x-button label="Cancel" wire:click="endEditRow(false)" />
-                        <x-button label="Confirm" class="btn-warning" spinner="save" wire:click="endEditRow(true)" />
+                        <x-button label="Confirm" class="btn-warning" spinner="save" type='submit' />
                     </x-slot:actions>
                 </x-form>
             </x-modal>
