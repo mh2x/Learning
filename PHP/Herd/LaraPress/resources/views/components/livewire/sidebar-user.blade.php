@@ -15,11 +15,13 @@ new class extends Component {
         die();
     }
 }; ?>
-<div>
+<div class="m-2 p-1">
     @if ($user = auth()->user())
-        <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="text-sm">
+        <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover
+            class="text-sm font-semibold">
             <x-slot:actions>
-                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip="Logout" wire:click="Logout" wire:confirm="{{ __('Are you sure you want to logout?') }}" />
+                <x-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-bottom="Logout" wire:click="Logout"
+                    wire:confirm="{{ __('Are you sure you want to logout?') }}" />
             </x-slot:actions>
         </x-list-item>
     @endif

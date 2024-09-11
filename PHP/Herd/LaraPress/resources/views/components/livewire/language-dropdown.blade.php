@@ -38,20 +38,20 @@ new class extends Component {
     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow">
         @foreach (getAllowedLocaleNames() as $key => $value)
             @if ($key === $this->appLocale)
-                <li class="text-slate-500 pointer-events-none">
+                <li class="pointer-events-none">
                     <a href="#">
                         <span class="w-2">&#10003;</span>
                         {{ __($value) }}</a>
                 </li>
             @else
-                <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')">
+                <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')" class="font-semibold">
                         <span class="w-2"></span>
                         {{ __($value) }}</a></li>
             @endif
         @endforeach
         @auth
             <x-hr />
-            <li><a href="{{ route('admin.languages') }}" class="text-yellow-500">
+            <li><a href="{{ route('admin.languages') }}" class="text-warning">
                     <x-icon name="s-cog-6-tooth" />
                     {{ __('Configure...') }}
                 </a>

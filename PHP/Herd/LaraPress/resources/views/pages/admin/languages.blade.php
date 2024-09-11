@@ -165,18 +165,19 @@ new class extends Component {
 
 <x-layouts.app>
     @volt
-        <div class="bg-gray-700 p-6">
+        <div class="p-6">
             <x-slot:title>
                 {{ __('Languages') }}
             </x-slot:title>
             <x-form wire:submit="saveLocales" no-separator>
                 <div class="lg:grid grid-cols-9">
                     <div class="col-span-2">
-                        <x-header title="Locales" subtitle="Choose locales you want to support" size="text-2xl" />
+                        <x-header title="Locales" subtitle="Choose locales you want to support" size="text-2xl"
+                            class="text-secondary" />
                     </div>
-                    <div class="col-span-4 gap-3">
-                        <x-choices-offline label="Supported Locales" wire:model="app_locales" :options="$locales" searchable
-                            class="focus:text-red-500" />
+                    <div class="col-span-4 gap-3 ">
+                        <x-choices-offline label="Supported Locales" wire:model="app_locales" :options="$locales"
+                            class="border-neutral" searchable />
                     </div>
                 </div>
                 <x-slot:actions>
@@ -190,7 +191,8 @@ new class extends Component {
             <x-hr class="my-5" />
             <div>
                 <div class="flex flex-row justify-between">
-                    <x-header title="Translations" subtitle="Localize your app messages" size="text-2xl" />
+                    <x-header title="Translations" subtitle="Localize your app messages" size="text-2xl"
+                        class="text-secondary" />
                     <x-checkbox label="Auto-save translation changes" wire:click="toggleAutoSaveTranslations"
                         class="checkbox-warning" right tight />
                 </div>
@@ -229,12 +231,12 @@ new class extends Component {
                                 <x-button label="Save Translations" icon="o-paper-airplane" spinner="save" type="submit"
                                     class="{{ empty($edit_translation) ? 'btn-disabled' : 'btn-error' }}" />
                             @else
-                                <p class="text-md text-yellow-400">Auto-save is ON</p>
+                                <p class="text-md text-warning">Auto-save is ON</p>
                             @endif
                         </x-slot:actions>
                     </x-form>
                 </div>
-                <div class="mt-4 border border-gray-900 p-4">
+                <div class="mt-4 border border-base-300 p-4">
                     {{ $translations->links() }}
                 </div>
             </div>
@@ -247,7 +249,7 @@ new class extends Component {
                     @foreach ($edit_translation as $key => $value)
                         @if ($index < 2)
                             <x-input label="{{ $headers[$index]['label'] }}" value="{{ $value }}" inline readonly
-                                class="text-gray-300" />
+                                class="text-secondary" />
                         @else
                             <x-input label="{{ $headers[$index]['label'] }}"
                                 wire:model="edit_translation.{{ $key }}" required />

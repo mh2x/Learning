@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 
 new class extends Component {}; ?>
-<div>
+<div class="font-semibold">
     {{-- MENU --}}
     {{-- heroicons: https://blade-ui-kit.com/blade-icons?set=1#search --}}
     <x-menu activate-by-route>

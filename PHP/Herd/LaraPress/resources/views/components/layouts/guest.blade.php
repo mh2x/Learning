@@ -11,7 +11,7 @@
 
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+<body class="min-h-screen font-sans antialiased">
     <x-nav sticky full-width progress-indicator>
         <x-slot:brand class="!justify-center">
             <x-app-brand />

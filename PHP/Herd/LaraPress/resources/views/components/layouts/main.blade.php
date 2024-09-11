@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
 </head>
 
-<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
+<body class="min-h-screen font-sans antialiased">
 
     {{-- NAVBAR mobile only --}}
     <x-nav sticky full-width progress-indicator>

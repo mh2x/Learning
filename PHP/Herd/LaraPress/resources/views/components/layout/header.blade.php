@@ -1,7 +1,7 @@
 @props(['title' => 'NOTITLE'])
 
 <div>
-    <div class="w-full dark:bg-gray-800">
+    <div class="w-full">
         {{-- NAVBAR mobile only --}}
         <x-nav sticky class="lg:hidden">
             <x-slot:brand>
@@ -23,7 +23,7 @@
 
                 @if ($title->hasActualContent())
                     {{-- Each page must have a <slot:title> to display the title here --}}
-                    <h2 class="font-bold text-2xl dark:text-white leading-tight">
+                    <h2 class="font-bold text-2xl leading-tight text-secondary">
                         {{ $title }}
                     </h2>
                 @else
@@ -44,6 +44,5 @@
                 </x-slot:middle>
             </div>
         </x-nav>
-
     </div>
 </div>
