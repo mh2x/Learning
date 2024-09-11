@@ -284,7 +284,7 @@ class LangManager
             $this->disk->put(storage_path('LangBackup' . '/.gitignore'), "*\n!.gitignore");
         }
 
-        $this->disk->copyDirectory(resource_path('lang'), storage_path('LangBackup/' . time()));
+        $this->disk->copyDirectory(lang_path(), storage_path('LangBackup/' . time()));
     }
 
     public function getAppLocales()
