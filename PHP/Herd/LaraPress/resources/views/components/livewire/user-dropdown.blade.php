@@ -30,11 +30,11 @@ new class extends Component {
             <div tabindex="0"
                 class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow font-semibold">
                 <div class="p-3">
-                    <p class="text-md">{{ __('Admin') }}</p>
-                    <p class="text-sm text-secondary">{{ $user->email }}</p>
-                    <hr class="border-base-300 m-2" />
+                    <p class="text-md text-secondary">{{ __('Admin') }}</p>
+                    <p class="text-sm">{{ $user->email }}</p>
+                    <x-separator />
                     <x-menu-item title="{{ __('Profile') }}" icon="o-user" link="/profile" />
-                    <hr class="border-base-300 m-2" />
+                    <x-separator />
                     <x-menu-item title="{{ __('Logout') }}" icon="o-power" wire:click="Logout" />
                 </div>
             </div>

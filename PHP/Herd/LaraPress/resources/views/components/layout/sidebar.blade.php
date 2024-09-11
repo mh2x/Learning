@@ -3,7 +3,7 @@
         {{-- User --}}
         @if (auth()->user())
             @livewire('sidebar-user')
-            <hr class="border-base-300 m-2" />
+            <x-separator />
         @endif
         {{-- Menu --}}
         @livewire('sidebar-menu')
