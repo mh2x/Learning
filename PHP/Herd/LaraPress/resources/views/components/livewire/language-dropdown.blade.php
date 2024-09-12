@@ -35,18 +35,19 @@ new class extends Component {
             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
         </svg>
     </div>
-    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow-2xl">
+    <ul tabindex="0"
+        class="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow-2xl border border-base-300">
         @foreach (getAllowedLocaleNames() as $key => $value)
             @if ($key === $this->appLocale)
                 <li class="pointer-events-none">
                     <a href="#">
                         <span class="w-2">&#10003;</span>
-                        {{ __($value) }}</a>
+                        {{ $value }}</a>
                 </li>
             @else
-                <li><a href="#" wire:click.prevent="changeLocale('{{ $key }}')" class="font-semibold">
+                <li><a href="" wire:click.prevent="changeLocale('{{ $key }}')" class="font-semibold">
                         <span class="w-2"></span>
-                        {{ __($value) }}</a></li>
+                        {{ $value }}</a></li>
             @endif
         @endforeach
         @auth

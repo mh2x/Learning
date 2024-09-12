@@ -24,6 +24,9 @@ function Logout($str): void
     die();
 }
 
+//-----------------------------------------------------------------------------
+// Settings
+//-----------------------------------------------------------------------------
 function Settings($key, $default = null)
 {
     //Register the settings manager
@@ -45,6 +48,9 @@ function updateSettingsValue($key, $value, $save = true)
     $settingsManager->setValue($key, $value, $save);
 }
 
+//-----------------------------------------------------------------------------
+// Locales
+//-----------------------------------------------------------------------------
 function getAllLocales(): array
 {
     $langManager = app(LangManager::class);
@@ -76,27 +82,99 @@ function setAppLocale($locale)
     app()->setLocale($locale);
 }
 
+//-----------------------------------------------------------------------------
 //Theme support
+//-----------------------------------------------------------------------------
 function getAllThemes()
 {
     $themes = (require 'themes.php');
     return $themes;
 }
-function getSupportedThemes()
+
+function getThemesStyleValidValues()
 {
-    $themes = (require 'themes.php');
-    return $themes;
+    $themes_style = (require 'themes_style.php');
+    return $themes_style;
 }
 
-function getDefaultTheme()
+function getThemesStyle()
 {
-    $themes = (require 'themes.php');
-    return $themes[0];
+    //can be one of:
+    //[light, dark, toggle, list]
+    $themes_style = Settings('themes_style', 'light');
+    return $themes_style;
 }
+
+function setThemeStyle($style)
+{
+    $allowed = ['light', 'dark', 'toggle', 'list'];
+
+    if (!in_array($style, $allowed)) {
+        throw new Exception("wrong value used for setThemeStyle. Allowed values are: $allowed");
+    }
+    updateSettingsValue('themes_style', $style);
+}
+
+function getThemesList()
+{
+    $supported_themes = Settings('themes_list', ['light', 'dark']);
+    return $supported_themes;
+}
+
+function setThemesList($list)
+{
+    updateSettingsValue('themes_list', $list ?? ["light", 'dark']);
+}
+
 
 function getActiveTheme()
 {
-    $themes = (require 'themes.php');
-    return $themes[0];
+    $active_theme = Settings('active_theme', 'light');
+    return $active_theme;
 }
-function setActiveTheme($theme) {}
+
+function setActiveTheme($theme)
+{
+    updateSettingsValue('active_theme', $theme ?? "light");
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    die();
+}
+
+//-----------------------------------------------------------------------------
+//general for arrays
+//-----------------------------------------------------------------------------
+
+/**
+ * Convert an array of strings into an array of associative arrays with 'id' and 'name' keys.
+ *
+ * @param array $strings Array of strings to be converted.
+ * @return array Converted array.
+ */
+function convertArray($strings, $capital1st = false, $keyName = 'id', $valueName = "name")
+{
+    $result = [];
+
+    foreach ($strings as $index => $string) {
+        $result[] = [
+            "$keyName" => $index,
+            "$valueName" => $capital1st ? ucfirst(__($string)) : $string
+        ];
+    }
+    return $result;
+}
+
+/**
+ * arrayKeys2ArrayValues($keys, $bigArray) 
+ *
+ * @param array $keys array of $keys to be within the array 
+ * @param array $bigArray The larger array to search within.
+ * @return array Array of values from $bigArray
+ */
+function arrayKeys2ArrayValues($keys, $bigArray)
+{
+    // Create an array with just the keys to use for filtering
+    $keysArray = array_flip($keys);
+    // Filter the original array to get only the values for the given keys
+    $filteredArray = array_intersect_key($bigArray, $keysArray);
+    return $filteredArray;
+}

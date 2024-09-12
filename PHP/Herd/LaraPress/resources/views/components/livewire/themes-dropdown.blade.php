@@ -11,9 +11,8 @@ new class extends Component {
 
     public function changeTheme($theme)
     {
-        setActiveTheme($theme);
         $this->appTheme = $theme;
-        $this->Refresh();
+        setActiveTheme($theme);
     }
 
     public function Refresh()
@@ -37,23 +36,21 @@ new class extends Component {
             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
         </svg>
     </div>
-    <input type="radio" name="theme-changer"
-        class="theme-controller btn btn-sm btn-block btn-ghost justify-start hidden" aria-label="{{ $this->appTheme }}"
-        value="{{ $this->appTheme }}" checked>
 
-    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-2xl overflow-y-auto">
-        @foreach (getSupportedThemes() as $key => $value)
+    <ul tabindex="0"
+        class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-2xl overflow-y-auto border border-base-300">
+        @foreach (getThemesList() as $key => $value)
             @if ($value === $this->appTheme)
                 <li class="pointer-events-none">
                     <a href="#">
                         <span class="w-2">&#10003;</span>
-                        {{ __($value) }}</a>
+                        {{ ucfirst($value) }}</a>
                 </li>
             @else
-                <li><a href="#" wire:click.prevent="changeTheme('{{ $value }}')" class="font-semibold p-1"
-                        aria-label="{{ ucfirst(__($value)) }}">
+                <li><a href="" wire:click.prevent="changeTheme('{{ $value }}')" class="font-semibold p-1"
+                        aria-label="{{ $value }}">
                         <span class="w-2"></span>
-                        {{ ucfirst(__($value)) }}</a>
+                        {{ ucfirst($value) }}</a>
                 </li>
             @endif
         @endforeach

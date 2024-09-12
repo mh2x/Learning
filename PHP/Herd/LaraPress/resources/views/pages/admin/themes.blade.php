@@ -3,8 +3,10 @@
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Validator;
 use Mary\Traits\Toast;
 use App\Core\LangManager;
+
 use function Laravel\Folio\{middleware, name};
 
 name('admin.themes');
@@ -14,42 +16,69 @@ new class extends Component {
     use Toast;
     use WithPagination;
 
-    public $app_themes = [];
+    //listen to dropdown selection events
+    protected $listeners = ['dropdown-SelectionChange' => 'onDropdownSelectionChange'];
+
+    public $active_theme;
     public $all_themes = [];
-    public $default_theme;
+    public $app_themes = [];
+
     public $enableThemeSelection = false;
+    public $theme_styles = [];
+    public $theme_styles_index;
+
+    public function onDropdownSelectionChange($eventData)
+    {
+        // Handle the event and the data passed from the selection change
+        $selection = $eventData['selection'];
+        $data = $eventData['data'];
+        $this->theme_styles_index = $selection;
+        //$this->setEnableThemesList();
+    }
 
     public function Refresh()
     {
         $this->dispatch('$refresh');
     }
 
-    public function ToggleEnableThemes()
+    public function isThemeListSelected()
     {
-        $this->enableThemeSelection = !$this->enableThemeSelection;
+        $enabled = $this->theme_styles_index == count($this->theme_styles) - 1;
+        return $enabled;
+    }
+
+    public function setEnableThemesList($enable)
+    {
+        $this->enableThemeSelection = $enable;
         $this->Refresh();
     }
 
+    /*
+        file settings:        
+        ------------------------------------------------------------------------------------
+        getThemesStyle/setThemeStyle => "themes_style": ['light', 'dark, 'toggle', "list"]
+        getActiveTheme/ setActiveTheme => "active_theme": "bumblebee",
+        getThemesList / setThemesList => "themes_list": [...]
+        ------------------------------------------------------------------------------------
+    */
     public function mount()
     {
-        //Current supported locales
-        $this->app_themes = Settings('allowed_themes', ['en']);
-        //dd('mounted');
-
-        //Translations
-        $default_locale = Settings('default_theme', ['light']);
+        //theme theme_styles
+        $this->theme_styles = [__('Light'), __('Dark'), __('Toggle (Light & Dark)'), __('Themes dropdown...')];
+        $this->app_themes = array_keys(getThemesList());
+        $this->theme_styles_index = array_search(getThemesStyle(), getThemesStyleValidValues());
+        //active theme
+        $active_theme = getActiveTheme();
     }
 
     public function allthemes()
     {
-        if (empty($all_themes)) {
-            $themes = getAllThemes();
-            foreach ($themes as $key => $theme) {
-                $all_themes[] = ['id' => $key, 'name' => ucfirst(__($theme))];
-            }
+        if (empty($this->all_themes)) {
+            $this->all_themes = convertArray(getAllThemes(), true);
         }
-        return $all_themes;
+        return $this->all_themes;
     }
+
     public function with(): array
     {
         return [
@@ -59,7 +88,27 @@ new class extends Component {
 
     public function saveThemes()
     {
-        updateSettingsValue('allowed_themes', $this->app_themes ?? ['light']);
+        //save theme list and theme style
+        $newThemesStyle = getThemesStyleValidValues()[$this->theme_styles_index];
+        $newThemeList = arrayKeys2ArrayValues($this->app_themes, getAllThemes());
+        if ($newThemesStyle == 'list' && count($newThemeList) < 2) {
+            $this->addError('theme-list', __('You must select at least 2 themes'));
+            return;
+        }
+
+        //new ative theme may have changed...
+        $newActiveTheme = 'light';
+        if ($newThemesStyle === 'list') {
+            $newActiveTheme = $newThemeList[0];
+        } elseif ($newThemesStyle === 'dark') {
+            $newActiveTheme = 'dark';
+        }
+
+        //save to file
+        setThemesList($newThemeList);
+        setThemeStyle($newThemesStyle);
+        setActiveTheme($newActiveTheme);
+
         $this->success('New themes saved successfully.');
     }
 }; ?>
@@ -75,26 +124,28 @@ new class extends Component {
                     <x-header title="{{ __('App themes') }}" subtitle="{{ __('Choose themes you want your app to support') }}"
                         size="text-2xl" class="text-secondary" />
 
-                    <div class="mb-5">
-                        @php
-                            $themeOptions = array_slice($this->allthemes(), 0, 3);
-                        @endphp
-                        <x-radio label="Select default theme" :options="$themeOptions" wire:model="default_theme"
-                            class="w-full bg-red-50" />
-                    </div>
-                    <div class="mb-5">
-                        <x-checkbox label="{{ __('Enable theme selection') }}" wire:click="ToggleEnableThemes"
-                            class="checkbox-warning text-primary" tight />
-                    </div>
-                    @if ($enableThemeSelection)
-                        <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral" searchable />
+                    @livewire('dropdown-select', [
+                        'options' => $theme_styles,
+                        'selectedKey' => $theme_styles_index,
+                        'icon' => 'o-bars-3-bottom-right',
+                        'label' => __('What themes to support?'),
+                    ])
+
+                    <div class="mt-4 mb-4">
+                        @if ($this->isThemeListSelected())
+                            <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral" searchable />
+                            @error('theme-list')
+                                <p class="text-error text-xs font-semibold mt-1 mb-1">{{ $message }}</p>
+                            @enderror
+                        @endif
+                        <x-separator />
                         <x-slot:actions>
                             {{-- The important thing here is `type="submit"` --}}
                             {{-- The spinner property is nice! --}}
-                            <x-button label="Save Themes" icon="o-paper-airplane" spinner="save" type="submit"
+                            <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit"
                                 class="btn-primary" />
                         </x-slot:actions>
-                    @endif
+                    </div>
                 </div>
             </x-form>
         </div>

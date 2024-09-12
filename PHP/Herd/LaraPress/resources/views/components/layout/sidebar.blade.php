@@ -1,5 +1,5 @@
-<div class="w-full">
-    <x-slot:sidebar drawer="main-drawer" collapsible {{ $attributes }}>
+<div class="w-ful">
+    <x-slot:sidebar drawer="main-drawer" collapsible {{ $attributes }} class="bg-base-100">
         {{-- User --}}
         @if (auth()->user())
             @livewire('sidebar-user')
