@@ -1,5 +1,6 @@
 <?php
 return [
+    "default",
     "light",
     "dark",
     "cupcake",

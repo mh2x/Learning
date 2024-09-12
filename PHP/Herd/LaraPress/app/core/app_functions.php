@@ -87,3 +87,16 @@ function getSupportedThemes()
     $themes = (require 'themes.php');
     return $themes;
 }
+
+function getDefaultTheme()
+{
+    $themes = (require 'themes.php');
+    return $themes[0];
+}
+
+function getActiveTheme()
+{
+    $themes = (require 'themes.php');
+    return $themes[0];
+}
+function setActiveTheme($theme) {}

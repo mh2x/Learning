@@ -16,10 +16,18 @@ new class extends Component {
 
     public $app_themes = [];
     public $all_themes = [];
+    public $default_theme;
+    public $enableThemeSelection = false;
 
     public function Refresh()
     {
         $this->dispatch('$refresh');
+    }
+
+    public function ToggleEnableThemes()
+    {
+        $this->enableThemeSelection = !$this->enableThemeSelection;
+        $this->Refresh();
     }
 
     public function mount()
@@ -63,22 +71,31 @@ new class extends Component {
                 {{ __('Themes') }}
             </x-slot:title>
             <x-form wire:submit="saveThemes" no-separator>
-                <div class="lg:grid grid-cols-4">
-                    <div class="col-span-2">
-                        <x-header title="{{ __('App themes') }}"
-                            subtitle="{{ __('Choose themes you want your app to support') }}" size="text-2xl"
-                            class="text-secondary" />
+                <div class="flex flex-col">
+                    <x-header title="{{ __('App themes') }}" subtitle="{{ __('Choose themes you want your app to support') }}"
+                        size="text-2xl" class="text-secondary" />
+
+                    <div class="mb-5">
+                        @php
+                            $themeOptions = array_slice($this->allthemes(), 0, 3);
+                        @endphp
+                        <x-radio label="Select default theme" :options="$themeOptions" wire:model="default_theme"
+                            class="w-full bg-red-50" />
                     </div>
-                    <div class="col-span-4 gap-3 ">
+                    <div class="mb-5">
+                        <x-checkbox label="{{ __('Enable theme selection') }}" wire:click="ToggleEnableThemes"
+                            class="checkbox-warning text-primary" tight />
+                    </div>
+                    @if ($enableThemeSelection)
                         <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral" searchable />
-                    </div>
+                        <x-slot:actions>
+                            {{-- The important thing here is `type="submit"` --}}
+                            {{-- The spinner property is nice! --}}
+                            <x-button label="Save Themes" icon="o-paper-airplane" spinner="save" type="submit"
+                                class="btn-primary" />
+                        </x-slot:actions>
+                    @endif
                 </div>
-                <x-slot:actions>
-                    {{-- The important thing here is `type="submit"` --}}
-                    {{-- The spinner property is nice! --}}
-                    <x-button label="Save Themes" icon="o-paper-airplane" spinner="save" type="submit"
-                        class="btn-primary" />
-                </x-slot:actions>
             </x-form>
         </div>
     @endvolt

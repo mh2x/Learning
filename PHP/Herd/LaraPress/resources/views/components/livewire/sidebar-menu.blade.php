@@ -12,6 +12,8 @@ new class extends Component {}; ?>
         <x-menu-item title="{{ __('Users') }}" icon="o-users" link="/users" />
         <x-menu-sub title="{{ __('Settings') }}" icon="o-cog-6-tooth">
             <x-menu-item title="{{ __('General') }}" icon="m-newspaper" link="{{ route('admin.settings.general') }}" />
+            <x-menu-item title="{{ __('Languages') }}" icon="o-globe-alt" link="{{ route('admin.languages') }}" />
+            <x-menu-item title="{{ __('Themes') }}" icon="c-sun" link="{{ route('admin.themes') }}" />
             <x-menu-item title="{{ __('Maintenance') }}" icon="s-stop-circle" link="####" />
             <x-menu-item title="{{ __('Mail') }}" icon="o-envelope" link="####" />
             <x-menu-item title="{{ __('Currency') }}" icon="o-archive-box" link="####" />
