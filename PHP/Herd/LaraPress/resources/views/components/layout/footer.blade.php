@@ -4,5 +4,6 @@
     </div>
     <div class="text-center text-sm">
         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+        <p class="text-secondary mt-2">environment: {{ app()['env'] }}</p>
     </div>
 </footer>

@@ -38,6 +38,7 @@
                 <x-slot:middle class="!justify-center">
                     <x-slot:actions>
                         @livewire('theme-changer')
+                        @livewire('themes-dropdown')
                         @livewire('language-dropdown')
                         @livewire('user-dropdown')
                     </x-slot:actions>

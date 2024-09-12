@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Core\SettingsManager;
 use App\Core\LangManager;
+use Illuminate\Foundation\Application;
 
 function isRTL()
 {
@@ -72,5 +73,17 @@ function setAppLocale($locale)
     }
     //Update settings
     updateSettingsValue('default_locale', $locale);
-    App::setLocale($locale);
+    app()->setLocale($locale);
+}
+
+//Theme support
+function getAllThemes()
+{
+    $themes = (require 'themes.php');
+    return $themes;
+}
+function getSupportedThemes()
+{
+    $themes = (require 'themes.php');
+    return $themes;
 }

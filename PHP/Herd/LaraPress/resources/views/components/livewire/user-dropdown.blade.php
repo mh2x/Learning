@@ -28,7 +28,7 @@ new class extends Component {
             </div>
 
             <div tabindex="0"
-                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow font-semibold">
+                class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-2 shadow-2xl font-semibold">
                 <div class="p-3">
                     <p class="text-md text-secondary">{{ __('Admin') }}</p>
                     <p class="text-sm">{{ $user->email }}</p>
