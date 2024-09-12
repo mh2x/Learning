@@ -17,7 +17,7 @@ new class extends Component {
 
 <div>
     @if ($mode === 'toggle')
-        @livewire('theme-switch')
+        @livewire('theme-toggle')
     @else
         @if ($mode === 'list')
             @livewire('themes-dropdown')

@@ -130,7 +130,6 @@ new class extends Component {
                         'icon' => 'o-bars-3-bottom-right',
                         'label' => __('What themes to support?'),
                     ])
-
                     <div class="mt-4 mb-4">
                         @if ($this->isThemeListSelected())
                             <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral" searchable />

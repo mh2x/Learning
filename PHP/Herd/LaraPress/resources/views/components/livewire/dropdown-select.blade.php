@@ -68,7 +68,7 @@ new class extends Component {
             </svg>
         </div>
         <ul tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full min-w-96 p-2 shadow-2xl overflow-y-auto border border-base-300 ">
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full min-w-96 p-2 shadow-2xl overflow-y-auto border border-base-300">
 
             @foreach ($this->options as $option)
                 @if ($option['id'] == $this->selection)
