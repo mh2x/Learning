@@ -52,9 +52,9 @@ new class extends Component {
     }
 }; ?>
 
-<div class="flex flex-row items-center">
+<div class="flex flex-col">
     @if ($this->label)
-        <p class="font-semibold text-sm mr-3">{{ $this->label }}</p>
+        <p class="font-semibold text-primary text-sm mr-3 mb-2">{{ $this->label }}</p>
     @endif
     <div class="dropdown">
         <div tabindex="0" class="btn btn-ghost border border-base-300">
@@ -68,7 +68,7 @@ new class extends Component {
             </svg>
         </div>
         <ul tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full min-w-96 p-2 shadow-2xl overflow-y-auto border border-base-300">
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow-2xl overflow-y-auto border border-base-300">
 
             @foreach ($this->options as $option)
                 @if ($option['id'] == $this->selection)

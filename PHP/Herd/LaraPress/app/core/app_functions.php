@@ -18,6 +18,8 @@ function Logout($str): void
     Auth::guard('web')->logout();
 
     Session::invalidate();
+    session()->flush();
+    session()->regenerate();
     Session::regenerateToken();
 
     header('Location: /', true);
@@ -29,16 +31,7 @@ function Logout($str): void
 //-----------------------------------------------------------------------------
 function Settings($key, $default = null)
 {
-    //Register the settings manager
-    if (!app()->bound(SettingsManager::class)) {
-        app()->singleton(SettingsManager::class, function ($app) {
-            //dd($app['path.base']);
-            return new SettingsManager($app['path.base']);
-        });
-    }
-
     $settingsManager = app(SettingsManager::class);
-    //dd($SettingsManager);
     return $settingsManager->getValueOrDefault($key, $default);
 }
 
@@ -71,7 +64,6 @@ function getAllowedLocaleNames(): array
 
 function setAppLocale($locale)
 {
-
     $locales = Settings('allowed_locales', ['en']);
     if (!in_array($locale, $locales)) {
         dd("'$locale' not allowed!");
@@ -126,18 +118,43 @@ function setThemesList($list)
     updateSettingsValue('themes_list', $list ?? ["light", 'dark']);
 }
 
-
-function getActiveTheme()
+function getDefaultTheme()
 {
-    $active_theme = Settings('active_theme', 'light');
+    $active_theme = Settings('default_theme', 'light');
     return $active_theme;
 }
 
-function setActiveTheme($theme)
+function setDefaultTheme($theme)
 {
-    updateSettingsValue('active_theme', $theme ?? "light");
+    if (!in_array($theme, getThemesList())) {
+        throw new Exception("wrong theme used for setDefaultTheme. Allowed values are: " . getThemesList());
+    }
+
+    updateSettingsValue('default_theme', $theme ?? "light");
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     die();
+}
+
+function getUserTheme()
+{
+    //TODO: cleanup dds
+    //dd(session()->all());
+    $value = session('user_theme') ?? getDefaultTheme();
+    return $value;
+}
+
+function setUserTheme($theme)
+{
+    if (!in_array($theme, getThemesList())) {
+        throw new Exception("wrong theme used for setUserTheme. Allowed values are: " . getThemesList());
+    }
+    session(['user_theme' => $theme]);
+    //dd(session()->all());
+}
+
+function getUserOrDefaultTheme()
+{
+    return getUserTheme();
 }
 
 //-----------------------------------------------------------------------------

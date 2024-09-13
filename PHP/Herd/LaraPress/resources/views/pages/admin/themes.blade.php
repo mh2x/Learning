@@ -19,7 +19,8 @@ new class extends Component {
     //listen to dropdown selection events
     protected $listeners = ['dropdown-SelectionChange' => 'onDropdownSelectionChange'];
 
-    public $active_theme;
+    public $default_theme = 0;
+    public $user_theme;
     public $all_themes = [];
     public $app_themes = [];
 
@@ -57,7 +58,7 @@ new class extends Component {
         file settings:        
         ------------------------------------------------------------------------------------
         getThemesStyle/setThemeStyle => "themes_style": ['light', 'dark, 'toggle', "list"]
-        getActiveTheme/ setActiveTheme => "active_theme": "bumblebee",
+        getUserTheme/ setUserTheme => "user_theme": "bumblebee",
         getThemesList / setThemesList => "themes_list": [...]
         ------------------------------------------------------------------------------------
     */
@@ -68,7 +69,7 @@ new class extends Component {
         $this->app_themes = array_keys(getThemesList());
         $this->theme_styles_index = array_search(getThemesStyle(), getThemesStyleValidValues());
         //active theme
-        $active_theme = getActiveTheme();
+        $user_theme = getUserTheme();
     }
 
     public function allthemes()
@@ -89,27 +90,33 @@ new class extends Component {
     public function saveThemes()
     {
         //save theme list and theme style
+        $allThemes = getAllThemes();
+        if ($this->default_theme < 0 || $this->default_theme >= count($allThemes)) {
+            $this->addError('default-theme-err', __('You must select a valid default theme!'));
+            return;
+        }
         $newThemesStyle = getThemesStyleValidValues()[$this->theme_styles_index];
-        $newThemeList = arrayKeys2ArrayValues($this->app_themes, getAllThemes());
+        $newThemeList = arrayKeys2ArrayValues($this->app_themes, $allThemes);
         if ($newThemesStyle == 'list' && count($newThemeList) < 2) {
             $this->addError('theme-list', __('You must select at least 2 themes'));
             return;
         }
 
         //new ative theme may have changed...
-        $newActiveTheme = 'light';
+        $newUserTheme = 'light';
         if ($newThemesStyle === 'list') {
-            $newActiveTheme = $newThemeList[0];
+            $newUserTheme = $newThemeList[0];
         } elseif ($newThemesStyle === 'dark') {
-            $newActiveTheme = 'dark';
+            $newUserTheme = 'dark';
         }
 
         //save to file
         setThemesList($newThemeList);
         setThemeStyle($newThemesStyle);
-        setActiveTheme($newActiveTheme);
-
+        setDefaultTheme($allThemes[$this->default_theme]);
+        setUserTheme($newUserTheme);
         $this->success('New themes saved successfully.');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }; ?>
 
@@ -123,21 +130,34 @@ new class extends Component {
                 <div class="flex flex-col">
                     <x-header title="{{ __('App themes') }}" subtitle="{{ __('Choose themes you want your app to support') }}"
                         size="text-2xl" class="text-secondary" />
+                    <p class="text-primary text-sm font-semibold">Default website theme</p>
+                    <select class="select select-bordered max-w-60 mb-8 mt-2" wire:model="default_theme">
+                        @foreach ($this->all_themes as $theme)
+                            <option value="{{ $theme['id'] }}">{{ $theme['name'] }}</option>
+                        @endforeach
+                    </select>
+                    @error('default-theme-err')
+                        <p class="text-error text-xs font-semibold mt-1 mb-1">{{ $message }}</p>
+                    @enderror
 
                     @livewire('dropdown-select', [
                         'options' => $theme_styles,
                         'selectedKey' => $theme_styles_index,
                         'icon' => 'o-bars-3-bottom-right',
-                        'label' => __('What themes to support?'),
+                        'label' => __('What themes to allow for users?'),
                     ])
-                    <div class="mt-4 mb-4">
+
+                    <div class="mt-6 mb-4">
                         @if ($this->isThemeListSelected())
-                            <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral" searchable />
+                            <x-choices-offline wire:model="app_themes" :options="$allThemes" class="border-neutral"
+                                searchable />
                             @error('theme-list')
                                 <p class="text-error text-xs font-semibold mt-1 mb-1">{{ $message }}</p>
                             @enderror
                         @endif
-                        <x-separator />
+                        <div class="mt-8">
+                            <x-separator />
+                        </div>
                         <x-slot:actions>
                             {{-- The important thing here is `type="submit"` --}}
                             {{-- The spinner property is nice! --}}

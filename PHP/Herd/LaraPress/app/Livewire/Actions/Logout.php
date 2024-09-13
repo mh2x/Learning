@@ -15,6 +15,8 @@ class Logout
         Auth::guard('web')->logout();
 
         Session::invalidate();
+        session()->flush();
+        session()->regenerate();
         Session::regenerateToken();
     }
 }

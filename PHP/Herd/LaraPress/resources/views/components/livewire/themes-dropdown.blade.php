@@ -12,7 +12,8 @@ new class extends Component {
     public function changeTheme($theme)
     {
         $this->appTheme = $theme;
-        setActiveTheme($theme);
+        setUserTheme($theme);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     public function Refresh()
@@ -22,7 +23,7 @@ new class extends Component {
 
     public function mount()
     {
-        $this->appTheme = getActiveTheme();
+        $this->appTheme = getUserTheme();
     }
 }; ?>
 

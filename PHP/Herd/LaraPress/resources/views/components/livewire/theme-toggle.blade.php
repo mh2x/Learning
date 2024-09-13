@@ -10,13 +10,14 @@ new class extends Component {
 
     public function mount()
     {
-        $this->theme = getActiveTheme();
+        $this->theme = getUserTheme();
         $this->icon = $this->theme === 'dark' ? 'o-moon' : 's-sun';
     }
 
     public function toggleTheme()
     {
-        setActiveTheme($this->theme === 'light' ? 'dark' : 'light');
+        setUserTheme($this->theme === 'light' ? 'dark' : 'light');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }; ?>
 

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
 </head>
 
-<body class="min-h-screen font-sans antialiased" data-theme="{{ getActiveTheme() }}">
+<body class="min-h-screen font-sans antialiased" data-theme="{{ getUserOrDefaultTheme() }}">
 
     {{-- LP HEADER --}}
     <x-layout.header :title=$title />

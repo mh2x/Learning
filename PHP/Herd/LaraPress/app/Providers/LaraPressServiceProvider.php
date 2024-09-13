@@ -23,6 +23,17 @@ class LaraPressServiceProvider extends ServiceProvider
             );
         });
 
+        //Register the settings manager
+        if (!app()->bound(SettingsManager::class)) {
+            app()->singleton(
+                SettingsManager::class,
+                function ($app) {
+                    //dd($app['path.base']);
+                    return new SettingsManager($app['path.base']);
+                }
+            );
+        }
+
         //To get an instance...
         //  $langManager = app(LangManager::class);
         //OR
