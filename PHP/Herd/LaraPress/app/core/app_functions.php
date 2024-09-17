@@ -31,6 +31,17 @@ function Logout($str): void
 //-----------------------------------------------------------------------------
 function Settings($key, $default = null)
 {
+    //This is needed for artisan commands to work
+    //Maybe move it to artisan?
+    if (!app()->bound(SettingsManager::class)) {
+        app()->singleton(
+            SettingsManager::class,
+            function ($app) {
+                //dd($app['path.base']);
+                return new SettingsManager($app['path.base']);
+            }
+        );
+    }
     $settingsManager = app(SettingsManager::class);
     return $settingsManager->getValueOrDefault($key, $default);
 }

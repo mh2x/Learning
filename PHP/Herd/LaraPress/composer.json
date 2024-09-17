@@ -27,7 +27,8 @@
         "nunomaduro/collision": "^8.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
-        "robsontenorio/mary": "^1.35"
+        "robsontenorio/mary": "^1.35",
+        "spatie/laravel-ignition": "^2.8"
     },
     "autoload": {
         "psr-4": {
