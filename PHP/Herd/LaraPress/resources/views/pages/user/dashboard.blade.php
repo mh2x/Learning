@@ -8,7 +8,10 @@
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     {{ __("You're logged in!") }}
-                    <p>Theme:{{ session('user_theme') }}</p>
+                    <p>Theme: <strong> {{ getUserOrDefaultTheme() }} </strong></p>
+                    <x-separator />
+                    <p>{{ print_r(session()->all()) }}</p>
+
                 </div>
             </div>
         </div>
