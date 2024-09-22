@@ -18,6 +18,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/.history
-
-.vemto_settings
+/.zed
