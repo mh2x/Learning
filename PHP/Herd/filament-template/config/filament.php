@@ -2,6 +2,11 @@
 
 return [
 
+    'layout' => [
+        'sidebar' => [
+            'is_collapsible_on_desktop' => true,
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Broadcasting

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Filament;
+namespace   
 
 use App\Filament\Pages\ApiTokens;
 use App\Filament\Pages\CreateTeam;
