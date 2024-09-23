@@ -55,6 +55,8 @@ class AppPanelProvider extends PanelProvider
                 'gray' => Color::Slate
             ])
             ->font('Poppins')
+            ->favicon('/images/favicon-32x32.png')
+            ->darkMode(true) //you can disable it completely
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Profile')
