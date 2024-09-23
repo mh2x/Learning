@@ -30,6 +30,12 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Features;
 use Laravel\Jetstream\Jetstream;
+use Filament\Navigation\Navigation;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationManager;
+use Laravel\Jetstream\Http\Livewire\NavigationMenu;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -48,6 +54,7 @@ class AppPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
                 'gray' => Color::Slate
             ])
+            ->font('Poppins')
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Profile')
@@ -68,6 +75,8 @@ class AppPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            /*->sidebarCollapsibleOnDesktop()*/
+            ->sidebarFullyCollapsibleOnDesktop()
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ])
