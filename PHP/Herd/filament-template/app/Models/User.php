@@ -2,6 +2,13 @@
 
 namespace App\Models;
 
+//use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use BezhanSalleh\FilamentShield\FilamentShield;
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,6 +21,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVerifyEmail*/
 {
@@ -23,6 +31,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use HasPanelShield;
 
     /**
      * The attributes that are mass assignable.
@@ -87,5 +96,41 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
         }
         //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
         return true;
+    }
+
+    public static function getForm(): array
+    {
+        return [
+            // Section::make()
+            // ->schema([
+
+            TextInput::make('name')
+                ->required()
+                ->maxLength(100),
+            TextInput::make('email')
+                ->required()
+                ->email()
+                ->unique(User::class, 'email', ignoreRecord: true),
+            TextInput::make('password')
+                ->same('passwordConfirmation')
+                ->password()
+                ->maxLength(255)
+                ->required(fn($component, $get, $model, $record, $set, $state) => $record === null)
+                ->dehydrateStateUsing(fn($state) => ! empty($state) ? Hash::make($state) : ''),
+            TextInput::make('passwordConfirmation')
+                ->password()
+                ->dehydrated(false)
+                ->maxLength(255),
+            Select::make('roles')
+                ->relationship('roles', 'name')
+                ->multiple()
+                ->preload()
+                ->searchable(),
+            // CheckboxList::make('roles')
+            //     ->relationship('roles', 'name')
+            //     ->searchable()
+
+            // ])->columns(2),
+        ];
     }
 }
