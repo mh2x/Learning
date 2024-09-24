@@ -33,29 +33,37 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('profile_photo_url')
-                    ->circular(),
                 TextColumn::make('id')
                     ->sortable(),
+                ImageColumn::make('profile_photo_url')
+                    ->label('')
+                    ->circular(),
                 TextColumn::make('name')
-                    ->weight(FontWeight::Bold)
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('medium')
+                    ->alignLeft(),
                 TextColumn::make('email')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->color('gray')
+                    ->alignLeft(),
+                TextColumn::make('roles.name')->badge(),
                 IconColumn::make('email_verified_at')
+                    ->label(__('Verified'))
                     ->default(false)
                     ->boolean(),
-                TextColumn::make('roles.name')->badge(),
                 TextColumn::make('created_at')
-                    ->dateTime('Y-m-d H:i:s'),
+                    ->label(__('Created'))
+                    ->dateTime('d-m-Y')
+                    ->sortable()
+                    ->visibleFrom('lg'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                //Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
             ])
