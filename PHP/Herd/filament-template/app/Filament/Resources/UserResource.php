@@ -43,6 +43,7 @@ class UserResource extends Resource
                     ->sortable()
                     ->weight('medium')
                     ->alignLeft(),
+
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable()
