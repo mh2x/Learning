@@ -51,7 +51,7 @@ class AppPanelProvider extends PanelProvider
             ->emailVerification()
             ->viteTheme('resources/css/app.css')
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Fuchsia,
                 'gray' => Color::Slate
             ])
             ->font('Poppins')
@@ -75,7 +75,7 @@ class AppPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+
             ])
             /*->sidebarCollapsibleOnDesktop()*/
             ->sidebarFullyCollapsibleOnDesktop()

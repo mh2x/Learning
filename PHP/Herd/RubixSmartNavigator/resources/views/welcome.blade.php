@@ -5,7 +5,7 @@
             <div class="mx-auto px-6 lg:px-8 flex flex-col items-center justify-center text-center">
                 <header class="items-center gap-2 py-10">
                     @if (Route::has('login'))
-                        <nav class="-mx-3 flex flex-1 justify-end">
+                        <nav class="-mx-3 flex flex-1 justify-center mb-10">
                             @auth
 
                                 <a href="{{ route('dashboard') }}"
@@ -22,13 +22,17 @@
                             @endauth
                         </nav>
                     @endif
+                    <div>
+                        <img src="{{ asset('/images/app_logo.png') }}" alt="app logo" />
+                    </div>
                 </header>
 
                 <section class="py-20 justify-center h-full w-full">
                     <div class="mx-auto px-6 lg:px-8 flex flex-col items-center justify-center text-center">
-                        <h2 class="text-4xl lg:text-5xl text-black font-bold mb-8">Our App is Coming Soon!!</h2>
-                        <p class="text-indigo-600 text-lg lg:text-xl leading-relaxed mb-12 font-bold">
-                            Stay tuned for updates and get ready for an extraordinary experience!
+                        <h2 class="text-4xl lg:text-5xl font-bold mb-8">Our Product is Coming Soon!!</h2>
+                        <p class="text-violet-800 text-lg lg:text-l leading-relaxed mb-12 font-bold">
+                            Stay tuned for updates and get ready for an extraordinary experience coming to you on or
+                            around March 30th, 2025!
                         </p>
                         <div class="flex flex-wrap items-center justify-center gap-4 p-2">
                             <div class="bg-indigo-400 rounded-full px-6 py-2 min-w-[120px]">
@@ -85,7 +89,7 @@
                     }, 1000);
                 </script>
             </div>
-            <footer class="py-16 text-center text-lg text-indigo-500 font-bold">
+            <footer class="py-16 text-center text-lg font-bold">
                 Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
             </footer>
         </div>
