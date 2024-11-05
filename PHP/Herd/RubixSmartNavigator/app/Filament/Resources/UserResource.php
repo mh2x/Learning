@@ -23,6 +23,11 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false; // This hides the resource from the sidebar
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -36,6 +36,9 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationManager;
 use Laravel\Jetstream\Http\Livewire\NavigationMenu;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Blade;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -147,9 +150,10 @@ class AppPanelProvider extends PanelProvider
         );
 
         /**
-         * Adding additional menu items if needed
+         * Adding additional and custom menu items if needed
          */
         Filament::serving(function () {
+
             Filament::registerUserMenuItems([
                 //     MenuItem::make()
                 //         ->label('Profile')
@@ -158,7 +162,39 @@ class AppPanelProvider extends PanelProvider
                 // ...
                 'account' => MenuItem::make()->url(EditProfile::getUrl()),
             ]);
+
+            //Add more user menu items
+            // Add custom top bar menu item (e.g., Documentation link)
+            if (auth()->user()->can('viewDocumentation')) {
+                Filament::registerUserMenuItems([
+                    'documentation' => MenuItem::make()
+                        ->label('Documentation')
+                        ->url('https://example.com/docs')  // Link to external or internal docs
+                        ->icon('heroicon-o-document-text'),
+                ]);
+            }
+
+            // Example of adding another link (e.g., Settings)
+            Filament::registerUserMenuItems([
+                'settings' => MenuItem::make()
+                    ->label('Settings')
+                    //->url(route('filament.resources.settings')) // Link to a route in Filament
+                    ->url('https://google.com')  // Link to external or internal docs
+                    ->icon('heroicon-o-cog'),
+            ]);
+
+
+            Filament::registerNavigationItems([
+                NavigationItem::make('Analytics')
+                    ->url('https://filament.pirsch.io', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->activeIcon('heroicon-s-presentation-chart-line')
+                    ->group('Reports')
+                    ->sort(3),
+            ]);
         });
+
+        $this->registerRenderHooks();
     }
 
     public function shouldRegisterMenuItem(): bool
@@ -168,5 +204,12 @@ class AppPanelProvider extends PanelProvider
         return Filament::hasTenancy()
             ? $hasVerifiedEmail && Filament::getTenant()
             : $hasVerifiedEmail;
+    }
+    private function registerRenderHooks()
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::USER_MENU_AFTER,
+            fn(): string => Blade::render('@livewire(\'settings-menu\')'),
+        );
     }
 }
