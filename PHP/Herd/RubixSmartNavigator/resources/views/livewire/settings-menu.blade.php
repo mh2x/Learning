@@ -12,7 +12,7 @@
                 {{ 'System Customization' }}
             </x-filament::dropdown.list.item>
 
-            <x-filament::dropdown.list.item icon="heroicon-o-users" wire:click="openEditModal" class="text-xs"
+            <x-filament::dropdown.list.item icon="heroicon-o-users" wire:click="goToUserManagement" class="text-xs"
                 icon-size="sm">
                 {{ 'User Management' }}
             </x-filament::dropdown.list.item>

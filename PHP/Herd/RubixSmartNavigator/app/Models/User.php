@@ -3,25 +3,28 @@
 namespace App\Models;
 
 //use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use Filament\Panel;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Section;
+use Filament\Models\Contracts\HasName;
+use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
+use Filament\Forms\Components\TextInput;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Notifications\Notifiable;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Models\Contracts\FilamentUser;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use BezhanSalleh\FilamentShield\FilamentShield;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Filament\Panel;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasAvatar;
-use Filament\Models\Contracts\HasName;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVerifyEmail*/
 {
@@ -42,6 +45,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -126,6 +130,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
                 ->multiple()
                 ->preload()
                 ->searchable(),
+            Toggle::make('status')
+                ->default(true)
+                ->label(__('Status'))
+                ->onIcon('heroicon-m-check-circle')
+                ->offIcon('heroicon-m-x-circle'),
             // CheckboxList::make('roles')
             //     ->relationship('roles', 'name')
             //     ->searchable()

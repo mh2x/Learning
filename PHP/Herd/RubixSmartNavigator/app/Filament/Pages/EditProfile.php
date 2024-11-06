@@ -2,7 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\User;
+use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Pages\Auth\EditProfile as BaseEditProfile;
 
 class EditProfile extends Page
 {
@@ -21,4 +24,10 @@ class EditProfile extends Page
     {
         return 1;
     }
+
+    // public function form(Form $form): Form
+    // {
+    //     return $form
+    //         ->schema(User::getForm());
+    // }
 }

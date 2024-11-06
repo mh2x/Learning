@@ -2,22 +2,26 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\FontWeight;
+use App\Models\User;
 use Filament\Tables;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Tables\Columns\ToggleColumn;
+use BezhanSalleh\FilamentShield\Support\Utils;
 
-class UserResource extends Resource
+class UserResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = User::class;
 
@@ -25,8 +29,21 @@ class UserResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return false; // This hides the resource from the sidebar
+        return Utils::isResourceNavigationRegistered();
     }
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            // 'delete',
+            // 'delete_any',
+        ];
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -41,7 +58,7 @@ class UserResource extends Resource
                 TextColumn::make('id')
                     ->sortable(),
                 ImageColumn::make('profile_photo_url')
-                    ->label('')
+                    ->label('Avatar')
                     ->circular(),
                 TextColumn::make('name')
                     ->searchable()
@@ -55,10 +72,17 @@ class UserResource extends Resource
                     ->color('gray')
                     ->alignLeft(),
                 TextColumn::make('roles.name')->badge(),
-                IconColumn::make('email_verified_at')
-                    ->label(__('Verified'))
-                    ->default(false)
-                    ->boolean(),
+                ToggleColumn::make('status')
+                    ->label(__('Status'))
+                    ->onIcon('heroicon-m-check-circle')
+                    ->offIcon('heroicon-m-x-circle'),
+                // IconColumn::make('email_verified_at')
+                //     ->label(__('Verified'))
+                //     ->default(false)
+                //     ->boolean(),
+                // Toggle::make('email_verified_at')
+                //     ->onIcon('heroicon-m-bolt')
+                //     ->offIcon('heroicon-m-user'),
                 TextColumn::make('created_at')
                     ->label(__('Created'))
                     ->dateTime('d-m-Y')

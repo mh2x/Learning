@@ -10,4 +10,9 @@ class SettingsMenu extends Component
     {
         return view('livewire.settings-menu');
     }
+
+    public function goToUserManagement()
+    {
+        return redirect('/usermanagement');
+    }
 }

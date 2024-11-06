@@ -50,6 +50,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->login()
             ->registration()
+            ->profile()
             ->passwordReset()
             ->emailVerification()
             ->viteTheme('resources/css/app.css')
@@ -60,14 +61,14 @@ class AppPanelProvider extends PanelProvider
             ->font('Poppins')
             ->favicon('/images/favicon-32x32.png')
             ->darkMode(true) //you can disable it completely
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Profile')
-                    ->icon('heroicon-o-user-circle')
-                    ->url(fn() => $this->shouldRegisterMenuItem()
-                        ? url(EditProfile::getUrl())
-                        : url($panel->getPath())),
-            ])
+            // ->userMenuItems([
+            //     MenuItem::make()
+            //         ->label('Profile')
+            //         ->icon('heroicon-o-user-circle')
+            //         ->url(fn() => $this->shouldRegisterMenuItem()
+            //             ? url(EditProfile::getUrl())
+            //             : url($panel->getPath())),
+            // ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -165,7 +166,7 @@ class AppPanelProvider extends PanelProvider
 
             //Add more user menu items
             // Add custom top bar menu item (e.g., Documentation link)
-            if (auth()->user()->can('viewDocumentation')) {
+            if (auth()->user()?->can('viewDocumentation')) {
                 Filament::registerUserMenuItems([
                     'documentation' => MenuItem::make()
                         ->label('Documentation')
