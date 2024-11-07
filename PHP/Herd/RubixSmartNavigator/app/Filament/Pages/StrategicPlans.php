@@ -8,13 +8,15 @@ use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use BezhanSalleh\FilamentShield\Support\Utils;
+use Filament\Tables\Actions\Contracts\HasTable;
+use Filament\Tables\Concerns\InteractsWithTable;
 
-class UserManagement extends Page
+class StrategicPlans extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'User Management';
-    //protected static ?string $slug = 'usermanagement'; // Custom URL slug
-    protected static string $view = 'filament.pages.user-management'; // Blade view fil 
+    protected static ?string $navigationLabel = 'Strategic Plans';
+    //protected static ?string $slug = 'strategicplans'; // Custom URL slug
+    protected static string $view = 'filament.pages.strategic-plans'; // Blade view fil 
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -32,6 +34,6 @@ class UserManagement extends Page
     public function mount()
     {
         // Any initial setup logic here
-        $navigationLabel = __('User Management');
+        $navigationLabel = __('Strategic Plans');
     }
 }
