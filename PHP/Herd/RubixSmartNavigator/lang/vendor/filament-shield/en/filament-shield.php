@@ -23,7 +23,7 @@ return [
     'field.guard_name' => 'Guard Name',
     'field.permissions' => 'Permissions',
     'field.select_all.name' => 'Select All',
-    'field.select_all.message' => 'Enable all Permissions currently <span class="text-primary font-medium">Enabled</span> for this role',
+    'field.select_all.message' => 'Enable all Permissions currently <span class="font-medium text-primary">Enabled</span> for this role',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,9 +65,9 @@ return [
 
     'resource_permission_prefixes_labels' => [
         'view' => 'View',
-        'view_any' => 'View Any',
+        'view_any' => 'View All',
         'create' => 'Create',
-        'update' => 'Update',
+        'update' => 'Edit',
         'delete' => 'Delete',
         'delete_any' => 'Delete Any',
         'force_delete' => 'Force Delete',

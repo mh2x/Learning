@@ -4,6 +4,7 @@ namespace App\Models;
 
 //use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Filament\Panel;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Hash;
@@ -116,11 +117,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
                 ->email()
                 ->unique(User::class, 'email', ignoreRecord: true),
             TextInput::make('password')
-                ->same('passwordConfirmation')
+                // ->same('passwordConfirmation')
                 ->password()
+                ->revealable()
                 ->maxLength(255)
                 ->required(fn($component, $get, $model, $record, $set, $state) => $record === null)
-                ->dehydrateStateUsing(fn($state) => ! empty($state) ? Hash::make($state) : ''),
+                ->dehydrateStateUsing(fn($state) => ! empty($state) ? Hash::make($state) : '')
+                ->default(function($component, $operation, $get, $model, $record, $set, $state) {
+                    if ($operation  === 'create') {
+                        return Str::password(12);
+                    }
+                }),
             TextInput::make('passwordConfirmation')
                 ->password()
                 ->dehydrated(false)
@@ -130,7 +137,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar /*,MustVer
                 ->multiple()
                 ->preload()
                 ->searchable(),
-            Toggle::make('status')
+
+            Toggle::make('state')
                 ->default(true)
                 ->label(__('Status'))
                 ->onIcon('heroicon-m-check-circle')

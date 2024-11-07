@@ -19,12 +19,11 @@ use App\Filament\Pages\UserManagementPage;
 Route::get('/', fn() => view('welcome'));
 
 Route::redirect('/login', '/app/login')->name('login');
+
 Route::redirect('/register', '/app/register')->name('register');
+
 Route::redirect('/dashboard', '/app')->name('dashboard');
 Route::redirect('/usermanagement', '/app/user-management')->name('usermanagement');
-
-
-
 
 Route::middleware([
     'auth:sanctum',

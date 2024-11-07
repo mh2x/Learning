@@ -22,7 +22,7 @@ use App\Filament\Resources\UserResource\Pages;
 class ListUserManagement extends ListRecords
 {
     protected static string $resource = UserResource::class;
-    protected static string $view = 'filament.resources.posts.pages.list-posts';
+    protected static string $view = 'filament.resources.usermanagement.list-usermanagement';
 
     public function getBreadcrumb(): ?string
     {

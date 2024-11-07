@@ -13,14 +13,14 @@ use Filament\Tables\Concerns\InteractsWithTable;
 
 class StrategicPlans extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-share';
     protected static ?string $navigationLabel = 'Strategic Plans';
     //protected static ?string $slug = 'strategicplans'; // Custom URL slug
-    protected static string $view = 'filament.pages.strategic-plans'; // Blade view fil 
+    protected static string $view = 'filament.pages.strategic-plans'; // Blade view file
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Utils::isResourceNavigationRegistered();
+        return true;
     }
 
     public $activeTab = 'users'; // Default tab

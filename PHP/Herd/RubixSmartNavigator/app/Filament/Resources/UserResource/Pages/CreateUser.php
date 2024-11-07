@@ -10,4 +10,12 @@ class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
     protected static bool $canCreateAnother = false;  //hide create another button
+    protected function getActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
+
+    
 }

@@ -29,11 +29,11 @@ class RoleResource extends Resource implements HasShieldPermissions
     public static function getPermissionPrefixes(): array
     {
         return [
-            'view',
+            // 'view',
             'view_any',
             'create',
             'update',
-            // 'delete',
+            'delete',
             // 'delete_any',
         ];
     }
@@ -47,7 +47,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label(__('filament-shield::filament-shield.field.name'))
+                                    ->label(__('Role Name'))
                                     ->unique(ignoreRecord: true)
                                     ->required()
                                     ->maxLength(255),
@@ -94,7 +94,7 @@ class RoleResource extends Resource implements HasShieldPermissions
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->badge()
-                    ->label(__('filament-shield::filament-shield.column.name'))
+                    ->label(__('Role Name'))
                     ->formatStateUsing(fn ($state): string => Str::headline($state))
                     ->colors(['primary'])
                     ->searchable(),
